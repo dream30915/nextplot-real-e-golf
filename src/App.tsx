@@ -782,7 +782,6 @@ function App() {
                   <SelectValue placeholder={t('filter.status')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{t('filter.status')}</SelectItem>
                   <SelectItem value="available">{t('status.available')}</SelectItem>
                   <SelectItem value="reserved">{t('status.reserved')}</SelectItem>
                   <SelectItem value="sold">{t('status.sold')}</SelectItem>
