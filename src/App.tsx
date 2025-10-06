@@ -30,9 +30,7 @@ import {
   X,
   Sun,
   Moon,
-  TextAa,
-  Minus,
-  Plus
+  List
 } from '@phosphor-icons/react'
 import nextplotLogo from '@/assets/images/nextplot.png128.png'
 
@@ -582,9 +580,6 @@ function App() {
   // Language state
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
-  // Font size control state
-  const [fontSize, setFontSize] = useKV('fontSize', 'medium')
-  
   // Theme state
   const [theme, setTheme] = useKV('theme', 'dark')
   
@@ -653,6 +648,9 @@ function App() {
   // User state
   const [user, setUser] = useKV<{email: string, name: string} | null>('user', null)
   
+  // Mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  
   // Gallery state
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   
@@ -703,7 +701,7 @@ function App() {
     }
   }
   
-  // Set initial language, theme, and font size on mount
+  // Set initial language and theme on mount
   useEffect(() => {
     if (currentLang) {
       document.documentElement.lang = currentLang
@@ -715,15 +713,7 @@ function App() {
     } else {
       document.documentElement.removeAttribute('data-theme')
     }
-
-    // Apply font size
-    const fontSizeClasses = {
-      small: 'text-sm',
-      medium: 'text-base', 
-      large: 'text-lg'
-    }
-    document.documentElement.setAttribute('data-font-size', fontSize || 'medium')
-  }, [currentLang, theme, fontSize])
+  }, [currentLang, theme])
   
   // Change theme
   const toggleTheme = () => {
@@ -1087,10 +1077,7 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen bg-background text-foreground ${
-      fontSize === 'small' ? 'text-sm' : 
-      fontSize === 'large' ? 'text-lg' : 'text-base'
-    }`}>
+    <div className="min-h-screen bg-background text-foreground">
       <Toaster />
       {/* Skip Link for Accessibility */}
       <a href="#main-content" className="skip-link">
@@ -1132,32 +1119,16 @@ function App() {
           
           {/* Controls */}
           <div className="flex items-center gap-3">
-            {/* Font Size Controls */}
-            <div className="flex items-center border border-border rounded-md">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
-                className="w-8 h-8 p-0 rounded-r-none border-r border-border"
-                aria-label="ลดขนาดตัวอักษร"
-                disabled={fontSize === 'small'}
-              >
-                <Minus size={14} />
-              </Button>
-              <div className="px-2 text-xs font-medium min-w-[24px] text-center">
-                <TextAa size={14} />
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
-                className="w-8 h-8 p-0 rounded-l-none border-l border-border"
-                aria-label="เพิ่มขนาดตัวอักษร"
-                disabled={fontSize === 'large'}
-              >
-                <Plus size={14} />
-              </Button>
-            </div>
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden w-9 h-9 p-0"
+              aria-label={isMobileMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
+            >
+              {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
+            </Button>
             
             {/* Theme Toggle */}
             <Button
@@ -1195,6 +1166,53 @@ function App() {
           </div>
         </div>
       </header>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="md:hidden fixed inset-0 bg-black/50 z-40"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Menu Content */}
+          <div className="md:hidden relative z-50 bg-card border-b border-border">
+            <nav className="container mx-auto px-4 py-4 space-y-3" role="navigation" aria-label="Mobile navigation">
+              <a 
+                href="#" 
+                className="block py-2 px-3 rounded-md hover:bg-muted transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.home')}
+              </a>
+              <a 
+                href="#properties" 
+                className="block py-2 px-3 rounded-md hover:bg-muted transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.properties')}
+              </a>
+              <a 
+                href="#contact" 
+                className="block py-2 px-3 rounded-md hover:bg-muted transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.contact')}
+              </a>
+              <a 
+                href="https://landsmaps.dol.go.th/" 
+                target="_blank" 
+                rel="noopener"
+                className="block py-2 px-3 rounded-md hover:bg-muted transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.landsmaps')}
+              </a>
+            </nav>
+          </div>
+        </>
+      )}
 
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-br from-background to-card">
