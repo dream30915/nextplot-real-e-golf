@@ -1096,10 +1096,9 @@ function App() {
       <a href="#main-content" className="skip-link">
         ข้ามไปเนื้อหาหลัก
       </a>
-
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto pl-2 pr-4 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
@@ -1110,8 +1109,8 @@ function App() {
               />
             </div>
             <div>
-              <div className="text-2xl font-bold text-accent">NextPlot</div>
-              <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+              <div className="font-bold text-accent font-mono text-3xl">NextPlot</div>
+              <div className="text-accent/80 text-base">PLOT FOR SALE</div>
             </div>
           </div>
           
@@ -1195,7 +1194,6 @@ function App() {
           </div>
         </div>
       </header>
-
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-br from-background to-card">
         <div className="container mx-auto px-4 text-center">
@@ -1215,7 +1213,6 @@ function App() {
           </div>
         </div>
       </section>
-
       {/* Search & Filters */}
       <section id="properties" className="py-8 bg-card border-b border-border search-filter-section">
         <div className="container mx-auto px-4">
@@ -1337,7 +1334,6 @@ function App() {
           </div>
         </div>
       </section>
-
       {/* Information Section */}
       <section className="py-12 bg-background">
         <div className="container mx-auto px-4">
@@ -1546,7 +1542,6 @@ function App() {
           </div>
         </div>
       </section>
-
       {/* Properties Grid */}
       <main id="main-content" className="py-8" role="main">
         <div className="container mx-auto px-4">
@@ -1694,7 +1689,6 @@ function App() {
           )}
         </div>
       </main>
-
       {/* Property Detail Modal */}
       <Dialog open={showPropertyModal} onOpenChange={setShowPropertyModal}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -1892,7 +1886,6 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Share Modal */}
       <Dialog open={showShareModal} onOpenChange={setShowShareModal}>
         <DialogContent className="max-w-md">
@@ -1973,7 +1966,6 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Contact Form Modal */}
       <Dialog open={showContactForm} onOpenChange={setShowContactForm}>
         <DialogContent className="max-w-md">
@@ -2093,7 +2085,6 @@ function App() {
           </form>
         </DialogContent>
       </Dialog>
-
       {/* Auth Modal (Login/Register/Forgot) */}
       <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
         <DialogContent className="max-w-md">
@@ -2645,7 +2636,6 @@ function App() {
           </div>
         </DialogContent>
       </Dialog>
-
       {/* Footer */}
       <footer className="bg-card border-t border-border py-8 mt-16" role="contentinfo">
         <div className="container mx-auto px-4">
@@ -2720,7 +2710,7 @@ function App() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 export default App
