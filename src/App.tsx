@@ -1134,25 +1134,25 @@ function App() {
             {/* Controls */}
             <div className="flex items-center gap-3">
               {/* Font Size Controls */}
-              <div className="flex items-center border border-border rounded-md">
+              <div className="flex items-center border border-accent rounded-md bg-accent/10 shadow-[0_0_10px_rgba(201,161,74,0.2)]">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
-                  className="w-8 h-8 p-0 rounded-r-none border-r border-border hover:bg-accent hover:text-accent-foreground"
+                  className="w-8 h-8 p-0 rounded-r-none border-r border-accent bg-accent/10 text-accent hover:bg-accent hover:text-accent-foreground"
                   aria-label="ลดขนาดตัวอักษร"
                   disabled={fontSize === 'small'}
                 >
                   <Minus size={14} />
                 </Button>
-                <div className="px-2 text-xs font-medium min-w-[24px] text-center">
+                <div className="px-2 text-xs font-medium min-w-[24px] text-center text-accent">
                   <TextAa size={14} />
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
-                  className="w-8 h-8 p-0 rounded-l-none border-l border-border hover:bg-accent hover:text-accent-foreground"
+                  className="w-8 h-8 p-0 rounded-l-none border-l border-accent bg-accent/10 text-accent hover:bg-accent hover:text-accent-foreground"
                   aria-label="เพิ่มขนาดตัวอักษร"
                   disabled={fontSize === 'large'}
                 >
@@ -1165,7 +1165,7 @@ function App() {
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                className="w-9 h-9 p-0 hover:bg-accent hover:text-accent-foreground"
+                className="w-9 h-9 p-0 bg-accent/10 border border-accent text-accent hover:bg-accent hover:text-accent-foreground shadow-[0_0_10px_rgba(201,161,74,0.2)]"
                 aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
@@ -1173,7 +1173,7 @@ function App() {
               
               {/* Language Selector */}
               <Select value={currentLang} onValueChange={changeLanguage}>
-                <SelectTrigger className="w-20 hover:bg-accent hover:text-accent-foreground hover:border-accent">
+                <SelectTrigger className="w-20 bg-accent/10 border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:border-accent shadow-[0_0_10px_rgba(201,161,74,0.2)]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -1183,7 +1183,12 @@ function App() {
                 </SelectContent>
               </Select>
               
-              <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)} className="hover:bg-accent hover:text-accent-foreground hover:border-accent">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => user ? handleLogout() : setShowAuthModal(true)} 
+                className="bg-accent/10 border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:border-accent shadow-[0_0_15px_rgba(201,161,74,0.3)]"
+              >
                 {user ? (
                   <div className="flex items-center gap-2">
                     <User size={16} />
@@ -1220,13 +1225,18 @@ function App() {
                   variant="ghost"
                   size="sm"
                   onClick={toggleTheme}
-                  className="w-7 h-7 p-0 text-white hover:bg-accent hover:text-accent-foreground"
+                  className="w-7 h-7 p-0 bg-accent/10 border border-accent text-accent hover:bg-accent hover:text-accent-foreground shadow-[0_0_10px_rgba(201,161,74,0.2)]"
                   aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 >
                   {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
                 </Button>
                 
-                <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)} className="text-white hover:bg-accent hover:text-accent-foreground hover:border-accent">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => user ? handleLogout() : setShowAuthModal(true)} 
+                  className="bg-accent/10 border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:border-accent shadow-[0_0_15px_rgba(201,161,74,0.3)]"
+                >
                   {user ? (
                     <div className="flex items-center gap-1">
                       <User size={14} />
