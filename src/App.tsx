@@ -1434,7 +1434,7 @@ function App() {
                   <div className="flex items-center gap-3">
                     <div className="w-4 h-4 bg-red-500 border border-border flex-shrink-0" />
                     <div>
-                      <div className="font-medium">{currentLang === 'th' ? 'พาณิชยกรรมและที่อยู่อาศัยหนาแน่นมาก' : currentLang === 'en' ? 'Commercial & high-density residential' : '商业和高密度住宅'}</div>
+                      <div className="font-medium">{currentLang === 'th' ? 'พาณิชยกรรมและที่อย���่อาศัยหนาแน่นมาก' : currentLang === 'en' ? 'Commercial & high-density residential' : '商业和高密度住宅'}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
