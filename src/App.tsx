@@ -476,11 +476,18 @@ const sampleProperties: Property[] = [
     status: 'available',
     tags: ['property.tag.nearMainRoad', 'property.tag.investment', 'property.tag.titleDeedReady'],
     isSensitive: false,
-    media: [{
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
-      alt: 'property.title.1'
-    }],
+    media: [
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
+        alt: 'property.title.1'
+      },
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+        alt: 'Land survey view'
+      }
+    ],
     zoning: { name: 'zoning.yellow', colorHex: '#FFEB3B', note: 'zoning.yellow.note' }
   },
   {
@@ -494,11 +501,23 @@ const sampleProperties: Property[] = [
     status: 'available',
     tags: ['property.tag.waterfront', 'property.tag.natureView', 'property.tag.oldHouse'],
     isSensitive: false,
-    media: [{
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
-      alt: 'property.title.2'
-    }],
+    media: [
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
+        alt: 'property.title.2'
+      },
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80',
+        alt: 'Canal waterfront view'
+      },
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800&q=80',
+        alt: 'Traditional house by water'
+      }
+    ],
     zoning: { name: 'zoning.green', colorHex: '#4CAF50', note: 'zoning.green.note' }
   },
   {
@@ -512,11 +531,23 @@ const sampleProperties: Property[] = [
     status: 'reserved',
     tags: ['property.tag.primeLocation', 'property.tag.commercial', 'property.tag.cityCenter'],
     isSensitive: false,
-    media: [{
-      type: 'image',
-      src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
-      alt: 'property.title.3'
-    }],
+    media: [
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+        alt: 'property.title.3'
+      },
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
+        alt: 'Commercial building interior'
+      },
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80',
+        alt: 'Commercial location view'
+      }
+    ],
     zoning: { name: 'zoning.red', colorHex: '#F44336', note: 'zoning.red.note' }
   }
 ]
