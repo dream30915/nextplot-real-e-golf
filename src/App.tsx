@@ -478,7 +478,7 @@ const sampleProperties: Property[] = [
       src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
       alt: 'property.title.1'
     }],
-    zoning: { name: 'zoning.yellow', colorHex: '#FFD700', note: 'zoning.yellow.note' }
+    zoning: { name: 'zoning.yellow', colorHex: '#FFEB3B', note: 'zoning.yellow.note' }
   },
   {
     id: '2', 
@@ -496,7 +496,7 @@ const sampleProperties: Property[] = [
       src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
       alt: 'property.title.2'
     }],
-    zoning: { name: 'zoning.green', colorHex: '#32CD32', note: 'zoning.green.note' }
+    zoning: { name: 'zoning.green', colorHex: '#4CAF50', note: 'zoning.green.note' }
   },
   {
     id: '3',
@@ -514,7 +514,7 @@ const sampleProperties: Property[] = [
       src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
       alt: 'property.title.3'
     }],
-    zoning: { name: 'zoning.red', colorHex: '#FF4444', note: 'zoning.red.note' }
+    zoning: { name: 'zoning.red', colorHex: '#F44336', note: 'zoning.red.note' }
   }
 ]
 
@@ -1138,6 +1138,20 @@ function App() {
                       <div className="text-muted-foreground">{currentLang === 'th' ? 'อุตสาหกรรมและคลังสินค้า' : currentLang === 'en' ? 'Industrial & warehouse' : '工业和仓库'}</div>
                     </div>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 bg-orange-500 rounded-full border border-border" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สีส้ม' : currentLang === 'en' ? 'Orange' : '橙色'}</div>
+                      <div className="text-muted-foreground">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นปานกลาง' : currentLang === 'en' ? 'Medium-density residential' : '中密度住宅'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 bg-purple-500 rounded-full border border-border" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สีม่วง' : currentLang === 'en' ? 'Purple' : '紫色'}</div>
+                      <div className="text-muted-foreground">{currentLang === 'th' ? 'สถาบันการศึกษาและศาสนา' : currentLang === 'en' ? 'Educational & religious institutions' : '教育和宗教机构'}</div>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -1150,7 +1164,7 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProperties.map((property) => (
-              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
                 <div className="relative aspect-video bg-muted">
                   {property.media[0] && (
                     <img
@@ -1188,9 +1202,9 @@ function App() {
                   </Button>
                 </div>
                 
-                <CardContent className="p-4">
+                <CardContent className="p-4 flex-1 flex flex-col">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-lg line-clamp-2">{t(property.title)}</h3>
+                    <h3 className="font-semibold text-lg line-clamp-2 flex-1">{t(property.title)}</h3>
                   </div>
                   
                   <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
@@ -1198,7 +1212,7 @@ function App() {
                     <span>{t(property.location)}</span>
                   </div>
                   
-                  <div className="space-y-2 mb-4">
+                  <div className="space-y-2 mb-4 flex-1">
                     <div className="text-xl font-bold text-accent">
                       {formatPrice(property.price, property.currency)}
                     </div>
@@ -1231,7 +1245,7 @@ function App() {
                   )}
                   
                   {/* Actions */}
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mt-auto">
                     <Button 
                       size="sm" 
                       className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
