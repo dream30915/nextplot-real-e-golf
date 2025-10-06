@@ -1110,7 +1110,7 @@ function App() {
             </div>
             <div className="text-center">
               <div className="font-bold text-accent font-mono text-3xl">NextPlot</div>
-              <div className="text-accent/80 text-base">PLOT FOR SALE</div>
+              <div className="text-accent text-base font-semibold logo-glow">PLOT FOR SALE</div>
             </div>
           </div>
           
@@ -2652,7 +2652,7 @@ function App() {
                 </div>
                 <div className="text-center">
                   <div className="text-xl font-bold text-accent">NextPlot</div>
-                  <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+                  <div className="text-sm text-accent font-semibold logo-glow">PLOT FOR SALE</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
