@@ -32,7 +32,8 @@ import {
   Moon,
   TextAa,
   Minus,
-  Plus
+  Plus,
+  List
 } from '@phosphor-icons/react'
 import nextplotLogo from '@/assets/images/nextplot.png128.png'
 
@@ -656,6 +657,9 @@ function App() {
   // Gallery state
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   
+  // Mobile menu state
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
+  
   // Translation helper
   const t = (key: string): string => {
     const lang = currentLang as keyof typeof translations
@@ -1099,100 +1103,213 @@ function App() {
 
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
-              <img 
-                src={nextplotLogo} 
-                alt="NextPlot Logo" 
-                className="w-full h-full object-contain p-1 logo-glow-enhanced"
-              />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-accent">NextPlot</div>
-              <div className="text-sm text-accent/80">PLOT FOR SALE</div>
-            </div>
-          </div>
-          
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
-            <a href="#" className="hover:text-accent transition-colors">{t('nav.home')}</a>
-            <a href="#properties" className="hover:text-accent transition-colors">{t('nav.properties')}</a>
-            <a href="#contact" className="hover:text-accent transition-colors">{t('nav.contact')}</a>
-            <a 
-              href="https://landsmaps.dol.go.th/" 
-              target="_blank" 
-              rel="noopener"
-              className="hover:text-accent transition-colors"
-            >
-              {t('nav.landsmaps')}
-            </a>
-          </nav>
-          
-          {/* Controls */}
-          <div className="flex items-center gap-3">
-            {/* Font Size Controls */}
-            <div className="flex items-center border border-border rounded-md">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
-                className="w-8 h-8 p-0 rounded-r-none border-r border-border"
-                aria-label="ลดขนาดตัวอักษร"
-                disabled={fontSize === 'small'}
-              >
-                <Minus size={14} />
-              </Button>
-              <div className="px-2 text-xs font-medium min-w-[24px] text-center">
-                <TextAa size={14} />
+        <div className="container mx-auto px-4 py-4">
+          {/* Desktop Header */}
+          <div className="hidden md:flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+                <img 
+                  src={nextplotLogo} 
+                  alt="NextPlot Logo" 
+                  className="w-full h-full object-contain p-1 logo-glow-enhanced"
+                />
               </div>
+              <div>
+                <div className="text-2xl font-bold text-accent">NextPlot</div>
+                <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+              </div>
+            </div>
+            
+            {/* Navigation */}
+            <nav className="flex items-center gap-6" role="navigation" aria-label="Main navigation">
+              <a href="#" className="hover:text-accent transition-colors">{t('nav.home')}</a>
+              <a href="#properties" className="hover:text-accent transition-colors">{t('nav.properties')}</a>
+              <a href="#contact" className="hover:text-accent transition-colors">{t('nav.contact')}</a>
+              <a 
+                href="https://landsmaps.dol.go.th/" 
+                target="_blank" 
+                rel="noopener"
+                className="hover:text-accent transition-colors"
+              >
+                {t('nav.landsmaps')}
+              </a>
+            </nav>
+            
+            {/* Controls */}
+            <div className="flex items-center gap-3">
+              {/* Theme Toggle */}
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
-                className="w-8 h-8 p-0 rounded-l-none border-l border-border"
-                aria-label="เพิ่มขนาดตัวอักษร"
-                disabled={fontSize === 'large'}
+                onClick={toggleTheme}
+                className="w-9 h-9 p-0"
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                <Plus size={14} />
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              </Button>
+              
+              {/* Language Selector */}
+              <Select value={currentLang} onValueChange={changeLanguage}>
+                <SelectTrigger className="w-16">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="th">TH</SelectItem>
+                  <SelectItem value="en">EN</SelectItem>
+                  <SelectItem value="zh">ZH</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
+                {user ? (
+                  <div className="flex items-center gap-2">
+                    <User size={16} />
+                    <span className="hidden sm:inline">{user.name}</span>
+                  </div>
+                ) : (
+                  t('nav.login')
+                )}
               </Button>
             </div>
-            
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTheme}
-              className="w-9 h-9 p-0"
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-            
-            {/* Language Selector */}
-            <Select value={currentLang} onValueChange={changeLanguage}>
-              <SelectTrigger className="w-16">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="th">TH</SelectItem>
-                <SelectItem value="en">EN</SelectItem>
-                <SelectItem value="zh">ZH</SelectItem>
-              </SelectContent>
-            </Select>
-            
-            <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <User size={16} />
-                  <span className="hidden sm:inline">{user.name}</span>
-                </div>
-              ) : (
-                t('nav.login')
-              )}
-            </Button>
           </div>
+
+          {/* Mobile Header */}
+          <div className="md:hidden flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+                <img 
+                  src={nextplotLogo} 
+                  alt="NextPlot Logo" 
+                  className="w-full h-full object-contain p-1 logo-glow-enhanced"
+                />
+              </div>
+              <div>
+                <div className="text-xl font-bold text-accent">NextPlot</div>
+                <div className="text-xs text-accent/80">PLOT FOR SALE</div>
+              </div>
+            </div>
+            
+            {/* Mobile Controls */}
+            <div className="flex items-center gap-2">
+              {/* Theme Toggle - Gold border and fill */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="w-10 h-10 p-0 border border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              </Button>
+              
+              {/* Login Button - Gold background, transparent on click */}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => user ? handleLogout() : setShowAuthModal(true)}
+                className="h-10 px-3 bg-accent text-accent-foreground hover:bg-transparent hover:text-accent hover:border-accent border border-accent"
+              >
+                {user ? (
+                  <div className="flex items-center gap-2">
+                    <User size={16} />
+                    <span className="text-sm">{user.name}</span>
+                  </div>
+                ) : (
+                  t('nav.login')
+                )}
+              </Button>
+              
+              {/* Mobile Menu Button - Gold background and border */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="w-10 h-10 p-0 bg-accent text-accent-foreground border border-accent"
+                aria-label="Menu"
+              >
+                <List size={20} />
+              </Button>
+            </div>
+          </div>
+
+          {/* Mobile Menu Dropdown */}
+          {showMobileMenu && (
+            <div className="md:hidden mt-4 border-t border-accent pt-4 space-y-3">
+              {/* Language Selector */}
+              <div>
+                <Select value={currentLang} onValueChange={(value) => {
+                  changeLanguage(value);
+                  setShowMobileMenu(false);
+                }}>
+                  <SelectTrigger className="w-full bg-transparent border-accent text-accent">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="th">TH - ไทย</SelectItem>
+                    <SelectItem value="en">EN - English</SelectItem>
+                    <SelectItem value="zh">ZH - 中文</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              {/* Navigation Links */}
+              <nav className="space-y-2" role="navigation" aria-label="Mobile navigation">
+                <a href="#" onClick={() => setShowMobileMenu(false)} className="block py-2 px-3 rounded border border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors">
+                  {t('nav.home')}
+                </a>
+                <a href="#properties" onClick={() => setShowMobileMenu(false)} className="block py-2 px-3 rounded border border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors">
+                  {t('nav.properties')}
+                </a>
+                <a href="#contact" onClick={() => setShowMobileMenu(false)} className="block py-2 px-3 rounded border border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors">
+                  {t('nav.contact')}
+                </a>
+                <a 
+                  href="https://landsmaps.dol.go.th/" 
+                  target="_blank" 
+                  rel="noopener"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="block py-2 px-3 rounded border border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  {t('nav.landsmaps')}
+                </a>
+              </nav>
+
+              {/* Information Sections */}
+              <div className="space-y-3 pt-3 border-t border-accent">
+                {/* About NextPlot */}
+                <div className="p-3 rounded border border-accent bg-transparent">
+                  <h3 className="font-semibold text-accent mb-2">
+                    {currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {currentLang === 'th' ? 
+                      'NextPlot เป็นแพลตฟอร์มอสังหาริมทรัพย์ครบวงจร ที่ให้บริการซื้อ-ขาย-เช่า และฝากขายที่ดิน บ้าน อาคารพาณิชย์ โกดัง และโรงงานทั่วประเทศไทย' :
+                      currentLang === 'en' ?
+                      'NextPlot is a comprehensive real estate platform offering buy-sell-rent and consignment services for land, houses, commercial buildings, warehouses, and factories throughout Thailand.' :
+                      'NextPlot 是一个综合性房地产平台，为泰国全境的土地、房屋、商业建筑、仓库和工厂提供买卖租赁和寄售服务。'
+                    }
+                  </p>
+                </div>
+
+                {/* Area Unit Guide */}
+                <div className="p-3 rounded border border-accent bg-transparent">
+                  <h3 className="font-semibold text-accent mb-2">
+                    {currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}
+                  </h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="text-muted-foreground">
+                      <div className="font-medium mb-1">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
+                      <div>1 {t('area.rai')} = 4 {t('area.ngan')} = 400 {t('area.wah')}</div>
+                      <div>1 {t('area.wah')} = 4 {t('area.sqm')}</div>
+                      <div>1 {t('area.rai')} = 1,600 {t('area.sqm')}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
@@ -1338,8 +1455,8 @@ function App() {
         </div>
       </section>
 
-      {/* Information Section */}
-      <section className="py-12 bg-background">
+      {/* Properties Grid */}
+      <main id="main-content" className="py-8" role="main">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* About NextPlot */}
