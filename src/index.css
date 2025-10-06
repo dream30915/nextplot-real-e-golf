@@ -8,8 +8,7 @@
 }
 
 :root {
-  /* Dark mode as default */
-  --background: oklch(0.15 0 0);
+  --background: oklch(0.18 0 0);
   --foreground: oklch(0.98 0 0);
   --card: oklch(0.18 0 0);
   --card-foreground: oklch(0.98 0 0);
@@ -25,51 +24,31 @@
   --accent-foreground: oklch(0.1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.27 0 0);
-  --input: oklch(0.27 0 0);
-  --ring: oklch(0.65 0.12 85);
-  --radius: 0.5rem;
-}
-
-/* Light mode */
-[data-theme="light"] {
-  --background: oklch(0.98 0 0);
-  --foreground: oklch(0.1 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.1 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.1 0 0);
-  --primary: oklch(0.1 0 0);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.94 0 0);
-  --secondary-foreground: oklch(0.1 0 0);
-  --muted: oklch(0.94 0 0);
-  --muted-foreground: oklch(0.55 0 0);
-  --accent: oklch(0.65 0.12 85);
-  --accent-foreground: oklch(0.1 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.85 0 0);
+  --border: oklch(0.35 0 0);
   --input: oklch(0.85 0 0);
   --ring: oklch(0.65 0.12 85);
 }
 
-/* System font stack with Thai support */
-body {
-  font-family: system-ui, -apple-system, "Segoe UI", "Leelawadee UI", Tahoma, "Noto Sans Thai", "Sukhumvit Set", "Helvetica Neue", Arial, sans-serif;
-}
-
-/* Font size control */
-:root[data-font-size="small"] {
-  font-size: 14px;
-}
-
-:root[data-font-size="medium"] {
-  font-size: 16px;
-}
-
-:root[data-font-size="large"] {
-  font-size: 18px;
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 /* Focus ring for accessibility */
@@ -146,15 +125,12 @@ button:disabled,
   transition: opacity 0.3s ease;
 }
 
-/* Enhanced dialog styles */
 .dialog-overlay {
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
-  animation: overlay-show 0.2s ease-out;
 }
 
 .dialog-content {
-  animation: content-show 0.3s ease-out;
   border: 1px solid var(--border);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
@@ -179,36 +155,11 @@ button:disabled,
   }
 }
 
-/* Enhanced loading button */
-.loading-button {
-  position: relative;
-  overflow: hidden;
-}
-
-.loading-button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: left 0.5s;
-}
-
-.loading-button:disabled::after {
-  left: 100%;
-}
-
-/* Password strength indicators */
+/* Password strength indicator */
 .password-strength {
+  width: 100%;
   height: 4px;
-  background: var(--muted);
+  background-color: var(--muted);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -220,123 +171,39 @@ button:disabled,
 }
 
 .password-strength-weak {
-  background: #ef4444;
   width: 25%;
+  background-color: #ef4444;
 }
 
 .password-strength-medium {
-  background: #f59e0b;
   width: 50%;
+  background-color: #f59e0b;
 }
 
 .password-strength-strong {
-  background: #10b981;
   width: 75%;
+  background-color: #10b981;
 }
 
 .password-strength-very-strong {
-  background: var(--accent);
   width: 100%;
+  background-color: var(--accent);
 }
 
-@media print {
-  /* Hide non-essential elements */
-  header,
-  nav,
-  .no-print,
-  button,
-  .modal-backdrop {
-    display: none !important;
-  }
-
-  /* Print-friendly colors and spacing */
-  body {
-    background: white !important;
-    color: black !important;
-    font-size: 12pt;
-    line-height: 1.4;
-  }
-
-  .property-detail {
-    page-break-inside: avoid;
-    margin: 0;
-    padding: 15mm;
-  }
-
-  .property-images img {
-    max-width: 100%;
-    height: auto;
-    page-break-inside: avoid;
-  }
-
-  .property-info {
-    margin-top: 10mm;
-  }
-
-  .property-price {
-    font-size: 16pt;
-    font-weight: bold;
-    color: black !important;
-  }
-
-  .property-code {
-    font-family: monospace;
-    font-size: 14pt;
-  }
-
-  /* A4 page margins */
-  @page {
-    margin: 12mm 15mm;
-    size: A4;
-  }
+/* Skip Link for Accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  z-index: 9999;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Touch targets for mobile */
-@media (max-width: 767px) {
-  button,
-  [role="button"],
-  input,
-  select,
-  textarea {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-@theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  --radius-sm: calc(var(--radius) * 0.5);
-  --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) * 1.5);
-  --radius-xl: calc(var(--radius) * 2);
-  --radius-2xl: calc(var(--radius) * 3);
-  --radius-full: 9999px;
+.skip-link:focus {
+  top: 6px;
 }
