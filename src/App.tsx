@@ -1098,9 +1098,9 @@ function App() {
       </a>
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
-        <div className="container mx-auto pl-2 pr-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto pl-1 pr-4 py-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
               <img 
                 src={nextplotLogo} 
@@ -1108,7 +1108,7 @@ function App() {
                 className="w-full h-full object-contain p-1 logo-glow-enhanced"
               />
             </div>
-            <div>
+            <div className="text-center">
               <div className="font-bold text-accent font-mono text-3xl">NextPlot</div>
               <div className="text-accent/80 text-base">PLOT FOR SALE</div>
             </div>
@@ -2642,7 +2642,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Logo & Description */}
             <div>
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
                   <img 
                     src={nextplotLogo} 
@@ -2650,7 +2650,7 @@ function App() {
                     className="w-full h-full object-contain p-1 logo-glow-enhanced"
                   />
                 </div>
-                <div>
+                <div className="text-center">
                   <div className="text-xl font-bold text-accent">NextPlot</div>
                   <div className="text-sm text-accent/80">PLOT FOR SALE</div>
                 </div>
