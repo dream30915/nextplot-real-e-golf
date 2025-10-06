@@ -3,65 +3,98 @@
 
 @layer base {
   * {
-    @apply border-border
+    @apply border-border;
   }
 }
 
 :root {
-  /* Dark mode as default */
-  --background: oklch(0.15 0 0); /* Dark gray background */
-  --foreground: oklch(0.85 0 0); /* Light gray text */
+  /*
+   * Base colors that define the core visual identity
+   * --background: Main page background
+   * --foreground: Primary text color to use on the background
+   */
+  --background: oklch(0.18 0 0); /* #2E2E2E */
+  --foreground: oklch(1 0 0); /* #FFFFFF */
 
-  --card: oklch(0.32 0 0); /* More contrast gray cards - lighter for better visibility */
-  --card-foreground: oklch(0.85 0 0); /* Light gray text on cards */
-  --popover: oklch(0.28 0 0);
-  --popover-foreground: oklch(0.85 0 0);
+  --card: oklch(0.23 0 0); /* #3A3A3A */
+  --card-foreground: oklch(1 0 0); /* #FFFFFF */
+  --popover: oklch(0.23 0 0);
+  --popover-foreground: oklch(1 0 0);
 
-  --primary: oklch(0.85 0 0); /* Light gray for primary */
-  --primary-foreground: oklch(0.15 0 0); /* Dark text on light */
-  --secondary: oklch(0.32 0 0); /* Medium dark gray - better contrast */
-  --secondary-foreground: oklch(0.85 0 0); /* Light text on secondary */
-  --muted: oklch(0.32 0 0); /* Medium dark gray - better contrast */
-  --muted-foreground: oklch(0.65 0 0); /* Medium light gray */
-
-  /* Luxury Gold Accent */
-  --accent: oklch(0.65 0.12 85); /* Rich gold */
-  --accent-foreground: oklch(1 0 0); /* White text on gold */
-  
+  /*
+   * Action colors that represent interactive elements
+   * --primary: Main brand/action color for key buttons and focal points
+   * --secondary: Supporting color for less prominent actions
+   * --accent: Highlight color for active states or emphasis
+   * --destructive: Warning color for dangerous actions (typically red)
+   */
+  --primary: oklch(0.18 0 0); /* #2E2E2E */
+  --primary-foreground: oklch(1 0 0); /* #FFFFFF */
+  --secondary: oklch(0.23 0 0); /* #3A3A3A */
+  --secondary-foreground: oklch(1 0 0);
+  --accent: oklch(0.7 0.1 85); /* #C9A14A - Luxury Gold */
+  --accent-foreground: oklch(0.07 0 0); /* #111111 */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.38 0 0); /* Lighter border for more contrast - even better visibility */
-  --input: oklch(0.38 0 0); /* Lighter input border - even better visibility */
-  --ring: oklch(0.65 0.12 85); /* Gold focus ring */
+  /*
+   * Supporting UI colors for various states and elements
+   * --muted: Subdued background for de-emphasized content
+   * --border: Color for borders and dividers
+   * --input: Border color for form inputs
+   * --ring: Focus indicator color
+   */
+  --muted: oklch(0.9 0 0); /* #E5E5E5 */
+  --muted-foreground: oklch(0.18 0 0); /* #2E2E2E */
+  --border: oklch(0.35 0 0);
+  --input: oklch(0.35 0 0);
+  --ring: oklch(0.7 0.1 85); /* Gold focus ring */
 
+  /*
+   * Border radius applied throughout the UI for consistent shape language
+   * Can be adjusted to make the design feel more rounded or squared
+   */
   --radius: 0.5rem;
 }
 
-/* Light mode */
-:root[data-theme="light"] {
-  --background: oklch(0.98 0 0); /* Very light gray */
-  --foreground: oklch(0.35 0 0); /* Medium gray, easier to read */
+/*
+ * Map the CSS variables to Tailwind's theme system
+ * This enables using classes like bg-primary, text-foreground, etc.
+ */
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-  --card: oklch(1 0 0); /* Pure white cards */
-  --card-foreground: oklch(0.35 0 0); /* Medium gray text */
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.35 0 0);
-
-  --primary: oklch(0.35 0 0); /* Medium gray instead of dark */
-  --primary-foreground: oklch(1 0 0); /* White text */
-  --secondary: oklch(0.94 0 0); /* Light gray */
-  --secondary-foreground: oklch(0.35 0 0); /* Medium gray text */
-  --muted: oklch(0.94 0 0); /* Light gray */
-  --muted-foreground: oklch(0.55 0 0); /* Lighter medium gray */
-
-  --border: oklch(0.85 0 0); /* Light border */
-  --input: oklch(0.85 0 0); /* Light input border */
+  /* Map radius variables to create a consistent rounding system */
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) * 1.5);
+  --radius-xl: calc(var(--radius) * 2);
+  --radius-2xl: calc(var(--radius) * 3);
+  --radius-full: 9999px;
 }
 
 /* System font stack with Thai support */
 body {
   font-family: system-ui, -apple-system, "Segoe UI", "Leelawadee UI", Tahoma, "Noto Sans Thai", "Sukhumvit Set", "Helvetica Neue", Arial, sans-serif;
+  @apply bg-background text-foreground;
 }
 
 /* Font size control */
@@ -108,7 +141,7 @@ body {
   opacity: 0.8;
 }
 
-/* Line clamp utilities */
+/* Text clamp utility */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -120,17 +153,19 @@ body {
 .skip-link {
   position: absolute;
   top: -40px;
-  left: 6px;
+  left: 50%;
+  transform: translateX(-50%);
   background: var(--accent);
   color: var(--accent-foreground);
-  padding: 8px;
-  border-radius: 4px;
+  padding: 8px 16px;
   text-decoration: none;
   z-index: 100;
+  border-radius: var(--radius);
+  transition: all 0.2s ease;
 }
 
 .skip-link:focus {
-  top: 6px;
+  top: 10px;
 }
 
 /* Modern form styles */
@@ -142,18 +177,70 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-.auth-input {
-  transition: all 0.2s ease;
+.form-input {
+  width: 100%;
+  height: 3rem;
+  padding: 0 0.75rem;
+  border-radius: var(--radius);
   border: 1.5px solid var(--border);
-  background: var(--background);
+  background: var(--card);
+  color: var(--foreground);
+  transition: all 0.2s ease;
 }
 
-.auth-input:focus {
+.form-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent);
   box-shadow: 0 0 0 3px oklch(0.65 0.12 85 / 0.15);
 }
 
+/* Force all inputs and selects to use card background for better contrast */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"],
+textarea,
+select {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+}
+
+/* Password strength indicator */
+.password-strength {
+  width: 100%;
+  height: 4px;
+  background: var(--muted);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.password-strength-weak {
+  width: 25%;
+  background: #ef4444;
+}
+
+.password-strength-medium {
+  width: 50%;
+  background: #f59e0b;
+}
+
+.password-strength-strong {
+  width: 75%;
+  background: #10b981;
+}
+
+.password-strength-very-strong {
+  width: 100%;
+  background: var(--accent);
+}
+
+/* Auth button styles */
 .auth-button {
   transition: all 0.2s ease;
   font-weight: 600;
@@ -165,6 +252,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Auth link styles */
 .auth-link {
   color: var(--accent);
   text-decoration: none;
@@ -174,244 +262,4 @@ body {
 
 .auth-link:hover {
   color: oklch(0.6 0.12 85);
-  text-decoration: underline;
-}
-
-/* Enhanced form input styles for better contrast */
-.form-input {
-  width: 100%;
-  height: 3rem;
-  padding: 0 0.75rem;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
-  color: var(--foreground);
-  font-size: 1rem;
-  transition: all 0.2s ease;
-}
-
-/* Force all inputs and selects to use card background for better contrast */
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="password"],
-input[type="number"],
-input[type="search"],
-select,
-textarea,
-.ui-input,
-.ui-select-trigger,
-.ui-textarea {
-  background-color: var(--card) !important;
-  border-color: var(--border) !important;
-}
-
-/* Search and filter section styling */
-.search-filter-section {
-  background: var(--card);
-  border: 1px solid var(--border);
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px oklch(0.65 0.12 85 / 0.15);
-}
-
-.form-input::placeholder {
-  color: var(--muted-foreground);
-}
-
-/* Password strength indicator */
-.password-strength {
-  height: 4px;
-  background: var(--muted);
-  border-radius: 2px;
-  margin-top: 0.5rem;
-  overflow: hidden;
-}
-
-.password-strength-bar {
-  height: 100%;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.password-strength-weak {
-  background: #ef4444;
-  width: 25%;
-}
-
-.password-strength-medium {
-  background: #f59e0b;
-  width: 50%;
-}
-
-.password-strength-strong {
-  background: #10b981;
-  width: 75%;
-}
-
-.password-strength-very-strong {
-  background: var(--accent);
-  width: 100%;
-}
-
-/* Enhanced dialog styles */
-.dialog-overlay {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  animation: overlay-show 0.2s ease-out;
-}
-
-.dialog-content {
-  animation: content-show 0.3s ease-out;
-  border: 1px solid var(--border);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
-@keyframes overlay-show {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes content-show {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-/* Enhanced loading button */
-.loading-button {
-  position: relative;
-  overflow: hidden;
-}
-
-.loading-button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: left 0.5s;
-}
-
-.loading-button:disabled::after {
-  left: 100%;
-}
-@media print {
-  /* Hide non-essential elements */
-  header,
-  nav,
-  .no-print,
-  button,
-  .modal-backdrop {
-    display: none !important;
-  }
-
-  /* Print-friendly colors and spacing */
-  body {
-    background: white !important;
-    color: black !important;
-    font-size: 12pt;
-    line-height: 1.4;
-  }
-
-  .property-detail {
-    page-break-inside: avoid;
-    margin: 0;
-    padding: 15mm;
-  }
-
-  .property-images img {
-    max-width: 100%;
-    height: auto;
-    page-break-inside: avoid;
-  }
-
-  .property-info {
-    margin-top: 10mm;
-  }
-
-  .property-price {
-    font-size: 16pt;
-    font-weight: bold;
-    color: black !important;
-  }
-
-  .property-code {
-    font-family: monospace;
-    font-size: 14pt;
-  }
-
-  /* A4 page margins */
-  @page {
-    margin: 12mm 15mm;
-    size: A4;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Touch targets for mobile */
-@media (max-width: 767px) {
-  button,
-  [role="button"],
-  input,
-  select,
-  textarea {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-@theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  --radius-sm: calc(var(--radius) * 0.5);
-  --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) * 1.5);
-  --radius-xl: calc(var(--radius) * 2);
-  --radius-2xl: calc(var(--radius) * 3);
-  --radius-full: 9999px;
 }
