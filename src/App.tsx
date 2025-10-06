@@ -34,6 +34,7 @@ import {
   Minus,
   Plus
 } from '@phosphor-icons/react'
+import nextplotLogo from '@/assets/images/nextplot.png128.png'
 
 // Translations
 const translations = {
@@ -1101,12 +1102,16 @@ function App() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center">
-              <Globe size={24} className="text-accent-foreground" />
+            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center">
+              <img 
+                src={nextplotLogo} 
+                alt="NextPlot Logo" 
+                className="w-8 h-8 object-contain"
+              />
             </div>
             <div>
               <div className="text-xl font-bold text-accent">NextPlot</div>
-              <div className="text-xs text-accent">PLOT FOR SALE</div>
+              <div className="text-xs text-accent/80">PLOT FOR SALE</div>
             </div>
           </div>
           
@@ -2648,12 +2653,16 @@ function App() {
             {/* Logo & Description */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-                  <Globe size={20} className="text-accent-foreground" />
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center">
+                  <img 
+                    src={nextplotLogo} 
+                    alt="NextPlot Logo" 
+                    className="w-6 h-6 object-contain"
+                  />
                 </div>
                 <div>
                   <div className="text-lg font-bold text-accent">NextPlot</div>
-                  <div className="text-xs text-accent">PLOT FOR SALE</div>
+                  <div className="text-xs text-accent/80">PLOT FOR SALE</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
