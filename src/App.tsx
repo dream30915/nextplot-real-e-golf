@@ -851,6 +851,7 @@ function App() {
               <div className="relative">
                 <Search size={20} className="absolute left-3 top-3 text-muted-foreground" />
                 <Input
+                  key={`search-${currentLang}`}
                   placeholder={t('search.placeholder')}
                   value={filters.keyword}
                   onChange={(e) => setFilters(prev => ({ ...prev, keyword: e.target.value }))}
@@ -862,6 +863,7 @@ function App() {
             {/* Location */}
             <div>
               <Input
+                key={`location-${currentLang}`}
                 placeholder={t('filter.location')}
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
@@ -871,12 +873,14 @@ function App() {
             {/* Price Range */}
             <div className="grid grid-cols-2 gap-2">
               <Input
+                key={`priceMin-${currentLang}`}
                 placeholder={t('filter.priceMin')}
                 type="number"
                 value={filters.priceMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMin: e.target.value }))}
               />
               <Input
+                key={`priceMax-${currentLang}`}
                 placeholder={t('filter.priceMax')}
                 type="number"
                 value={filters.priceMax}
@@ -887,12 +891,14 @@ function App() {
             {/* Area Range */}
             <div className="grid grid-cols-2 gap-2">
               <Input
+                key={`areaMin-${currentLang}`}
                 placeholder={t('filter.areaMin')}
                 type="number"
                 value={filters.areaMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMin: e.target.value }))}
               />
               <Input
+                key={`areaMax-${currentLang}`}
                 placeholder={t('filter.areaMax')}
                 type="number"
                 value={filters.areaMax}
@@ -902,7 +908,7 @@ function App() {
             
             {/* Status */}
             <div>
-              <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
+              <Select key={`status-${currentLang}`} value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
                 <SelectTrigger>
                   <SelectValue placeholder={t('filter.status')} />
                 </SelectTrigger>
@@ -917,7 +923,7 @@ function App() {
             
             {/* Sort */}
             <div>
-              <Select value={filters.sort} onValueChange={(value) => setFilters(prev => ({ ...prev, sort: value }))}>
+              <Select key={`sort-${currentLang}`} value={filters.sort} onValueChange={(value) => setFilters(prev => ({ ...prev, sort: value }))}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -1502,6 +1508,7 @@ function App() {
               <div>
                 <Label htmlFor="name">{t('form.name')} *</Label>
                 <Input
+                  key={`form-name-${currentLang}`}
                   id="name"
                   type="text"
                   placeholder={t('form.name.placeholder')}
@@ -1514,6 +1521,7 @@ function App() {
               <div>
                 <Label htmlFor="phone">{t('form.phone')} *</Label>
                 <Input
+                  key={`form-phone-${currentLang}`}
                   id="phone"
                   type="tel"
                   placeholder={t('form.phone.placeholder')}
@@ -1527,6 +1535,7 @@ function App() {
               <div>
                 <Label htmlFor="email">{t('form.email')}</Label>
                 <Input
+                  key={`form-email-${currentLang}`}
                   id="email"
                   type="email"
                   placeholder={t('form.email.placeholder')}
@@ -1538,6 +1547,7 @@ function App() {
               <div>
                 <Label htmlFor="channel">{t('form.preferredChannel')}</Label>
                 <Select 
+                  key={`form-channel-${currentLang}`}
                   value={contactForm.preferredChannel} 
                   onValueChange={(value) => setContactForm(prev => ({ ...prev, preferredChannel: value }))}
                 >
@@ -1557,6 +1567,7 @@ function App() {
               <div>
                 <Label htmlFor="message">{t('form.message')}</Label>
                 <Textarea
+                  key={`form-message-${currentLang}`}
                   id="message"
                   placeholder={t('form.message.placeholder')}
                   value={contactForm.message}
