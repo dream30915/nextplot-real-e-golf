@@ -1,1 +1,185 @@
-/* This is where custom CSS goes */
+@import 'tailwindcss';
+@import "tw-animate-css";
+
+@layer base {
+  * {
+    @apply border-border
+  }
+}
+
+:root {
+  /* Luxury Gray-Gold Theme */
+  --background: oklch(0.18 0 0); /* #2E2E2E */
+  --foreground: oklch(1 0 0); /* #FFFFFF */
+
+  --card: oklch(0.23 0 0); /* #3A3A3A */
+  --card-foreground: oklch(1 0 0); /* #FFFFFF */
+  --popover: oklch(0.23 0 0);
+  --popover-foreground: oklch(1 0 0);
+
+  --primary: oklch(0.18 0 0); /* #2E2E2E */
+  --primary-foreground: oklch(1 0 0); /* #FFFFFF */
+  --secondary: oklch(0.23 0 0); /* #3A3A3A */
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.9 0 0); /* #E5E5E5 */
+  --muted-foreground: oklch(0.18 0 0); /* #2E2E2E */
+
+  /* Luxury Gold Accent */
+  --accent: oklch(0.7 0.1 85); /* #C9A14A */
+  --accent-foreground: oklch(0.07 0 0); /* #111111 */
+  
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(0.35 0 0);
+  --input: oklch(0.35 0 0);
+  --ring: oklch(0.7 0.1 85); /* Gold focus ring */
+
+  --radius: 0.5rem;
+}
+
+/* System font stack with Thai support */
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", "Leelawadee UI", Tahoma, "Noto Sans Thai", "Sukhumvit Set", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Focus ring for accessibility */
+*:focus-visible {
+  outline: 3px solid oklch(0.7 0.1 85);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px oklch(0.7 0.1 85 / 0.35);
+}
+
+/* Gold button hover state */
+.btn-gold:hover {
+  background-color: oklch(0.65 0.1 85); /* Darker gold */
+  color: oklch(1 0 0); /* White text on hover */
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  padding: 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Print styles */
+@media print {
+  /* Hide non-essential elements */
+  header,
+  nav,
+  .no-print,
+  button,
+  .modal-backdrop {
+    display: none !important;
+  }
+
+  /* Print-friendly colors and spacing */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  .property-detail {
+    page-break-inside: avoid;
+    margin: 0;
+    padding: 15mm;
+  }
+
+  .property-images img {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+  }
+
+  .property-info {
+    margin-top: 10mm;
+  }
+
+  .property-price {
+    font-size: 16pt;
+    font-weight: bold;
+    color: black !important;
+  }
+
+  .property-code {
+    font-family: monospace;
+    font-size: 14pt;
+  }
+
+  /* A4 page margins */
+  @page {
+    margin: 12mm 15mm;
+    size: A4;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Touch targets for mobile */
+@media (max-width: 767px) {
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) * 1.5);
+  --radius-xl: calc(var(--radius) * 2);
+  --radius-2xl: calc(var(--radius) * 3);
+  --radius-full: 9999px;
+}
