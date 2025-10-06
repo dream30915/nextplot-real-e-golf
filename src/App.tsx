@@ -938,7 +938,7 @@ function App() {
                   placeholder={t('search.placeholder')}
                   value={filters.keyword}
                   onChange={(e) => setFilters(prev => ({ ...prev, keyword: e.target.value }))}
-                  className="pl-10"
+                  className="pl-10 text-base"
                 />
               </div>
             </div>
@@ -950,6 +950,7 @@ function App() {
                 placeholder={t('filter.location')}
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
+                className="text-base"
               />
             </div>
             
@@ -961,6 +962,7 @@ function App() {
                 type="number"
                 value={filters.priceMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMin: e.target.value }))}
+                className="text-base"
               />
               <Input
                 key={`priceMax-${currentLang}`}
@@ -968,6 +970,7 @@ function App() {
                 type="number"
                 value={filters.priceMax}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMax: e.target.value }))}
+                className="text-base"
               />
             </div>
             
@@ -979,6 +982,7 @@ function App() {
                 type="number"
                 value={filters.areaMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMin: e.target.value }))}
+                className="text-base"
               />
               <Input
                 key={`areaMax-${currentLang}`}
@@ -986,13 +990,14 @@ function App() {
                 type="number"
                 value={filters.areaMax}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMax: e.target.value }))}
+                className="text-base"
               />
             </div>
             
             {/* Status */}
             <div>
               <Select key={`status-${currentLang}`} value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
-                <SelectTrigger>
+                <SelectTrigger className="text-base">
                   <SelectValue placeholder={t('filter.status')} />
                 </SelectTrigger>
                 <SelectContent>
@@ -1007,7 +1012,7 @@ function App() {
             {/* Sort */}
             <div>
               <Select key={`sort-${currentLang}`} value={filters.sort} onValueChange={(value) => setFilters(prev => ({ ...prev, sort: value }))}>
-                <SelectTrigger>
+                <SelectTrigger className="text-base">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -1034,6 +1039,7 @@ function App() {
               })}
               variant="outline"
               size="sm"
+              className="text-base"
             >
               {t('filter.clear')}
             </Button>
@@ -1048,10 +1054,10 @@ function App() {
             {/* About NextPlot */}
             <Card className="p-6 flex flex-col h-full">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-xl">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
+                <CardTitle className="text-2xl">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
-                <p className="text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4 text-base">
                   {currentLang === 'th' ? 
                     'NextPlot เป็นแพลตฟอร์มอสังหาริมทรัพย์ครบวงจร ที่ให้บริการซื้อ-ขาย-เช่า และฝากขายที่ดิน บ้าน อาคารพาณิชย์ โกดัง และโรงงานทั่วประเทศไทย' :
                     currentLang === 'en' ?
@@ -1059,7 +1065,7 @@ function App() {
                     'NextPlot 是一个综合性房地产平台，为泰国全境的土地、房屋、商业建筑、仓库和工厂提供买卖租赁和寄售服务。'
                   }
                 </p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
+                <ul className="space-y-2 text-base text-muted-foreground">
                   <li className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-accent rounded-full" />
                     {currentLang === 'th' ? 'ระบบค้นหาขั้นสูง' : currentLang === 'en' ? 'Advanced Search System' : '高级搜索系统'}
@@ -1079,12 +1085,12 @@ function App() {
             {/* Land Area Guide */}
             <Card className="p-6 flex flex-col h-full">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-xl">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
+                <CardTitle className="text-2xl">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-base">
                   <div className="bg-card p-3 rounded-lg">
-                    <div className="font-medium mb-2">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
+                    <div className="font-medium mb-2 text-lg">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
                     <div className="space-y-1 text-muted-foreground">
                       <div>1 {t('area.rai')} = 4 {t('area.ngan')} = 400 {t('area.wah')}</div>
                       <div>1 {t('area.ngan')} = 100 {t('area.wah')}</div>
@@ -1092,7 +1098,7 @@ function App() {
                     </div>
                   </div>
                   <div className="bg-card p-3 rounded-lg">
-                    <div className="font-medium mb-2">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
+                    <div className="font-medium mb-2 text-lg">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
                     <div className="space-y-1 text-muted-foreground">
                       <div>1 {t('area.rai')} = 1,600 {t('area.sqm')}</div>
                       <div>1 {t('area.ngan')} = 400 {t('area.sqm')}</div>
@@ -1106,10 +1112,10 @@ function App() {
             {/* Zoning Colors */}
             <Card className="p-6">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-xl">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
+                <CardTitle className="text-2xl">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="space-y-2 text-sm max-h-80 overflow-y-auto">
+                <div className="space-y-2 text-base max-h-80 overflow-y-auto">
                   <div className="flex items-center gap-3">
                     <div className="w-4 h-4 bg-yellow-400 border border-border flex-shrink-0" />
                     <div>
