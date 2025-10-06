@@ -1118,14 +1118,14 @@ function App() {
             
             {/* Navigation */}
             <nav className="flex items-center gap-6" role="navigation" aria-label="Main navigation">
-              <a href="#" className="hover:text-accent transition-colors">{t('nav.home')}</a>
-              <a href="#properties" className="hover:text-accent transition-colors">{t('nav.properties')}</a>
-              <a href="#contact" className="hover:text-accent transition-colors">{t('nav.contact')}</a>
+              <a href="#" className="hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded transition-colors">{t('nav.home')}</a>
+              <a href="#properties" className="hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded transition-colors">{t('nav.properties')}</a>
+              <a href="#contact" className="hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded transition-colors">{t('nav.contact')}</a>
               <a 
                 href="https://landsmaps.dol.go.th/" 
                 target="_blank" 
                 rel="noopener"
-                className="hover:text-accent transition-colors"
+                className="hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded transition-colors"
               >
                 {t('nav.landsmaps')}
               </a>
@@ -1139,7 +1139,7 @@ function App() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
-                  className="w-8 h-8 p-0 rounded-r-none border-r border-border"
+                  className="w-8 h-8 p-0 rounded-r-none border-r border-border hover:bg-accent hover:text-accent-foreground"
                   aria-label="ลดขนาดตัวอักษร"
                   disabled={fontSize === 'small'}
                 >
@@ -1152,7 +1152,7 @@ function App() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
-                  className="w-8 h-8 p-0 rounded-l-none border-l border-border"
+                  className="w-8 h-8 p-0 rounded-l-none border-l border-border hover:bg-accent hover:text-accent-foreground"
                   aria-label="เพิ่มขนาดตัวอักษร"
                   disabled={fontSize === 'large'}
                 >
@@ -1165,7 +1165,7 @@ function App() {
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                className="w-9 h-9 p-0"
+                className="w-9 h-9 p-0 hover:bg-accent hover:text-accent-foreground"
                 aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
@@ -1173,7 +1173,7 @@ function App() {
               
               {/* Language Selector */}
               <Select value={currentLang} onValueChange={changeLanguage}>
-                <SelectTrigger className="w-20">
+                <SelectTrigger className="w-20 hover:bg-accent hover:text-accent-foreground hover:border-accent">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -1183,7 +1183,7 @@ function App() {
                 </SelectContent>
               </Select>
               
-              <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
+              <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)} className="hover:bg-accent hover:text-accent-foreground hover:border-accent">
                 {user ? (
                   <div className="flex items-center gap-2">
                     <User size={16} />
@@ -1198,7 +1198,7 @@ function App() {
 
           {/* Mobile Layout */}
           <div className="md:hidden">
-            {/* Top Row - Logo and Title (unchanged) */}
+            {/* Top Row - Logo, Theme Toggle, and Login */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-1">
                 <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden">
@@ -1214,80 +1214,76 @@ function App() {
                 </div>
               </div>
               
-              <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
-                {user ? (
-                  <div className="flex items-center gap-1">
-                    <User size={14} />
-                    <span className="text-xs">{user.name.split(' ')[0]}</span>
-                  </div>
-                ) : (
-                  <span className="text-xs">{t('nav.login')}</span>
-                )}
-              </Button>
-            </div>
-
-            {/* Bottom Row - Controls */}
-            <div className="flex items-center justify-between gap-2">
-              {/* Navigation Links */}
-              <div className="flex items-center gap-1 text-xs text-accent">
-                <a href="#" className="px-2 py-1 border border-accent/30 rounded">{t('nav.home')}</a>
-                <span className="text-accent">|</span>
-                <a href="#properties" className="px-2 py-1 border border-accent/30 rounded">{t('nav.properties')}</a>
-                <span className="text-accent">|</span>
-                <a href="#contact" className="px-2 py-1 border border-accent/30 rounded">{t('nav.contact')}</a>
-              </div>
-              
-              {/* Right Controls */}
               <div className="flex items-center gap-2">
-                {/* Font Size Controls */}
-                <div className="flex items-center border border-border rounded-md">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
-                    className="w-6 h-6 p-0 rounded-r-none border-r border-border"
-                    aria-label="ลดขนาดตัวอักษร"
-                    disabled={fontSize === 'small'}
-                  >
-                    <Minus size={10} />
-                  </Button>
-                  <div className="px-1 text-xs font-medium min-w-[16px] text-center">
-                    <TextAa size={10} />
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
-                    className="w-6 h-6 p-0 rounded-l-none border-l border-border"
-                    aria-label="เพิ่มขนาดตัวอักษร"
-                    disabled={fontSize === 'large'}
-                  >
-                    <Plus size={10} />
-                  </Button>
-                </div>
-                
                 {/* Theme Toggle */}
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={toggleTheme}
-                  className="w-7 h-7 p-0"
+                  className="w-7 h-7 p-0 text-white hover:bg-accent hover:text-accent-foreground"
                   aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 >
                   {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
                 </Button>
                 
-                {/* Language Selector */}
-                <Select value={currentLang} onValueChange={changeLanguage}>
-                  <SelectTrigger className="w-16 h-7 text-xs">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="th">TH</SelectItem>
-                    <SelectItem value="en">EN</SelectItem>
-                    <SelectItem value="zh">ZH</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)} className="text-white hover:bg-accent hover:text-accent-foreground hover:border-accent">
+                  {user ? (
+                    <div className="flex items-center gap-1">
+                      <User size={14} />
+                      <span className="text-xs">{user.name.split(' ')[0]}</span>
+                    </div>
+                  ) : (
+                    <span className="text-xs">{t('nav.login')}</span>
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            {/* Bottom Row - Navigation and Controls */}
+            <div className="grid grid-cols-6 gap-1 items-center">
+              {/* Navigation Links - First 3 columns */}
+              <a href="#" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.home')}</a>
+              <a href="#properties" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.properties')}</a>
+              <a href="#contact" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.contact')}</a>
+              
+              {/* Font Size Controls */}
+              <div className="flex items-center border border-border rounded">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
+                  className="w-5 h-5 p-0 rounded-r-none border-r border-border text-white hover:bg-accent hover:text-accent-foreground"
+                  aria-label="ลดขนาดตัวอักษร"
+                  disabled={fontSize === 'small'}
+                >
+                  <Minus size={8} />
+                </Button>
+                <div className="px-1 text-xs font-medium min-w-[12px] text-center text-white">
+                  <TextAa size={8} />
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
+                  className="w-5 h-5 p-0 rounded-l-none border-l border-border text-white hover:bg-accent hover:text-accent-foreground"
+                  aria-label="เพิ่มขนาดตัวอักษร"
+                  disabled={fontSize === 'large'}
+                >
+                  <Plus size={8} />
+                </Button>
+              </div>
+              
+              {/* Language Selector - Custom styled without arrow */}
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    const nextLang = (currentLang || 'th') === 'th' ? 'en' : (currentLang || 'th') === 'en' ? 'zh' : 'th'
+                    changeLanguage(nextLang)
+                  }}
+                  className="w-full text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors"
+                >
+                  {(currentLang || 'th').toUpperCase()}
+                </button>
               </div>
             </div>
           </div>
@@ -2765,20 +2761,20 @@ function App() {
                 {currentLang === 'th' ? 'เมนู' : currentLang === 'en' ? 'Menu' : '菜单'}
               </h3>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.home')}
                 </a>
-                <a href="#properties" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#properties" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.properties')}
                 </a>
-                <a href="#contact" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#contact" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.contact')}
                 </a>
                 <a 
                   href="https://landsmaps.dol.go.th/" 
                   target="_blank" 
                   rel="noopener"
-                  className="block text-sm text-muted-foreground hover:text-accent transition-colors"
+                  className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors"
                 >
                   {t('nav.landsmaps')}
                 </a>
@@ -2791,10 +2787,10 @@ function App() {
                 {currentLang === 'th' ? 'นโยบาย' : currentLang === 'en' ? 'Policy' : '政策'}
               </h3>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('footer.privacy')}
                 </a>
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('footer.terms')}
                 </a>
               </div>

@@ -90,6 +90,64 @@ body {
   color: oklch(1 0 0); /* White text on hover */
 }
 
+/* Consistent gold hover effects for all interactive elements */
+button:hover,
+[role="button"]:hover,
+a:hover,
+.hover-gold:hover,
+select:hover,
+.ui-select-trigger:hover,
+.ui-button:hover {
+  background-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+  border-color: var(--accent) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Specific styling for shadcn select components */
+[data-radix-collection-item]:hover,
+[role="option"]:hover,
+.select-item:hover {
+  background-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+}
+
+/* Override for disabled buttons */
+button:disabled,
+button:disabled:hover,
+[disabled]:hover {
+  background-color: var(--muted) !important;
+  color: var(--muted-foreground) !important;
+  border-color: var(--border) !important;
+  cursor: not-allowed !important;
+}
+
+/* Special case for destructive buttons */
+.destructive:hover {
+  background-color: var(--destructive) !important;
+  color: var(--destructive-foreground) !important;
+  border-color: var(--destructive) !important;
+}
+
+/* Ensure card hover effects are consistent */
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile navigation specific styling */
+@media (max-width: 767px) {
+  .mobile-nav-link {
+    color: white !important;
+    transition: all 0.2s ease;
+  }
+  
+  .mobile-nav-link:hover {
+    background-color: var(--accent) !important;
+    color: var(--accent-foreground) !important;
+    border-color: var(--accent) !important;
+  }
+}
+
 /* Logo styles without glow effects */
 .logo-glow {
   transition: opacity 0.3s ease;
