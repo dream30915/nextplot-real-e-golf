@@ -9,24 +9,25 @@
 
 :root {
   --background: oklch(0.18 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.18 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.18 0 0);
-  --popover-foreground: oklch(0.98 0 0);
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.23 0 0);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.23 0 0);
+  --popover-foreground: oklch(1 0 0);
   --primary: oklch(0.18 0 0);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.27 0 0);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.27 0 0);
-  --muted-foreground: oklch(0.65 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.23 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.9 0 0);
+  --muted-foreground: oklch(0.18 0 0);
   --accent: oklch(0.65 0.12 85);
   --accent-foreground: oklch(0.1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.98 0 0);
+  --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.35 0 0);
-  --input: oklch(0.85 0 0);
+  --input: oklch(0.35 0 0);
   --ring: oklch(0.65 0.12 85);
+  --radius: 0.5rem;
 }
 
 @theme {
@@ -49,6 +50,13 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) * 1.5);
+  --radius-xl: calc(var(--radius) * 2);
+  --radius-2xl: calc(var(--radius) * 3);
+  --radius-full: 9999px;
 }
 
 /* Focus ring for accessibility */
@@ -56,12 +64,6 @@
   outline: 3px solid oklch(0.65 0.12 85);
   outline-offset: 2px;
   box-shadow: 0 0 0 2px oklch(0.65 0.12 85 / 0.35);
-}
-
-/* Gold button hover state */
-.btn-gold:hover {
-  background-color: oklch(0.6 0.12 85);
-  color: oklch(1 0 0);
 }
 
 /* Consistent gold hover effects for all interactive elements */
@@ -112,7 +114,7 @@ button:disabled,
     color: white !important;
     transition: all 0.2s ease;
   }
-  
+
   .mobile-nav-link:hover {
     background-color: var(--accent) !important;
     color: var(--accent-foreground) !important;
@@ -120,11 +122,16 @@ button:disabled,
   }
 }
 
-/* Logo styles without glow effects */
+/* Logo glow effects */
 .logo-glow {
-  transition: opacity 0.3s ease;
+  text-shadow: 0 0 10px var(--accent);
 }
 
+.logo-glow-enhanced {
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+
+/* Dialog overlay and content */
 .dialog-overlay {
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
@@ -135,6 +142,7 @@ button:disabled,
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
+/* Animation keyframes */
 @keyframes overlay-show {
   from {
     opacity: 0;
@@ -159,49 +167,49 @@ button:disabled,
 .password-strength {
   width: 100%;
   height: 4px;
-  background-color: var(--muted);
+  background: var(--border);
   border-radius: 2px;
   overflow: hidden;
 }
 
 .password-strength-bar {
   height: 100%;
-  transition: all 0.3s ease;
-  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-.password-strength-weak {
+.password-strength-weak .password-strength-bar {
   width: 25%;
   background-color: #ef4444;
 }
 
-.password-strength-medium {
+.password-strength-medium .password-strength-bar {
   width: 50%;
   background-color: #f59e0b;
 }
 
-.password-strength-strong {
+.password-strength-strong .password-strength-bar {
   width: 75%;
   background-color: #10b981;
 }
 
-.password-strength-very-strong {
+.password-strength-very-strong .password-strength-bar {
   width: 100%;
   background-color: var(--accent);
 }
 
-/* Skip Link for Accessibility */
+/* Skip link for accessibility */
 .skip-link {
   position: absolute;
   top: -40px;
   left: 6px;
-  z-index: 9999;
   background: var(--accent);
   color: var(--accent-foreground);
   padding: 8px;
-  text-decoration: none;
   border-radius: 4px;
-  font-weight: 600;
+  text-decoration: none;
+  z-index: 100;
+  transition: top 0.3s;
 }
 
 .skip-link:focus {
