@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
-/* Radix UI Color imports */
-@import '@radix-ui/colors/sage.css' layer(base);
-@import '@radix-ui/colors/sage-dark.css' layer(base);
-@import '@radix-ui/colors/olive.css' layer(base);
-@import '@radix-ui/colors/olive-dark.css' layer(base);
-@import '@radix-ui/colors/sand.css' layer(base);
+@import '@radix-ui/colors/sa
+@import '@radix-ui/colors/olive-dark.css' layer(
 @import '@radix-ui/colors/sand-dark.css' layer(base);
-@import '@radix-ui/colors/red.css' layer(base);
-@import '@radix-ui/colors/red-dark.css' layer(base);
-@import '@radix-ui/colors/ruby.css' layer(base);
+@import '@radix-ui/colors/red-dark.css' layer(bas
 @import '@radix-ui/colors/ruby-dark.css' layer(base);
-@import '@radix-ui/colors/crimson.css' layer(base);
-@import '@radix-ui/colors/crimson-dark.css' layer(base);
-@import '@radix-ui/colors/pink.css' layer(base);
+@import '@radix-ui/colors/crimson-dark.css' laye
+@import '@radix-ui/colors/pink-dark.css' layer(base);
+@import '@radix-ui/colors/plum-dark.css' layer(
+@import '@radix-ui/colors/jade-dark.css' layer(base)
+@import '@radix-ui/colors/green-dark.css' layer(
+@import '@radix-ui/colors/grass-dark.css' layer(base)
+@import '@radix-ui/colors/bronze-dark.css' layer(ba
+@import '@radix-ui/colors/gold-dark.css' layer(base);
+@import '@radix-ui/colors/brown-dark.css' layer(
 @import '@radix-ui/colors/pink-dark.css' layer(base);
 @import '@radix-ui/colors/plum.css' layer(base);
 @import '@radix-ui/colors/plum-dark.css' layer(base);
@@ -38,7 +38,7 @@
 @import '@radix-ui/colors/lime.css' layer(base);
 @import '@radix-ui/colors/lime-dark.css' layer(base);
 @import '@radix-ui/colors/mint.css' layer(base);
-@import '@radix-ui/colors/mint-dark.css' layer(base);
+
 @import '@radix-ui/colors/sky.css' layer(base);
 @import '@radix-ui/colors/sky-dark.css' layer(base);
 @import '@radix-ui/colors/tomato.css' layer(base);
@@ -46,15 +46,15 @@
 @import '@radix-ui/colors/gray.css' layer(base);
 @import '@radix-ui/colors/gray-dark.css' layer(base);
 @import '@radix-ui/colors/mauve.css' layer(base);
-@import '@radix-ui/colors/mauve-dark.css' layer(base);
+}
 @import '@radix-ui/colors/slate.css' layer(base);
 @import '@radix-ui/colors/slate-dark.css' layer(base);
 @import '@radix-ui/colors/slate-alpha.css' layer(base);
 @import '@radix-ui/colors/slate-dark-alpha.css' layer(base);
 
-@import 'tailwindcss/preflight' layer(base);
+    --size-3: calc(0.75rem * 1);
 
-/*
+  
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
   looks the same as it did with Tailwind CSS v3.
@@ -62,70 +62,70 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    --indigo-
+    
+    --jade
+    --grass
+    --gold-co
+    --orange-contrast: #ff
+    --yellow-contrast: #000;
+   
+ 
+
+    --olive-c
+
+    --font-sans-serif: 
+      "Apple Color
+      "Liberation Mono", "Courie
+
+    --color-neutral-1: var(--gray-1
+    --color-neutral-3: var(--gra
+    --color-neutral-5: var(--
+    --color-neutral-7: var(--gra
+    --color-neutral-9: var(--gr
+    --color-neutral-11: var(--gr
+
+    --color-bg: var(--color-neut
+    --color-bg-overlay: var(--co
+
+  #spark-app.dark-theme {
+    --color-bg-inset: #000000;
   }
-}
 
-@layer base {
-  :root {
-    /* Spacing scale */
-    --size-0: 0px;
-    --size-1: calc(0.25rem * 1);
-    --size-2: calc(0.5rem * 1);
-    --size-2-5: calc(0.625rem * 1);
-    --size-3: calc(0.75rem * 1);
-    --size-4: calc(1rem * 1);
-    --size-5: calc(1.25rem * 1);
-    --size-6: calc(1.5rem * 1);
-    --size-7: calc(1.75rem * 1);
-    --size-8: calc(2rem * 1);
-    --size-9: calc(2.25rem * 1);
-    --size-10: calc(2.5rem * 1);
-    --size-11: calc(2.75rem * 1);
-    --size-12: calc(3rem * 1);
-    --size-14: calc(3.5rem * 1);
-    --size-16: calc(4rem * 1);
-    --size-20: calc(5rem * 1);
-    --size-24: calc(6rem * 1);
-    --size-28: calc(7rem * 1);
-    --size-32: calc(8rem * 1);
-    --size-36: calc(9rem * 1);
-    --size-40: calc(10rem * 1);
-    --size-44: calc(11rem * 1);
-    --size-48: calc(12rem * 1);
-    --size-52: calc(13rem * 1);
-    --size-56: calc(14rem * 1);
-    --size-60: calc(15rem * 1);
-    --size-64: calc(16rem * 1);
-    --size-72: calc(18rem * 1);
-    --size-80: calc(20rem * 1);
-    --size-96: calc(24rem * 1);
 
-    /* Border radii */
-    --radius-sm: calc(4px * 1);
-    --radius-md: calc(6px * 1);
-    --radius-lg: calc(8px * 1);
-    --radius-xl: calc(12px * 1);
-    --radius-2xl: calc(16px * 1);
-    --radius-3xl: calc(24px * 1);
-    --radius-full: 9999px;
 
-    /* Color contrast values */
-    --tomato-contrast: #fff;
-    --red-contrast: #fff;
-    --ruby-contrast: #fff;
-    --crimson-contrast: #fff;
-    --pink-contrast: #fff;
-    --plum-contrast: #fff;
-    --purple-contrast: #fff;
-    --violet-contrast: #fff;
-    --iris-contrast: #fff;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     --indigo-contrast: #fff;
     --blue-contrast: #fff;
     --cyan-contrast: #fff;
@@ -174,13 +174,12 @@
     /* Default theme colors */
     --color-bg: var(--color-neutral-1);
     --color-bg-inset: var(--color-neutral-2);
-    --color-bg-overlay: var(--color-neutral-3);
-  }
 
-  /* Dark theme overrides */
-  #spark-app.dark-theme {
-    --color-bg: var(--gray-dark-1);
-    --color-bg-inset: #000000;
-    --color-bg-overlay: var(--gray-dark-3);
-  }
-}
+
+
+
+
+
+
+
+

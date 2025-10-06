@@ -1239,39 +1239,12 @@ function App() {
               </div>
             </div>
 
-            {/* Bottom Row - Navigation and Controls */}
-            <div className="grid grid-cols-6 gap-1 items-center">
+            {/* Bottom Row - Navigation and Language */}
+            <div className="grid grid-cols-4 gap-1 items-center">
               {/* Navigation Links - First 3 columns */}
               <a href="#" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.home')}</a>
               <a href="#properties" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.properties')}</a>
               <a href="#contact" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.contact')}</a>
-              
-              {/* Font Size Controls */}
-              <div className="flex items-center border border-border rounded">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
-                  className="w-5 h-5 p-0 rounded-r-none border-r border-border text-white hover:bg-accent hover:text-accent-foreground"
-                  aria-label="ลดขนาดตัวอักษร"
-                  disabled={fontSize === 'small'}
-                >
-                  <Minus size={8} />
-                </Button>
-                <div className="px-1 text-xs font-medium min-w-[12px] text-center text-white">
-                  <TextAa size={8} />
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
-                  className="w-5 h-5 p-0 rounded-l-none border-l border-border text-white hover:bg-accent hover:text-accent-foreground"
-                  aria-label="เพิ่มขนาดตัวอักษร"
-                  disabled={fontSize === 'large'}
-                >
-                  <Plus size={8} />
-                </Button>
-              </div>
               
               {/* Language Selector - Custom styled without arrow */}
               <div className="relative">
