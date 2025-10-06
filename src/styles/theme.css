@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+/* Radix UI Color imports */
+@import '@radix-ui/colors/sage.css' layer(base);
 @import '@radix-ui/colors/sage-dark.css' layer(base);
 @import '@radix-ui/colors/olive.css' layer(base);
 @import '@radix-ui/colors/olive-dark.css' layer(base);
@@ -15,20 +17,6 @@
 @import '@radix-ui/colors/pink-dark.css' layer(base);
 @import '@radix-ui/colors/plum.css' layer(base);
 @import '@radix-ui/colors/plum-dark.css' layer(base);
-@import '@radix-ui/colors/purple.css' layer(base);
-@import '@radix-ui/colors/purple-dark.css' layer(base);
-@import '@radix-ui/colors/violet.css' layer(base);
-@import '@radix-ui/colors/violet-dark.css' layer(base);
-@import '@radix-ui/colors/iris.css' layer(base);
-@import '@radix-ui/colors/iris-dark.css' layer(base);
-@import '@radix-ui/colors/indigo.css' layer(base);
-@import '@radix-ui/colors/indigo-dark.css' layer(base);
-@import '@radix-ui/colors/blue.css' layer(base);
-@import '@radix-ui/colors/blue-dark.css' layer(base);
-@import '@radix-ui/colors/cyan.css' layer(base);
-@import '@radix-ui/colors/cyan-dark.css' layer(base);
-@import '@radix-ui/colors/teal.css' layer(base);
-@import '@radix-ui/colors/teal-dark.css' layer(base);
 @import '@radix-ui/colors/jade.css' layer(base);
 @import '@radix-ui/colors/jade-dark.css' layer(base);
 @import '@radix-ui/colors/green.css' layer(base);
@@ -64,7 +52,6 @@
 @import '@radix-ui/colors/slate-alpha.css' layer(base);
 @import '@radix-ui/colors/slate-dark-alpha.css' layer(base);
 
-@import 'tailwindcss/theme' layer(theme);
 @import 'tailwindcss/preflight' layer(base);
 
 /*
@@ -86,7 +73,50 @@
 }
 
 @layer base {
-  #spark-app {
+  :root {
+    /* Spacing scale */
+    --size-0: 0px;
+    --size-1: calc(0.25rem * 1);
+    --size-2: calc(0.5rem * 1);
+    --size-2-5: calc(0.625rem * 1);
+    --size-3: calc(0.75rem * 1);
+    --size-4: calc(1rem * 1);
+    --size-5: calc(1.25rem * 1);
+    --size-6: calc(1.5rem * 1);
+    --size-7: calc(1.75rem * 1);
+    --size-8: calc(2rem * 1);
+    --size-9: calc(2.25rem * 1);
+    --size-10: calc(2.5rem * 1);
+    --size-11: calc(2.75rem * 1);
+    --size-12: calc(3rem * 1);
+    --size-14: calc(3.5rem * 1);
+    --size-16: calc(4rem * 1);
+    --size-20: calc(5rem * 1);
+    --size-24: calc(6rem * 1);
+    --size-28: calc(7rem * 1);
+    --size-32: calc(8rem * 1);
+    --size-36: calc(9rem * 1);
+    --size-40: calc(10rem * 1);
+    --size-44: calc(11rem * 1);
+    --size-48: calc(12rem * 1);
+    --size-52: calc(13rem * 1);
+    --size-56: calc(14rem * 1);
+    --size-60: calc(15rem * 1);
+    --size-64: calc(16rem * 1);
+    --size-72: calc(18rem * 1);
+    --size-80: calc(20rem * 1);
+    --size-96: calc(24rem * 1);
+
+    /* Border radii */
+    --radius-sm: calc(4px * 1);
+    --radius-md: calc(6px * 1);
+    --radius-lg: calc(8px * 1);
+    --radius-xl: calc(12px * 1);
+    --radius-2xl: calc(16px * 1);
+    --radius-3xl: calc(24px * 1);
+    --radius-full: 9999px;
+
+    /* Color contrast values */
     --tomato-contrast: #fff;
     --red-contrast: #fff;
     --ruby-contrast: #fff;
@@ -104,7 +134,7 @@
     --green-contrast: #fff;
     --grass-contrast: #fff;
     --bronze-contrast: #fff;
-    --gold-contrast: #fff;
+    --gold-contrast: #000;
     --brown-contrast: #fff;
     --orange-contrast: #fff;
     --amber-contrast: #000;
@@ -119,143 +149,38 @@
     --olive-contrast: #fff;
     --sand-contrast: #fff;
 
-    /**
-   * Spacing scale
-   *
-   * These variables define a spacing scale based on Tailwind's default.
-   * We've introduced a --size-scale variable as a multiplier.
-   * By adjusting this single value, we can proportionally
-   * scale all spacing throughout the entire application.
-   *
-   * https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale
-   */
-    --size-scale: 1;
-    --size-0: 0px;
-    --size-px: 1px;
-    --size-0-5: calc(0.125rem * var(--size-scale));
-    --size-1: calc(0.25rem * var(--size-scale));
-    --size-1-5: calc(0.375rem * var(--size-scale));
-    --size-2: calc(0.5rem * var(--size-scale));
-    --size-2-5: calc(0.625rem * var(--size-scale));
-    --size-3: calc(0.75rem * var(--size-scale));
-    --size-3-5: calc(0.875rem * var(--size-scale));
-    --size-4: calc(1rem * var(--size-scale));
-    --size-5: calc(1.25rem * var(--size-scale));
-    --size-6: calc(1.5rem * var(--size-scale));
-    --size-7: calc(1.75rem * var(--size-scale));
-    --size-8: calc(2rem * var(--size-scale));
-    --size-9: calc(2.25rem * var(--size-scale));
-    --size-10: calc(2.5rem * var(--size-scale));
-    --size-11: calc(2.75rem * var(--size-scale));
-    --size-12: calc(3rem * var(--size-scale));
-    --size-14: calc(3.5rem * var(--size-scale));
-    --size-16: calc(4rem * var(--size-scale));
-    --size-20: calc(5rem * var(--size-scale));
-    --size-24: calc(6rem * var(--size-scale));
-    --size-28: calc(7rem * var(--size-scale));
-    --size-32: calc(8rem * var(--size-scale));
-    --size-36: calc(9rem * var(--size-scale));
-    --size-40: calc(10rem * var(--size-scale));
-    --size-44: calc(11rem * var(--size-scale));
-    --size-48: calc(12rem * var(--size-scale));
-    --size-52: calc(13rem * var(--size-scale));
-    --size-56: calc(14rem * var(--size-scale));
-    --size-60: calc(15rem * var(--size-scale));
-    --size-64: calc(16rem * var(--size-scale));
-    --size-72: calc(18rem * var(--size-scale));
-    --size-80: calc(20rem * var(--size-scale));
-    --size-96: calc(24rem * var(--size-scale));
-
-    /* Border radii */
-    --radius-factor: 1;
-    --radius-sm: calc(2px * var(--radius-factor) * var(--size-scale));
-    --radius-md: calc(6px * var(--radius-factor) * var(--size-scale));
-    --radius-lg: calc(8px * var(--radius-factor) * var(--size-scale));
-    --radius-xl: calc(12px * var(--radius-factor) * var(--size-scale));
-    --radius-2xl: calc(16px * var(--radius-factor) * var(--size-scale));
-    --radius-full: 9999px;
-
-    /* Neutral colors */
-    --color-neutral-1: var(--slate-1);
-    --color-neutral-2: var(--slate-2);
-    --color-neutral-3: var(--slate-3);
-    --color-neutral-4: var(--slate-4);
-    --color-neutral-5: var(--slate-5);
-    --color-neutral-6: var(--slate-6);
-    --color-neutral-7: var(--slate-7);
-    --color-neutral-8: var(--slate-8);
-    --color-neutral-9: var(--slate-9);
-    --color-neutral-10: var(--slate-10);
-    --color-neutral-11: var(--slate-11);
-    --color-neutral-12: var(--slate-12);
-    --color-neutral-a1: var(--slate-a1);
-    --color-neutral-a2: var(--slate-a2);
-    --color-neutral-a3: var(--slate-a3);
-    --color-neutral-a4: var(--slate-a4);
-    --color-neutral-a5: var(--slate-a5);
-    --color-neutral-a6: var(--slate-a6);
-    --color-neutral-a7: var(--slate-a7);
-    --color-neutral-a8: var(--slate-a8);
-    --color-neutral-a9: var(--slate-a9);
-    --color-neutral-a10: var(--slate-a10);
-    --color-neutral-a11: var(--slate-a11);
-    --color-neutral-a12: var(--slate-a12);
-    --color-neutral-contrast: var(--slate-contrast);
-
-    /* Accent colors */
-    --color-accent-1: var(--blue-1);
-    --color-accent-2: var(--blue-2);
-    --color-accent-3: var(--blue-3);
-    --color-accent-4: var(--blue-4);
-    --color-accent-5: var(--blue-5);
-    --color-accent-6: var(--blue-6);
-    --color-accent-7: var(--blue-7);
-    --color-accent-8: var(--blue-8);
-    --color-accent-9: var(--blue-9);
-    --color-accent-10: var(--blue-10);
-    --color-accent-11: var(--blue-11);
-    --color-accent-12: var(--blue-12);
-    --color-accent-contrast: var(--blue-contrast);
-
-    /* Secondary accent colors */
-    --color-accent-secondary-1: var(--violet-1);
-    --color-accent-secondary-2: var(--violet-2);
-    --color-accent-secondary-3: var(--violet-3);
-    --color-accent-secondary-4: var(--violet-4);
-    --color-accent-secondary-5: var(--violet-5);
-    --color-accent-secondary-6: var(--violet-6);
-    --color-accent-secondary-7: var(--violet-7);
-    --color-accent-secondary-8: var(--violet-8);
-    --color-accent-secondary-9: var(--violet-9);
-    --color-accent-secondary-10: var(--violet-10);
-    --color-accent-secondary-11: var(--violet-11);
-    --color-accent-secondary-12: var(--violet-12);
-    --color-accent-secondary-contrast: var(--violet-contrast);
-
-    /* Foreground colors */
-    --color-fg: var(--color-neutral-12);
-    --color-fg-secondary: var(--color-neutral-a11);
-
-    /* Background colors */
-    --color-bg: #ffffff;
-    --color-bg-inset: var(--color-neutral-2);
-    --color-bg-overlay: #ffffff;
-
-    /* Focus ring */
-    --color-focus-ring: var(--color-accent-9);
-
-    /* Fonts */
-    --font-sans-serif: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    /* Font families */
+    --font-sans-serif: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
       "Liberation Mono", "Courier New", monospace;
     --font-family: var(--font-sans-serif);
+
+    /* Neutral colors - using gray scale */
+    --color-neutral-1: var(--gray-1);
+    --color-neutral-2: var(--gray-2);
+    --color-neutral-3: var(--gray-3);
+    --color-neutral-4: var(--gray-4);
+    --color-neutral-5: var(--gray-5);
+    --color-neutral-6: var(--gray-6);
+    --color-neutral-7: var(--gray-7);
+    --color-neutral-8: var(--gray-8);
+    --color-neutral-9: var(--gray-9);
+    --color-neutral-10: var(--gray-10);
+    --color-neutral-11: var(--gray-11);
+    --color-neutral-12: var(--gray-12);
+
+    /* Default theme colors */
+    --color-bg: var(--color-neutral-1);
+    --color-bg-inset: var(--color-neutral-2);
+    --color-bg-overlay: var(--color-neutral-3);
   }
 
+  /* Dark theme overrides */
   #spark-app.dark-theme {
-    --color-bg: var(--color-neutral-1);
+    --color-bg: var(--gray-dark-1);
     --color-bg-inset: #000000;
-    --color-bg-overlay: var(--color-neutral-3);
+    --color-bg-overlay: var(--gray-dark-3);
   }
 }
