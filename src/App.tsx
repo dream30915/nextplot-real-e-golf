@@ -1100,7 +1100,6 @@ function App() {
       <a href="#main-content" className="skip-link">
         ข้ามไปเนื้อหาหลัก
       </a>
-
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
         <div className="container mx-auto px-4 py-4">
@@ -1312,7 +1311,6 @@ function App() {
           )}
         </div>
       </header>
-
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-br from-background to-card">
         <div className="container mx-auto px-4 text-center">
@@ -1332,7 +1330,6 @@ function App() {
           </div>
         </div>
       </section>
-
       {/* Search & Filters */}
       <section id="properties" className="py-8 bg-card border-b border-border search-filter-section">
         <div className="container mx-auto px-4">
@@ -1663,7 +1660,6 @@ function App() {
           </div>
         </div>
       </section>
-
       {/* Properties Grid */}
       <main id="main-content" className="py-8" role="main">
         <div className="container mx-auto px-4">
@@ -1811,7 +1807,6 @@ function App() {
           )}
         </div>
       </main>
-
       {/* Property Detail Modal */}
       <Dialog open={showPropertyModal} onOpenChange={setShowPropertyModal}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -2009,7 +2004,6 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Share Modal */}
       <Dialog open={showShareModal} onOpenChange={setShowShareModal}>
         <DialogContent className="max-w-md">
@@ -2090,7 +2084,6 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Contact Form Modal */}
       <Dialog open={showContactForm} onOpenChange={setShowContactForm}>
         <DialogContent className="max-w-md">
@@ -2210,7 +2203,6 @@ function App() {
           </form>
         </DialogContent>
       </Dialog>
-
       {/* Auth Modal (Login/Register/Forgot) */}
       <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
         <DialogContent className="max-w-md">
@@ -2762,24 +2754,23 @@ function App() {
           </div>
         </DialogContent>
       </Dialog>
-
       {/* Footer */}
       <footer className="bg-card border-t border-border py-8 mt-16" role="contentinfo">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Logo & Description */}
             <div>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden">
                   <img 
                     src={nextplotLogo} 
                     alt="NextPlot Logo" 
                     className="w-full h-full object-contain p-1 logo-glow-enhanced"
                   />
                 </div>
-                <div>
+                <div className="text-center">
                   <div className="text-xl font-bold text-accent">NextPlot</div>
-                  <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+                  <div className="text-sm text-accent font-semibold logo-glow">PLOT FOR SALE</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
@@ -2793,20 +2784,20 @@ function App() {
                 {currentLang === 'th' ? 'เมนู' : currentLang === 'en' ? 'Menu' : '菜单'}
               </h3>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.home')}
                 </a>
-                <a href="#properties" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#properties" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.properties')}
                 </a>
-                <a href="#contact" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#contact" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.contact')}
                 </a>
                 <a 
                   href="https://landsmaps.dol.go.th/" 
                   target="_blank" 
                   rel="noopener"
-                  className="block text-sm text-muted-foreground hover:text-accent transition-colors"
+                  className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors"
                 >
                   {t('nav.landsmaps')}
                 </a>
@@ -2819,10 +2810,10 @@ function App() {
                 {currentLang === 'th' ? 'นโยบาย' : currentLang === 'en' ? 'Policy' : '政策'}
               </h3>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('footer.privacy')}
                 </a>
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('footer.terms')}
                 </a>
               </div>
@@ -2837,7 +2828,7 @@ function App() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 export default App
