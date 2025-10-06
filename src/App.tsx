@@ -55,6 +55,7 @@ const translations = {
     'filter.areaMin': 'พื้นที่ต่ำสุด',
     'filter.areaMax': 'พื้นที่สูงสุด',
     'filter.status': 'สถานะ',
+    'filter.status.all': 'ทั้งหมด',
     'filter.sort': 'เรียงตาม',
     'filter.apply': 'ค้นหา',
     'filter.clear': 'ล้างตัวกรอง',
@@ -151,6 +152,7 @@ const translations = {
     'filter.areaMin': 'Min Area',
     'filter.areaMax': 'Max Area',
     'filter.status': 'Status',
+    'filter.status.all': 'All',
     'filter.sort': 'Sort by',
     'filter.apply': 'Search',
     'filter.clear': 'Clear Filters',
@@ -247,6 +249,7 @@ const translations = {
     'filter.areaMin': '最小面积',
     'filter.areaMax': '最大面积',
     'filter.status': '状态',
+    'filter.status.all': '全部',
     'filter.sort': '排序',
     'filter.apply': '搜索',
     'filter.clear': '清除筛选',
@@ -450,7 +453,7 @@ function App() {
     priceMax: '',
     areaMin: '',
     areaMax: '',
-    status: '',
+    status: 'all',
     sort: 'latest'
   })
   
@@ -573,7 +576,7 @@ function App() {
     }
     
     // Status filter
-    if (filters.status) {
+    if (filters.status && filters.status !== 'all') {
       filtered = filtered.filter(p => p.status === filters.status)
     }
     
@@ -869,7 +872,7 @@ function App() {
                   <SelectValue placeholder={t('filter.status')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{t('filter.status')}</SelectItem>
+                  <SelectItem value="all">{t('filter.status.all')}</SelectItem>
                   <SelectItem value="available">{t('status.available')}</SelectItem>
                   <SelectItem value="reserved">{t('status.reserved')}</SelectItem>
                   <SelectItem value="sold">{t('status.sold')}</SelectItem>
@@ -902,7 +905,7 @@ function App() {
                 priceMax: '',
                 areaMin: '',
                 areaMax: '',
-                status: '',
+                status: 'all',
                 sort: 'latest'
               })}
               variant="outline"
@@ -1144,7 +1147,7 @@ function App() {
                   priceMax: '',
                   areaMin: '',
                   areaMax: '',
-                  status: '',
+                  status: 'all',
                   sort: 'latest'
                 })}
                 variant="outline"
