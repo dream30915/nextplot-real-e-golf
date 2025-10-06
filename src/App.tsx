@@ -1242,9 +1242,9 @@ function App() {
             {/* Bottom Row - Navigation and Language */}
             <div className="grid grid-cols-4 gap-1 items-center">
               {/* Navigation Links - First 3 columns */}
-              <a href="#" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.home')}</a>
-              <a href="#properties" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.properties')}</a>
-              <a href="#contact" className="text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">{t('nav.contact')}</a>
+              <a href="#" className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-400 text-center px-2 py-1 border border-accent rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-[0_0_10px_rgba(201,161,74,0.3)]">{t('nav.home')}</a>
+              <a href="#properties" className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-400 text-center px-2 py-1 border border-accent rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-[0_0_10px_rgba(201,161,74,0.3)]">{t('nav.properties')}</a>
+              <a href="#contact" className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-400 text-center px-2 py-1 border border-accent rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-[0_0_10px_rgba(201,161,74,0.3)]">{t('nav.contact')}</a>
               
               {/* Language Selector - Custom styled without arrow */}
               <div className="relative">
@@ -1253,7 +1253,7 @@ function App() {
                     const nextLang = (currentLang || 'th') === 'th' ? 'en' : (currentLang || 'th') === 'en' ? 'zh' : 'th'
                     changeLanguage(nextLang)
                   }}
-                  className="w-full text-xs text-white text-center px-2 py-1 border border-border rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors"
+                  className="w-full text-xs text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-400 text-center px-2 py-1 border border-accent rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-[0_0_10px_rgba(201,161,74,0.3)]"
                 >
                   {(currentLang || 'th').toUpperCase()}
                 </button>
