@@ -534,21 +534,46 @@ const sampleProperties: Property[] = [
     media: [
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+        src: 'https://images.unsplash.com/photo-1464822759844-d150ad6082ba?w=800&q=80',
         alt: 'property.title.3'
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
-        alt: 'Commercial building interior'
+        src: 'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&q=80',
+        alt: 'Commercial building exterior'
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80',
-        alt: 'Commercial location view'
+        src: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80',
+        alt: 'Commercial area view'
       }
     ],
     zoning: { name: 'zoning.red', colorHex: '#F44336', note: 'zoning.red.note' }
+  },
+  {
+    id: '4',
+    code: 'NP004',
+    title: 'property.title.1',
+    location: 'property.location.1', 
+    price: 3500000,
+    currency: 'THB',
+    area: { value: 1200, unit: 'sqm' },
+    status: 'available',
+    tags: ['property.tag.investment', 'property.tag.titleDeedReady'],
+    isSensitive: false,
+    media: [
+      {
+        type: 'image',
+        src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
+        alt: 'Beautiful vacant land'
+      },
+      {
+        type: 'image', 
+        src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&q=80',
+        alt: 'Open field view'
+      }
+    ],
+    zoning: { name: 'zoning.yellow', colorHex: '#FFEB3B', note: 'zoning.yellow.note' }
   }
 ]
 
@@ -1524,13 +1549,22 @@ function App() {
             {filteredProperties.map((property) => (
               <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
                 <div className="relative aspect-[4/3] bg-muted flex-shrink-0">
-                  {property.media[0] && (
+                  {property.media[0] ? (
                     <img
                       src={property.media[0].src}
                       alt={property.media[0].alt || t(property.title)}
                       className="w-full h-full object-cover"
                       loading="lazy"
+                      onError={(e) => {
+                        // Fallback to a default image if loading fails
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80';
+                      }}
                     />
+                  ) : (
+                    <div className="w-full h-full bg-muted flex items-center justify-center">
+                      <MapPin size={48} className="text-muted-foreground" />
+                    </div>
                   )}
                   
                   {/* Status Badge */}
@@ -2240,7 +2274,7 @@ function App() {
                   </div>
                   <div>
                     <Label htmlFor="register-lastName">
-                      {currentLang === 'th' ? 'นามสกุล' : 
+                      {currentLang === 'th' ? 'นาม���กุล' : 
                        currentLang === 'en' ? 'Last Name' : '姓氏'} *
                     </Label>
                     <Input
