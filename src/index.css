@@ -143,6 +143,246 @@ select:hover,
   filter: drop-shadow(0 0 8px var(--accent));
 }
 
+/* Golden glow effects for user interactions */
+.golden-glow {
+  box-shadow: 0 0 15px rgba(201, 161, 74, 0.3);
+  transition: all 0.3s ease;
+}
+
+.golden-glow:hover {
+  box-shadow: 0 0 25px rgba(201, 161, 74, 0.6), 0 0 40px rgba(201, 161, 74, 0.3);
+  transform: translateY(-2px);
+}
+
+.golden-glow:active {
+  box-shadow: 0 0 20px rgba(201, 161, 74, 0.8);
+  transform: translateY(0);
+}
+
+/* Button golden glow effects */
+.btn-golden-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-golden-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201, 161, 74, 0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-golden-glow:hover::before {
+  left: 100%;
+}
+
+.btn-golden-glow:hover {
+  box-shadow: 0 0 20px rgba(201, 161, 74, 0.5), inset 0 0 20px rgba(201, 161, 74, 0.1);
+  border-color: var(--accent);
+}
+
+/* Input field golden glow effects */
+.input-golden-glow {
+  transition: all 0.3s ease;
+}
+
+.input-golden-glow:focus {
+  box-shadow: 0 0 15px rgba(201, 161, 74, 0.4), 0 0 0 2px rgba(201, 161, 74, 0.2);
+  border-color: var(--accent);
+}
+
+/* Card golden glow effects */
+.card-golden-glow {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.card-golden-glow:hover {
+  box-shadow: 0 0 25px rgba(201, 161, 74, 0.3), 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-color: rgba(201, 161, 74, 0.5);
+  transform: translateY(-5px);
+}
+
+/* Property card special glow */
+.property-card-glow {
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.property-card-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(45deg, transparent, rgba(201, 161, 74, 0.3), transparent);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.property-card-glow:hover::after {
+  opacity: 1;
+}
+
+.property-card-glow:hover {
+  box-shadow: 0 0 30px rgba(201, 161, 74, 0.4), 0 15px 35px rgba(0, 0, 0, 0.3);
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Pulse golden glow animation */
+.pulse-golden-glow {
+  animation: pulseGolden 2s infinite;
+}
+
+@keyframes pulseGolden {
+  0% {
+    box-shadow: 0 0 10px rgba(201, 161, 74, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(201, 161, 74, 0.6), 0 0 40px rgba(201, 161, 74, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(201, 161, 74, 0.3);
+  }
+}
+
+/* Navigation golden glow */
+.nav-golden-glow {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-golden-glow::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.nav-golden-glow:hover::before {
+  width: 100%;
+}
+
+.nav-golden-glow:hover {
+  text-shadow: 0 0 8px rgba(201, 161, 74, 0.6);
+}
+
+/* Icon golden glow */
+.icon-golden-glow {
+  transition: all 0.3s ease;
+}
+
+.icon-golden-glow:hover {
+  filter: drop-shadow(0 0 8px var(--accent));
+  color: var(--accent);
+}
+
+/* Modal golden glow */
+.modal-golden-glow {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 50px rgba(201, 161, 74, 0.2);
+  border: 1px solid rgba(201, 161, 74, 0.3);
+}
+
+/* Search bar golden glow */
+.search-golden-glow {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.search-golden-glow:focus-within {
+  box-shadow: 0 0 20px rgba(201, 161, 74, 0.4);
+}
+
+.search-golden-glow:focus-within::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--accent), transparent, var(--accent));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Badge golden glow */
+.badge-golden-glow {
+  box-shadow: 0 0 10px rgba(201, 161, 74, 0.3);
+  transition: all 0.3s ease;
+}
+
+.badge-golden-glow:hover {
+  box-shadow: 0 0 15px rgba(201, 161, 74, 0.5);
+  transform: scale(1.05);
+}
+
+/* Loading golden glow */
+.loading-golden-glow {
+  background: linear-gradient(90deg, transparent, rgba(201, 161, 74, 0.6), transparent);
+  animation: loadingGolden 1.5s infinite;
+}
+
+@keyframes loadingGolden {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Text golden glow */
+.text-golden-glow {
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(201, 161, 74, 0.5);
+  transition: all 0.3s ease;
+}
+
+.text-golden-glow:hover {
+  text-shadow: 0 0 12px rgba(201, 161, 74, 0.8);
+}
+
+/* Ripple effect for clicks */
+.ripple-golden-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-golden-glow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(201, 161, 74, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.ripple-golden-glow:active::after {
+  width: 300px;
+  height: 300px;
+}
+
 /* Dialog overlay and content */
 .dialog-overlay {
   background: rgba(0, 0, 0, 0.6);
