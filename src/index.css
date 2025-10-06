@@ -8,34 +8,55 @@
 }
 
 :root {
-  /* Light Professional Theme with Gold Accents - Softer Gray */
-  --background: oklch(0.98 0 0); /* #FAFAFA - Very light gray */
-  --foreground: oklch(0.35 0 0); /* #595959 - Medium gray, easier to read */
+  /* Dark mode as default */
+  --background: oklch(0.15 0 0); /* Dark gray background */
+  --foreground: oklch(0.85 0 0); /* Light gray text */
 
-  --card: oklch(1 0 0); /* #FFFFFF - Pure white cards */
-  --card-foreground: oklch(0.35 0 0); /* #595959 - Medium gray text */
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.35 0 0);
+  --card: oklch(0.18 0 0); /* Slightly lighter dark cards */
+  --card-foreground: oklch(0.85 0 0); /* Light gray text on cards */
+  --popover: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.85 0 0);
 
-  --primary: oklch(0.35 0 0); /* #595959 - Medium gray instead of dark */
-  --primary-foreground: oklch(1 0 0); /* #FFFFFF - White text */
-  --secondary: oklch(0.94 0 0); /* #F0F0F0 - Light gray */
-  --secondary-foreground: oklch(0.35 0 0); /* #595959 - Medium gray text */
-  --muted: oklch(0.94 0 0); /* #F0F0F0 - Light gray */
-  --muted-foreground: oklch(0.55 0 0); /* #8C8C8C - Lighter medium gray */
+  --primary: oklch(0.85 0 0); /* Light gray for primary */
+  --primary-foreground: oklch(0.15 0 0); /* Dark text on light */
+  --secondary: oklch(0.22 0 0); /* Medium dark gray */
+  --secondary-foreground: oklch(0.85 0 0); /* Light text on secondary */
+  --muted: oklch(0.22 0 0); /* Medium dark gray */
+  --muted-foreground: oklch(0.65 0 0); /* Medium light gray */
 
   /* Luxury Gold Accent */
-  --accent: oklch(0.65 0.12 85); /* #B8941F - Rich gold */
-  --accent-foreground: oklch(1 0 0); /* #FFFFFF - White text on gold */
+  --accent: oklch(0.65 0.12 85); /* Rich gold */
+  --accent-foreground: oklch(1 0 0); /* White text on gold */
   
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.85 0 0); /* #D9D9D9 - Light border */
-  --input: oklch(0.85 0 0); /* #D9D9D9 - Light input border */
+  --border: oklch(0.25 0 0); /* Dark border */
+  --input: oklch(0.25 0 0); /* Dark input border */
   --ring: oklch(0.65 0.12 85); /* Gold focus ring */
 
   --radius: 0.5rem;
+}
+
+/* Light mode */
+:root[data-theme="light"] {
+  --background: oklch(0.98 0 0); /* Very light gray */
+  --foreground: oklch(0.35 0 0); /* Medium gray, easier to read */
+
+  --card: oklch(1 0 0); /* Pure white cards */
+  --card-foreground: oklch(0.35 0 0); /* Medium gray text */
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.35 0 0);
+
+  --primary: oklch(0.35 0 0); /* Medium gray instead of dark */
+  --primary-foreground: oklch(1 0 0); /* White text */
+  --secondary: oklch(0.94 0 0); /* Light gray */
+  --secondary-foreground: oklch(0.35 0 0); /* Medium gray text */
+  --muted: oklch(0.94 0 0); /* Light gray */
+  --muted-foreground: oklch(0.55 0 0); /* Lighter medium gray */
+
+  --border: oklch(0.85 0 0); /* Light border */
+  --input: oklch(0.85 0 0); /* Light input border */
 }
 
 /* System font stack with Thai support */

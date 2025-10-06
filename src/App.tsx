@@ -27,7 +27,9 @@ import {
   EyeSlash as EyeOff,
   CaretLeft as ChevronLeft,
   CaretRight as ChevronRight,
-  X
+  X,
+  Sun,
+  Moon
 } from '@phosphor-icons/react'
 
 // Translations
@@ -439,6 +441,9 @@ function App() {
   // Language state
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
+  // Theme state
+  const [theme, setTheme] = useKV('theme', 'dark')
+  
   // Property state - Initialize with sample data if empty
   const [properties, setProperties] = useKV<Property[]>('properties', sampleProperties)
   const [filteredProperties, setFilteredProperties] = useState<Property[]>([])
@@ -487,12 +492,31 @@ function App() {
     return translation || key
   }
   
-  // Set initial language on mount and ensure proper update
+  // Set initial language and theme on mount and ensure proper update
   useEffect(() => {
     if (currentLang) {
       document.documentElement.lang = currentLang
     }
-  }, [currentLang])
+    
+    // Apply theme to root element
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light')
+    } else {
+      document.documentElement.removeAttribute('data-theme')
+    }
+  }, [currentLang, theme])
+  
+  // Change theme
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    
+    if (newTheme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light')
+    } else {
+      document.documentElement.removeAttribute('data-theme')
+    }
+  }
   
   // Change language and update HTML lang attribute
   const changeLanguage = (lang: string) => {
@@ -768,6 +792,17 @@ function App() {
           
           {/* Controls */}
           <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="w-9 h-9 p-0"
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </Button>
+            
             {/* Language Selector */}
             <Select value={currentLang} onValueChange={changeLanguage}>
               <SelectTrigger className="w-16">
