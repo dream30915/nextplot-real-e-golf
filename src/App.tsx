@@ -1102,11 +1102,11 @@ function App() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
               <img 
                 src={nextplotLogo} 
                 alt="NextPlot Logo" 
-                className="w-8 h-8 object-contain"
+                className="w-full h-full object-contain p-1 logo-glow"
               />
             </div>
             <div>
@@ -2653,11 +2653,11 @@ function App() {
             {/* Logo & Description */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
                   <img 
                     src={nextplotLogo} 
                     alt="NextPlot Logo" 
-                    className="w-6 h-6 object-contain"
+                    className="w-full h-full object-contain p-1 logo-glow"
                   />
                 </div>
                 <div>
