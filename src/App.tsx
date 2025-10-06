@@ -479,10 +479,12 @@ function App() {
   
   // Translation helper
   const t = (key: string): string => {
-    return translations[currentLang as keyof typeof translations]?.[key as keyof typeof translations['th']] || key
+    const lang = currentLang as keyof typeof translations
+    const translation = translations[lang]?.[key as keyof typeof translations['th']]
+    return translation || key
   }
   
-  // Set initial language on mount
+  // Set initial language on mount and ensure proper update
   useEffect(() => {
     if (currentLang) {
       document.documentElement.lang = currentLang
@@ -493,6 +495,8 @@ function App() {
   const changeLanguage = (lang: string) => {
     setCurrentLang(lang)
     document.documentElement.lang = lang
+    // Force re-render by updating a dummy state
+    setFilters(prev => ({ ...prev }))
   }
   
   // Format area display
@@ -803,7 +807,7 @@ function App() {
       {/* Search & Filters */}
       <section id="properties" className="py-8 bg-card border-b border-border">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-6">
             {/* Search */}
             <div className="lg:col-span-2">
               <div className="relative">
@@ -842,6 +846,22 @@ function App() {
               />
             </div>
             
+            {/* Area Range */}
+            <div className="grid grid-cols-2 gap-2">
+              <Input
+                placeholder={t('filter.areaMin')}
+                type="number"
+                value={filters.areaMin}
+                onChange={(e) => setFilters(prev => ({ ...prev, areaMin: e.target.value }))}
+              />
+              <Input
+                placeholder={t('filter.areaMax')}
+                type="number"
+                value={filters.areaMax}
+                onChange={(e) => setFilters(prev => ({ ...prev, areaMax: e.target.value }))}
+              />
+            </div>
+            
             {/* Status */}
             <div>
               <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
@@ -849,6 +869,7 @@ function App() {
                   <SelectValue placeholder={t('filter.status')} />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="">{t('filter.status')}</SelectItem>
                   <SelectItem value="available">{t('status.available')}</SelectItem>
                   <SelectItem value="reserved">{t('status.reserved')}</SelectItem>
                   <SelectItem value="sold">{t('status.sold')}</SelectItem>
@@ -872,7 +893,7 @@ function App() {
           </div>
           
           {/* Filter Actions */}
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-2">
             <Button 
               onClick={() => setFilters({
                 keyword: '',
@@ -889,6 +910,110 @@ function App() {
             >
               {t('filter.clear')}
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Information Section */}
+      <section className="py-12 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* About NextPlot */}
+            <Card className="p-6">
+              <CardHeader className="p-0 mb-4">
+                <CardTitle className="text-xl">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <p className="text-muted-foreground mb-4">
+                  {currentLang === 'th' ? 
+                    'NextPlot เป็นแพลตฟอร์มอสังหาริมทรัพย์ครบวงจร ที่ให้บริการซื้อ-ขาย-เช่า และฝากขายที่ดิน บ้าน อาคารพาณิชย์ โกดัง และโรงงานทั่วประเทศไทย' :
+                    currentLang === 'en' ?
+                    'NextPlot is a comprehensive real estate platform offering buy-sell-rent and consignment services for land, houses, commercial buildings, warehouses, and factories throughout Thailand.' :
+                    'NextPlot 是一个综合性房地产平台，为泰国全境的土地、房屋、商业建筑、仓库和工厂提供买卖租赁和寄售服务。'
+                  }
+                </p>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    {currentLang === 'th' ? 'ระบบค้นหาขั้นสูง' : currentLang === 'en' ? 'Advanced Search System' : '高级搜索系统'}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    {currentLang === 'th' ? 'แชร์ได้หลายช่องทาง' : currentLang === 'en' ? 'Multi-channel Sharing' : '多渠道分享'}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    {currentLang === 'th' ? 'ระบบ PDPA ครบถ้วน' : currentLang === 'en' ? 'Complete PDPA System' : '完整的PDPA系统'}
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Land Area Guide */}
+            <Card className="p-6">
+              <CardHeader className="p-0 mb-4">
+                <CardTitle className="text-xl">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="space-y-3 text-sm">
+                  <div className="bg-card p-3 rounded-lg">
+                    <div className="font-medium mb-2">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
+                    <div className="space-y-1 text-muted-foreground">
+                      <div>1 {t('area.rai')} = 4 {t('area.ngan')} = 400 {t('area.wah')}</div>
+                      <div>1 {t('area.ngan')} = 100 {t('area.wah')}</div>
+                      <div>1 {t('area.wah')} = 4 {t('area.sqm')}</div>
+                    </div>
+                  </div>
+                  <div className="bg-card p-3 rounded-lg">
+                    <div className="font-medium mb-2">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
+                    <div className="space-y-1 text-muted-foreground">
+                      <div>1 {t('area.rai')} = 1,600 {t('area.sqm')}</div>
+                      <div>1 {t('area.ngan')} = 400 {t('area.sqm')}</div>
+                      <div>1 {t('area.wah')} = 4 {t('area.sqm')}</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Zoning Colors */}
+            <Card className="p-6">
+              <CardHeader className="p-0 mb-4">
+                <CardTitle className="text-xl">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 bg-yellow-400 rounded-full border border-border" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สีเหลือง' : currentLang === 'en' ? 'Yellow' : '黄色'}</div>
+                      <div className="text-muted-foreground">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นน้อย' : currentLang === 'en' ? 'Low-density residential' : '低密度住宅'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 bg-green-500 rounded-full border border-border" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สีเขียว' : currentLang === 'en' ? 'Green' : '绿色'}</div>
+                      <div className="text-muted-foreground">{currentLang === 'th' ? 'อนุรักษ์ชนบทและเกษตรกรรม' : currentLang === 'en' ? 'Rural conservation & agriculture' : '农村保护和农业'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 bg-red-500 rounded-full border border-border" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สีแดง' : currentLang === 'en' ? 'Red' : '红色'}</div>
+                      <div className="text-muted-foreground">{currentLang === 'th' ? 'พาณิชยกรรมและที่อยู่อาศัยหนาแน่นสูง' : currentLang === 'en' ? 'Commercial & high-density residential' : '商业和高密度住宅'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 bg-blue-500 rounded-full border border-border" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สีน้ำเงิน' : currentLang === 'en' ? 'Blue' : '蓝色'}</div>
+                      <div className="text-muted-foreground">{currentLang === 'th' ? 'อุตสาหกรรมและคลังสินค้า' : currentLang === 'en' ? 'Industrial & warehouse' : '工业和仓库'}</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -1006,7 +1131,27 @@ function App() {
           
           {filteredProperties.length === 0 && (
             <div className="text-center py-16">
-              <div className="text-muted-foreground text-lg">ไม่พบที่ดินที่ตรงกับเงื่อนไขการค้นหา</div>
+              <div className="text-muted-foreground text-lg">
+                {currentLang === 'th' ? 'ไม่พบที่ดินที่ตรงกับเงื่อนไขการค้นหา' : 
+                 currentLang === 'en' ? 'No properties found matching your search criteria' :
+                 '未找到符合搜索条件的房产'}
+              </div>
+              <Button 
+                onClick={() => setFilters({
+                  keyword: '',
+                  location: '',
+                  priceMin: '',
+                  priceMax: '',
+                  areaMin: '',
+                  areaMax: '',
+                  status: '',
+                  sort: 'latest'
+                })}
+                variant="outline"
+                className="mt-4"
+              >
+                {t('filter.clear')}
+              </Button>
             </div>
           )}
         </div>
@@ -1428,7 +1573,9 @@ function App() {
             
             {/* Quick Links */}
             <div>
-              <h3 className="font-semibold mb-4">เมนู</h3>
+              <h3 className="font-semibold mb-4">
+                {currentLang === 'th' ? 'เมนู' : currentLang === 'en' ? 'Menu' : '菜单'}
+              </h3>
               <div className="space-y-2">
                 <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
                   {t('nav.home')}
@@ -1452,7 +1599,9 @@ function App() {
             
             {/* Legal */}
             <div>
-              <h3 className="font-semibold mb-4">นโยบาย</h3>
+              <h3 className="font-semibold mb-4">
+                {currentLang === 'th' ? 'นโยบาย' : currentLang === 'en' ? 'Policy' : '政策'}
+              </h3>
               <div className="space-y-2">
                 <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
                   {t('footer.privacy')}
