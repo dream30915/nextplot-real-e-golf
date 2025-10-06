@@ -1101,17 +1101,17 @@ function App() {
       <header className="border-b border-border bg-card" role="banner">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
               <img 
                 src={nextplotLogo} 
                 alt="NextPlot Logo" 
-                className="w-full h-full object-contain p-1 logo-glow"
+                className="w-full h-full object-contain p-1 logo-glow-enhanced"
               />
             </div>
             <div>
-              <div className="text-xl font-bold text-accent">NextPlot</div>
-              <div className="text-xs text-accent/80">PLOT FOR SALE</div>
+              <div className="text-2xl font-bold text-accent">NextPlot</div>
+              <div className="text-sm text-accent/80">PLOT FOR SALE</div>
             </div>
           </div>
           
@@ -2652,17 +2652,17 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Logo & Description */}
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
                   <img 
                     src={nextplotLogo} 
                     alt="NextPlot Logo" 
-                    className="w-full h-full object-contain p-1 logo-glow"
+                    className="w-full h-full object-contain p-1 logo-glow-enhanced"
                   />
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-accent">NextPlot</div>
-                  <div className="text-xs text-accent/80">PLOT FOR SALE</div>
+                  <div className="text-xl font-bold text-accent">NextPlot</div>
+                  <div className="text-sm text-accent/80">PLOT FOR SALE</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
