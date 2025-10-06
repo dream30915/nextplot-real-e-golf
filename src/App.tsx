@@ -30,9 +30,7 @@ import {
   X,
   Sun,
   Moon,
-  TextAa,
-  Minus,
-  Plus
+  List
 } from '@phosphor-icons/react'
 import nextplotLogo from '@/assets/images/nextplot.png128.png'
 
@@ -582,9 +580,6 @@ function App() {
   // Language state
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
-  // Font size control state
-  const [fontSize, setFontSize] = useKV('fontSize', 'medium')
-  
   // Theme state
   const [theme, setTheme] = useKV('theme', 'dark')
   
@@ -653,8 +648,14 @@ function App() {
   // User state
   const [user, setUser] = useKV<{email: string, name: string} | null>('user', null)
   
+  // Mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  
   // Gallery state
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  
+  // Mobile menu state
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
   
   // Translation helper
   const t = (key: string): string => {
@@ -703,7 +704,7 @@ function App() {
     }
   }
   
-  // Set initial language, theme, and font size on mount
+  // Set initial language and theme on mount
   useEffect(() => {
     if (currentLang) {
       document.documentElement.lang = currentLang
@@ -715,15 +716,7 @@ function App() {
     } else {
       document.documentElement.removeAttribute('data-theme')
     }
-
-    // Apply font size
-    const fontSizeClasses = {
-      small: 'text-sm',
-      medium: 'text-base', 
-      large: 'text-lg'
-    }
-    document.documentElement.setAttribute('data-font-size', fontSize || 'medium')
-  }, [currentLang, theme, fontSize])
+  }, [currentLang, theme])
   
   // Change theme
   const toggleTheme = () => {
@@ -1087,10 +1080,7 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen bg-background text-foreground ${
-      fontSize === 'small' ? 'text-sm' : 
-      fontSize === 'large' ? 'text-lg' : 'text-base'
-    }`}>
+    <div className="min-h-screen bg-background text-foreground">
       <Toaster />
       {/* Skip Link for Accessibility */}
       <a href="#main-content" className="skip-link">
@@ -1098,9 +1088,87 @@ function App() {
       </a>
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
-        <div className="container mx-auto pl-1 pr-4 py-4">
-          {/* Desktop Layout */}
-          <div className="hidden md:flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+              <img 
+                src={nextplotLogo} 
+                alt="NextPlot Logo" 
+                className="w-full h-full object-contain p-1 logo-glow-enhanced"
+              />
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-accent">NextPlot</div>
+              <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+            </div>
+          </div>
+          
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
+            <a href="#" className="hover:text-accent transition-colors">{t('nav.home')}</a>
+            <a href="#properties" className="hover:text-accent transition-colors">{t('nav.properties')}</a>
+            <a href="#contact" className="hover:text-accent transition-colors">{t('nav.contact')}</a>
+            <a 
+              href="https://landsmaps.dol.go.th/" 
+              target="_blank" 
+              rel="noopener"
+              className="hover:text-accent transition-colors"
+            >
+              {t('nav.landsmaps')}
+            </a>
+          </nav>
+          
+          {/* Controls */}
+          <div className="flex items-center gap-3">
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden w-9 h-9 p-0"
+              aria-label={isMobileMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
+            >
+              {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
+            </Button>
+            
+            {/* Theme Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="w-9 h-9 p-0"
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </Button>
+            
+            {/* Language Selector */}
+            <Select value={currentLang} onValueChange={changeLanguage}>
+              <SelectTrigger className="w-16">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="th">TH</SelectItem>
+                <SelectItem value="en">EN</SelectItem>
+                <SelectItem value="zh">ZH</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <User size={16} />
+                  <span className="hidden sm:inline">{user.name}</span>
+                </div>
+              ) : (
+                t('nav.login')
+              )}
+            </Button>
+          </div>
+
+          {/* Mobile Header */}
+          <div className="md:hidden flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-1">
               <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden pulse-golden-glow">
@@ -1184,7 +1252,7 @@ function App() {
               </Select>
               
               <Button 
-                variant="outline" 
+                variant="ghost" 
                 size="sm" 
                 onClick={() => user ? handleLogout() : setShowAuthModal(true)} 
                 className="bg-accent/10 border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:border-accent btn-golden-glow ripple-golden-glow"
@@ -1198,80 +1266,146 @@ function App() {
                   t('nav.login')
                 )}
               </Button>
+              
+              {/* Mobile Menu Button - Gold background and border */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="w-10 h-10 p-0 bg-accent text-accent-foreground border border-accent"
+                aria-label="Menu"
+              >
+                <List size={20} />
+              </Button>
             </div>
           </div>
 
-          {/* Mobile Layout */}
-          <div className="md:hidden">
-            {/* Top Row - Logo, Theme Toggle, and Login */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-1">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden">
-                  <img 
-                    src={nextplotLogo} 
-                    alt="NextPlot Logo" 
-                    className="w-full h-full object-contain p-1 logo-glow-enhanced"
-                  />
-                </div>
-                <div className="text-center">
-                  <div className="font-bold text-accent font-mono text-xl">NextPlot</div>
-                  <div className="text-accent text-sm font-semibold logo-glow">PLOT FOR SALE</div>
-                </div>
+          {/* Mobile Menu Dropdown */}
+          {showMobileMenu && (
+            <div className="md:hidden mt-4 border-t border-accent pt-4 space-y-3">
+              {/* Language Selector */}
+              <div>
+                <Select value={currentLang} onValueChange={(value) => {
+                  changeLanguage(value);
+                  setShowMobileMenu(false);
+                }}>
+                  <SelectTrigger className="w-full bg-transparent border-accent text-accent">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="th">TH - ไทย</SelectItem>
+                    <SelectItem value="en">EN - English</SelectItem>
+                    <SelectItem value="zh">ZH - 中文</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
-              <div className="flex items-center gap-2">
-                {/* Theme Toggle */}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={toggleTheme}
-                  className="w-7 h-7 p-0 bg-accent/10 border border-accent text-accent hover:bg-accent hover:text-accent-foreground shadow-[0_0_10px_rgba(201,161,74,0.2)]"
-                  aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              {/* Navigation Links */}
+              <nav className="space-y-2" role="navigation" aria-label="Mobile navigation">
+                <a href="#" onClick={() => setShowMobileMenu(false)} className="block py-2 px-3 rounded border border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors">
+                  {t('nav.home')}
+                </a>
+                <a href="#properties" onClick={() => setShowMobileMenu(false)} className="block py-2 px-3 rounded border border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors">
+                  {t('nav.properties')}
+                </a>
+                <a href="#contact" onClick={() => setShowMobileMenu(false)} className="block py-2 px-3 rounded border border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors">
+                  {t('nav.contact')}
+                </a>
+                <a 
+                  href="https://landsmaps.dol.go.th/" 
+                  target="_blank" 
+                  rel="noopener"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="block py-2 px-3 rounded border border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                 >
-                  {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => user ? handleLogout() : setShowAuthModal(true)} 
-                  className="bg-accent/10 border-accent text-accent hover:bg-accent hover:text-accent-foreground hover:border-accent shadow-[0_0_15px_rgba(201,161,74,0.3)]"
-                >
-                  {user ? (
-                    <div className="flex items-center gap-1">
-                      <User size={14} />
-                      <span className="text-xs">{user.name.split(' ')[0]}</span>
+                  {t('nav.landsmaps')}
+                </a>
+              </nav>
+
+              {/* Information Sections */}
+              <div className="space-y-3 pt-3 border-t border-accent">
+                {/* About NextPlot */}
+                <div className="p-3 rounded border border-accent bg-transparent">
+                  <h3 className="font-semibold text-accent mb-2">
+                    {currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {currentLang === 'th' ? 
+                      'NextPlot เป็นแพลตฟอร์มอสังหาริมทรัพย์ครบวงจร ที่ให้บริการซื้อ-ขาย-เช่า และฝากขายที่ดิน บ้าน อาคารพาณิชย์ โกดัง และโรงงานทั่วประเทศไทย' :
+                      currentLang === 'en' ?
+                      'NextPlot is a comprehensive real estate platform offering buy-sell-rent and consignment services for land, houses, commercial buildings, warehouses, and factories throughout Thailand.' :
+                      'NextPlot 是一个综合性房地产平台，为泰国全境的土地、房屋、商业建筑、仓库和工厂提供买卖租赁和寄售服务。'
+                    }
+                  </p>
+                </div>
+
+                {/* Area Unit Guide */}
+                <div className="p-3 rounded border border-accent bg-transparent">
+                  <h3 className="font-semibold text-accent mb-2">
+                    {currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}
+                  </h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="text-muted-foreground">
+                      <div className="font-medium mb-1">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
+                      <div>1 {t('area.rai')} = 4 {t('area.ngan')} = 400 {t('area.wah')}</div>
+                      <div>1 {t('area.wah')} = 4 {t('area.sqm')}</div>
+                      <div>1 {t('area.rai')} = 1,600 {t('area.sqm')}</div>
                     </div>
-                  ) : (
-                    <span className="text-xs">{t('nav.login')}</span>
-                  )}
-                </Button>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Bottom Row - Navigation and Language */}
-            <div className="grid grid-cols-4 gap-1 items-center">
-              {/* Navigation Links - First 3 columns */}
-              <a href="#" className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-400 text-center px-2 py-1 border border-accent rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-[0_0_10px_rgba(201,161,74,0.3)]">{t('nav.home')}</a>
-              <a href="#properties" className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-400 text-center px-2 py-1 border border-accent rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-[0_0_10px_rgba(201,161,74,0.3)]">{t('nav.properties')}</a>
-              <a href="#contact" className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-400 text-center px-2 py-1 border border-accent rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-[0_0_10px_rgba(201,161,74,0.3)]">{t('nav.contact')}</a>
-              
-              {/* Language Selector - Custom styled without arrow */}
-              <div className="relative">
-                <button
-                  onClick={() => {
-                    const nextLang = (currentLang || 'th') === 'th' ? 'en' : (currentLang || 'th') === 'en' ? 'zh' : 'th'
-                    changeLanguage(nextLang)
-                  }}
-                  className="w-full text-xs text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-400 text-center px-2 py-1 border border-accent rounded hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-[0_0_10px_rgba(201,161,74,0.3)]"
-                >
-                  {(currentLang || 'th').toUpperCase()}
-                </button>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </header>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="md:hidden fixed inset-0 bg-black/50 z-40"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Menu Content */}
+          <div className="md:hidden relative z-50 bg-card border-b border-border">
+            <nav className="container mx-auto px-4 py-4 space-y-3" role="navigation" aria-label="Mobile navigation">
+              <a 
+                href="#" 
+                className="block py-2 px-3 rounded-md hover:bg-muted transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.home')}
+              </a>
+              <a 
+                href="#properties" 
+                className="block py-2 px-3 rounded-md hover:bg-muted transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.properties')}
+              </a>
+              <a 
+                href="#contact" 
+                className="block py-2 px-3 rounded-md hover:bg-muted transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.contact')}
+              </a>
+              <a 
+                href="https://landsmaps.dol.go.th/" 
+                target="_blank" 
+                rel="noopener"
+                className="block py-2 px-3 rounded-md hover:bg-muted transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.landsmaps')}
+              </a>
+            </nav>
+          </div>
+        </>
+      )}
+
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-br from-background to-card">
         <div className="container mx-auto px-4 text-center">
@@ -1412,8 +1546,9 @@ function App() {
           </div>
         </div>
       </section>
-      {/* Information Section */}
-      <section className="py-12 bg-background">
+
+      {/* Information Cards */}
+      <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* About NextPlot */}
@@ -1620,6 +1755,7 @@ function App() {
           </div>
         </div>
       </section>
+      
       {/* Properties Grid */}
       <main id="main-content" className="py-8" role="main">
         <div className="container mx-auto px-4">
