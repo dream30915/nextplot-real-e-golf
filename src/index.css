@@ -8,32 +8,32 @@
 }
 
 :root {
-  /* Luxury Gray-Gold Theme */
-  --background: oklch(0.18 0 0); /* #2E2E2E */
-  --foreground: oklch(1 0 0); /* #FFFFFF */
+  /* Light Professional Theme with Gold Accents */
+  --background: oklch(0.98 0 0); /* #FAFAFA - Very light gray */
+  --foreground: oklch(0.15 0 0); /* #262626 - Dark gray */
 
-  --card: oklch(0.23 0 0); /* #3A3A3A */
-  --card-foreground: oklch(1 0 0); /* #FFFFFF */
-  --popover: oklch(0.23 0 0);
-  --popover-foreground: oklch(1 0 0);
+  --card: oklch(1 0 0); /* #FFFFFF - Pure white cards */
+  --card-foreground: oklch(0.15 0 0); /* #262626 - Dark gray text */
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0 0);
 
-  --primary: oklch(0.18 0 0); /* #2E2E2E */
-  --primary-foreground: oklch(1 0 0); /* #FFFFFF */
-  --secondary: oklch(0.23 0 0); /* #3A3A3A */
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.9 0 0); /* #E5E5E5 */
-  --muted-foreground: oklch(0.18 0 0); /* #2E2E2E */
+  --primary: oklch(0.15 0 0); /* #262626 - Dark gray */
+  --primary-foreground: oklch(1 0 0); /* #FFFFFF - White text */
+  --secondary: oklch(0.94 0 0); /* #F0F0F0 - Light gray */
+  --secondary-foreground: oklch(0.15 0 0); /* #262626 - Dark gray text */
+  --muted: oklch(0.94 0 0); /* #F0F0F0 - Light gray */
+  --muted-foreground: oklch(0.45 0 0); /* #737373 - Medium gray */
 
   /* Luxury Gold Accent */
-  --accent: oklch(0.7 0.1 85); /* #C9A14A */
-  --accent-foreground: oklch(0.07 0 0); /* #111111 */
+  --accent: oklch(0.65 0.12 85); /* #B8941F - Rich gold */
+  --accent-foreground: oklch(1 0 0); /* #FFFFFF - White text on gold */
   
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.35 0 0);
-  --input: oklch(0.35 0 0);
-  --ring: oklch(0.7 0.1 85); /* Gold focus ring */
+  --border: oklch(0.85 0 0); /* #D9D9D9 - Light border */
+  --input: oklch(0.85 0 0); /* #D9D9D9 - Light input border */
+  --ring: oklch(0.65 0.12 85); /* Gold focus ring */
 
   --radius: 0.5rem;
 }
@@ -45,14 +45,14 @@ body {
 
 /* Focus ring for accessibility */
 *:focus-visible {
-  outline: 3px solid oklch(0.7 0.1 85);
+  outline: 3px solid oklch(0.65 0.12 85);
   outline-offset: 2px;
-  box-shadow: 0 0 0 2px oklch(0.7 0.1 85 / 0.35);
+  box-shadow: 0 0 0 2px oklch(0.65 0.12 85 / 0.35);
 }
 
 /* Gold button hover state */
 .btn-gold:hover {
-  background-color: oklch(0.65 0.1 85); /* Darker gold */
+  background-color: oklch(0.6 0.12 85); /* Darker gold */
   color: oklch(1 0 0); /* White text on hover */
 }
 
