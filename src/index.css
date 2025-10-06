@@ -8,21 +8,21 @@
 }
 
 :root {
-  /* Light Professional Theme with Gold Accents */
+  /* Light Professional Theme with Gold Accents - Softer Gray */
   --background: oklch(0.98 0 0); /* #FAFAFA - Very light gray */
-  --foreground: oklch(0.15 0 0); /* #262626 - Dark gray */
+  --foreground: oklch(0.35 0 0); /* #595959 - Medium gray, easier to read */
 
   --card: oklch(1 0 0); /* #FFFFFF - Pure white cards */
-  --card-foreground: oklch(0.15 0 0); /* #262626 - Dark gray text */
+  --card-foreground: oklch(0.35 0 0); /* #595959 - Medium gray text */
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0 0);
+  --popover-foreground: oklch(0.35 0 0);
 
-  --primary: oklch(0.15 0 0); /* #262626 - Dark gray */
+  --primary: oklch(0.35 0 0); /* #595959 - Medium gray instead of dark */
   --primary-foreground: oklch(1 0 0); /* #FFFFFF - White text */
   --secondary: oklch(0.94 0 0); /* #F0F0F0 - Light gray */
-  --secondary-foreground: oklch(0.15 0 0); /* #262626 - Dark gray text */
+  --secondary-foreground: oklch(0.35 0 0); /* #595959 - Medium gray text */
   --muted: oklch(0.94 0 0); /* #F0F0F0 - Light gray */
-  --muted-foreground: oklch(0.45 0 0); /* #737373 - Medium gray */
+  --muted-foreground: oklch(0.55 0 0); /* #8C8C8C - Lighter medium gray */
 
   /* Luxury Gold Accent */
   --accent: oklch(0.65 0.12 85); /* #B8941F - Rich gold */
