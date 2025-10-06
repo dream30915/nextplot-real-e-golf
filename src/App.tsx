@@ -129,7 +129,34 @@ const translations = {
     'footer.terms': 'เงื่อนไขการใช้งาน',
     
     // Currency
-    'currency.thb': 'บาท'
+    'currency.thb': 'บาท',
+    
+    // Property Content
+    'property.title.1': 'ที่ดินเปล่า ใกล้ถนนใหญ่ เหมาะสำหรับการลงทุน',
+    'property.title.2': 'ที่ดินพร้อมบ้านเก่า ติดคลอง วิวธรรมชาติ', 
+    'property.title.3': 'ที่ดินเชิงพาณิช ทำเลทอง ใจกลางเมือง',
+    'property.location.1': 'บางนา กรุงเทพมหานคร',
+    'property.location.2': 'นนทบุรี',
+    'property.location.3': 'สีลม กรุงเทพมหานคร',
+    
+    // Property Tags
+    'property.tag.nearMainRoad': 'ใกล้ถนนใหญ่',
+    'property.tag.investment': 'เหมาะลงทุน',
+    'property.tag.titleDeedReady': 'โฉนดพร้อม',
+    'property.tag.waterfront': 'ติดคลอง',
+    'property.tag.natureView': 'วิวธรรมชาติ',
+    'property.tag.oldHouse': 'บ้านเก่า',
+    'property.tag.primeLocation': 'ทำเลทอง',
+    'property.tag.commercial': 'เชิงพาณิช',
+    'property.tag.cityCenter': 'ใจกลางเมือง',
+    
+    // Zoning
+    'zoning.yellow': 'สีเหลือง',
+    'zoning.green': 'สีเขียว', 
+    'zoning.red': 'สีแดง',
+    'zoning.yellow.note': 'ที่อยู่อาศัยหนาแน่นน้อย',
+    'zoning.green.note': 'อนุรักษ์ชนบทและเกษตรกรรม',
+    'zoning.red.note': 'พาณิชยกรรมและที่อยู่อาศัยหนาแน่นสูง'
   },
   en: {
     // Header & Navigation
@@ -226,7 +253,34 @@ const translations = {
     'footer.terms': 'Terms of Use',
     
     // Currency
-    'currency.thb': 'THB'
+    'currency.thb': 'THB',
+    
+    // Property Content
+    'property.title.1': 'Empty Land Near Main Road Perfect for Investment',
+    'property.title.2': 'Land with Old House by Canal Natural View',
+    'property.title.3': 'Commercial Land Prime Location City Center',
+    'property.location.1': 'Bang Na, Bangkok',
+    'property.location.2': 'Nonthaburi',
+    'property.location.3': 'Silom, Bangkok',
+    
+    // Property Tags
+    'property.tag.nearMainRoad': 'Near Main Road',
+    'property.tag.investment': 'Investment Ready',
+    'property.tag.titleDeedReady': 'Title Deed Ready',
+    'property.tag.waterfront': 'Waterfront',
+    'property.tag.natureView': 'Nature View',
+    'property.tag.oldHouse': 'Old House',
+    'property.tag.primeLocation': 'Prime Location',
+    'property.tag.commercial': 'Commercial',
+    'property.tag.cityCenter': 'City Center',
+    
+    // Zoning
+    'zoning.yellow': 'Yellow Zone',
+    'zoning.green': 'Green Zone',
+    'zoning.red': 'Red Zone',
+    'zoning.yellow.note': 'Low-density residential',
+    'zoning.green.note': 'Rural conservation & agriculture',
+    'zoning.red.note': 'Commercial & high-density residential'
   },
   zh: {
     // Header & Navigation
@@ -323,7 +377,34 @@ const translations = {
     'footer.terms': '使用条款',
     
     // Currency
-    'currency.thb': '泰铢'
+    'currency.thb': '泰铢',
+    
+    // Property Content
+    'property.title.1': '主干道旁空地 适合投资',
+    'property.title.2': '运河旁带老房土地 自然景观',
+    'property.title.3': '商业用地 黄金地段 市中心',
+    'property.location.1': '邦纳，曼谷',
+    'property.location.2': '暖武里府',
+    'property.location.3': '是隆，曼谷',
+    
+    // Property Tags
+    'property.tag.nearMainRoad': '靠近主干道',
+    'property.tag.investment': '适合投资',
+    'property.tag.titleDeedReady': '产权证齐全',
+    'property.tag.waterfront': '临水',
+    'property.tag.natureView': '自然景观',
+    'property.tag.oldHouse': '老房子',
+    'property.tag.primeLocation': '黄金地段',
+    'property.tag.commercial': '商业用地',
+    'property.tag.cityCenter': '市中心',
+    
+    // Zoning
+    'zoning.yellow': '黄色区域',
+    'zoning.green': '绿色区域',
+    'zoning.red': '红色区域',
+    'zoning.yellow.note': '低密度住宅',
+    'zoning.green.note': '农村保护和农业',
+    'zoning.red.note': '商业和高密度住宅'
   }
 }
 
@@ -379,61 +460,61 @@ interface LeadForm {
   propertyId: string
 }
 
-// Sample property data
+// Sample property data with translation keys
 const sampleProperties: Property[] = [
   {
     id: '1',
     code: 'NP001',
-    title: 'ที่ดินเปล่า ใกล้ถนนใหญ่ เหมาะสำหรับการลงทุน',
-    location: 'บางนา กรุงเทพมหานคร',
+    title: 'property.title.1',
+    location: 'property.location.1',
     price: 15000000,
     currency: 'THB',
     area: { value: 2.5, unit: 'rai' },
     status: 'available',
-    tags: ['ใกล้ถนนใหญ่', 'เหมาะลงทุน', 'โฉนดพร้อม'],
+    tags: ['property.tag.nearMainRoad', 'property.tag.investment', 'property.tag.titleDeedReady'],
     isSensitive: false,
     media: [{
       type: 'image',
       src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
-      alt: 'ที่ดินเปล่า ใกล้ถนนใหญ่'
+      alt: 'property.title.1'
     }],
-    zoning: { name: 'สีเหลือง', colorHex: '#FFD700', note: 'ที่อยู่อาศัยหนาแน่นน้อย' }
+    zoning: { name: 'zoning.yellow', colorHex: '#FFD700', note: 'zoning.yellow.note' }
   },
   {
     id: '2', 
     code: 'NP002',
-    title: 'ที่ดินพร้อมบ้านเก่า ติดคลอง วิวธรรมชาติ',
-    location: 'นนทบุรี',
+    title: 'property.title.2',
+    location: 'property.location.2',
     price: 8500000,
     currency: 'THB',
     area: { value: 1600, unit: 'sqm' },
     status: 'available',
-    tags: ['ติดคลอง', 'วิวธรรมชาติ', 'บ้านเก่า'],
+    tags: ['property.tag.waterfront', 'property.tag.natureView', 'property.tag.oldHouse'],
     isSensitive: false,
     media: [{
       type: 'image',
       src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
-      alt: 'ที่ดินติดคลอง'
+      alt: 'property.title.2'
     }],
-    zoning: { name: 'สีเขียว', colorHex: '#32CD32', note: 'อนุรักษ์ชนบทและเกษตรกรรม' }
+    zoning: { name: 'zoning.green', colorHex: '#32CD32', note: 'zoning.green.note' }
   },
   {
     id: '3',
     code: 'NP003', 
-    title: 'ที่ดินเชิงพาณิช ทำเลทอง ใจกลางเมือง',
-    location: 'สีลม กรุงเทพมหานคร',
+    title: 'property.title.3',
+    location: 'property.location.3',
     price: 45000000,
     currency: 'THB',
     area: { value: 800, unit: 'sqm' },
     status: 'reserved',
-    tags: ['ทำเลทอง', 'เชิงพาณิช', 'ใจกลางเมือง'],
+    tags: ['property.tag.primeLocation', 'property.tag.commercial', 'property.tag.cityCenter'],
     isSensitive: false,
     media: [{
       type: 'image',
       src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
-      alt: 'ที่ดินเชิงพาณิช'
+      alt: 'property.title.3'
     }],
-    zoning: { name: 'สีแดง', colorHex: '#FF4444', note: 'พาณิชยกรรมและที่อยู่อาศัยหนาแน่นสูง' }
+    zoning: { name: 'zoning.red', colorHex: '#FF4444', note: 'zoning.red.note' }
   }
 ]
 
@@ -522,8 +603,10 @@ function App() {
   const changeLanguage = (lang: string) => {
     setCurrentLang(lang)
     document.documentElement.lang = lang
-    // Force re-render by updating a dummy state
-    setFilters(prev => ({ ...prev }))
+    // Force re-render by updating filters which triggers property re-filtering
+    setFilters(prev => ({ ...prev, keyword: prev.keyword }))
+    // Also force re-render of filtered properties
+    setFilteredProperties(prev => [...prev])
   }
   
   // Format area display
@@ -640,7 +723,7 @@ function App() {
   // Handle share
   const handleShare = async (property: Property, channel: string) => {
     const shareUrl = generateShareURL(property, channel)
-    const shareText = `${property.title} - ${property.location} - ${formatPrice(property.price, property.currency)}`
+    const shareText = `${t(property.title)} - ${t(property.location)} - ${formatPrice(property.price, property.currency)}`
     
     // Log share event
     console.log('Share event:', { property: property.id, channel, url: shareUrl })
@@ -650,7 +733,7 @@ function App() {
         if (navigator.share) {
           try {
             await navigator.share({
-              title: property.title,
+              title: t(property.title),
               text: shareText,
               url: shareUrl
             })
@@ -670,7 +753,7 @@ function App() {
         break
         
       case 'email':
-        const subject = encodeURIComponent(property.title)
+        const subject = encodeURIComponent(t(property.title))
         const body = encodeURIComponent(`${shareText}\n\n${shareUrl}`)
         window.open(`mailto:?subject=${subject}&body=${body}`)
         break
@@ -704,7 +787,7 @@ function App() {
     setContactForm(prev => ({
       ...prev,
       propertyId: property?.id || '',
-      message: property ? `สนใจ ${property.title} รหัส ${property.code}` : ''
+      message: property ? `${currentLang === 'th' ? 'สนใจ' : currentLang === 'en' ? 'Interested in' : '对...感兴趣'} ${t(property.title)} ${currentLang === 'th' ? 'รหัส' : currentLang === 'en' ? 'Code' : '编号'} ${property.code}` : ''
     }))
     setShowContactForm(true)
   }
@@ -1072,7 +1155,7 @@ function App() {
                   {property.media[0] && (
                     <img
                       src={property.media[0].src}
-                      alt={property.media[0].alt || property.title}
+                      alt={property.media[0].alt || t(property.title)}
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />
@@ -1107,12 +1190,12 @@ function App() {
                 
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-lg line-clamp-2">{property.title}</h3>
+                    <h3 className="font-semibold text-lg line-clamp-2">{t(property.title)}</h3>
                   </div>
                   
                   <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
                     <MapPin size={14} />
-                    <span>{property.location}</span>
+                    <span>{t(property.location)}</span>
                   </div>
                   
                   <div className="space-y-2 mb-4">
@@ -1129,9 +1212,9 @@ function App() {
                         <div 
                           className="w-4 h-4 rounded-full border border-border"
                           style={{ backgroundColor: property.zoning.colorHex }}
-                          aria-label={`${t('property.zoning')}: ${property.zoning.name}`}
+                          aria-label={`${t('property.zoning')}: ${t(property.zoning.name)}`}
                         />
-                        <span className="text-sm">{property.zoning.name}</span>
+                        <span className="text-sm">{t(property.zoning.name)}</span>
                       </div>
                     )}
                   </div>
@@ -1141,7 +1224,7 @@ function App() {
                     <div className="flex flex-wrap gap-1 mb-4">
                       {property.tags.slice(0, 3).map((tag, index) => (
                         <Badge key={index} variant="secondary" className="text-xs">
-                          {tag}
+                          {t(tag)}
                         </Badge>
                       ))}
                     </div>
@@ -1207,7 +1290,7 @@ function App() {
           {selectedProperty && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl">{selectedProperty.title}</DialogTitle>
+                <DialogTitle className="text-2xl">{t(selectedProperty.title)}</DialogTitle>
               </DialogHeader>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1217,7 +1300,7 @@ function App() {
                     <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
                       <img
                         src={selectedProperty.media[currentImageIndex]?.src}
-                        alt={selectedProperty.media[currentImageIndex]?.alt || selectedProperty.title}
+                        alt={selectedProperty.media[currentImageIndex]?.alt || t(selectedProperty.title)}
                         className="w-full h-full object-cover"
                       />
                       
@@ -1267,7 +1350,7 @@ function App() {
                         >
                           <img
                             src={media.src}
-                            alt={media.alt || `${selectedProperty.title} ${index + 1}`}
+                            alt={media.alt || `${t(selectedProperty.title)} ${index + 1}`}
                             className="w-full h-full object-cover"
                           />
                         </button>
@@ -1301,7 +1384,7 @@ function App() {
                     
                     <div className="flex items-center gap-1 text-muted-foreground">
                       <MapPin size={16} />
-                      <span>{selectedProperty.location}</span>
+                      <span>{t(selectedProperty.location)}</span>
                     </div>
                     
                     <div className="flex items-center gap-2">
@@ -1318,11 +1401,11 @@ function App() {
                           <div 
                             className="w-6 h-6 rounded-full border border-border"
                             style={{ backgroundColor: selectedProperty.zoning.colorHex }}
-                            aria-label={`${t('property.zoning')}: ${selectedProperty.zoning.name}`}
+                            aria-label={`${t('property.zoning')}: ${t(selectedProperty.zoning.name)}`}
                           />
-                          <span>{selectedProperty.zoning.name}</span>
+                          <span>{t(selectedProperty.zoning.name)}</span>
                           {selectedProperty.zoning.note && (
-                            <span className="text-sm text-muted-foreground">({selectedProperty.zoning.note})</span>
+                            <span className="text-sm text-muted-foreground">({t(selectedProperty.zoning.note)})</span>
                           )}
                         </div>
                       </div>
@@ -1336,7 +1419,7 @@ function App() {
                       <div className="flex flex-wrap gap-2">
                         {selectedProperty.tags.map((tag, index) => (
                           <Badge key={index} variant="secondary">
-                            {tag}
+                            {t(tag)}
                           </Badge>
                         ))}
                       </div>
@@ -1409,7 +1492,7 @@ function App() {
           {shareProperty && (
             <div className="space-y-4">
               <div className="text-sm text-muted-foreground">
-                {shareProperty.title} - {shareProperty.location}
+                {t(shareProperty.title)} - {t(shareProperty.location)}
               </div>
               
               <div className="grid grid-cols-2 gap-3">
