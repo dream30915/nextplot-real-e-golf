@@ -1046,11 +1046,11 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* About NextPlot */}
-            <Card className="p-6">
+            <Card className="p-6 flex flex-col h-full">
               <CardHeader className="p-0 mb-4">
                 <CardTitle className="text-xl">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
               </CardHeader>
-              <CardContent className="p-0">
+              <CardContent className="p-0 flex-1">
                 <p className="text-muted-foreground mb-4">
                   {currentLang === 'th' ? 
                     'NextPlot เป็นแพลตฟอร์มอสังหาริมทรัพย์ครบวงจร ที่ให้บริการซื้อ-ขาย-เช่า และฝากขายที่ดิน บ้าน อาคารพาณิชย์ โกดัง และโรงงานทั่วประเทศไทย' :
@@ -1077,11 +1077,11 @@ function App() {
             </Card>
 
             {/* Land Area Guide */}
-            <Card className="p-6">
+            <Card className="p-6 flex flex-col h-full">
               <CardHeader className="p-0 mb-4">
                 <CardTitle className="text-xl">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
               </CardHeader>
-              <CardContent className="p-0">
+              <CardContent className="p-0 flex-1">
                 <div className="space-y-3 text-sm">
                   <div className="bg-card p-3 rounded-lg">
                     <div className="font-medium mb-2">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
@@ -1109,47 +1109,138 @@ function App() {
                 <CardTitle className="text-xl">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="space-y-3 text-sm">
+                <div className="space-y-2 text-sm max-h-80 overflow-y-auto">
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-yellow-400 rounded-full border border-border" />
+                    <div className="w-4 h-4 bg-yellow-400 border border-border flex-shrink-0" />
                     <div>
-                      <div className="font-medium">{currentLang === 'th' ? 'สีเหลือง' : currentLang === 'en' ? 'Yellow' : '黄色'}</div>
-                      <div className="text-muted-foreground">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นน้อย' : currentLang === 'en' ? 'Low-density residential' : '低密度住宅'}</div>
+                      <div className="font-medium">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นน้อย' : currentLang === 'en' ? 'Low-density residential' : '低密度住宅'}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-500 rounded-full border border-border" />
+                    <div className="w-4 h-4 bg-orange-500 border border-border flex-shrink-0" />
                     <div>
-                      <div className="font-medium">{currentLang === 'th' ? 'สีเขียว' : currentLang === 'en' ? 'Green' : '绿色'}</div>
-                      <div className="text-muted-foreground">{currentLang === 'th' ? 'อนุรักษ์ชนบทและเกษตรกรรม' : currentLang === 'en' ? 'Rural conservation & agriculture' : '农村保护和农业'}</div>
+                      <div className="font-medium">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นปานกลาง' : currentLang === 'en' ? 'Medium-density residential' : '中密度住宅'}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-red-500 rounded-full border border-border" />
+                    <div className="w-4 h-4 bg-orange-700 border border-border flex-shrink-0" />
                     <div>
-                      <div className="font-medium">{currentLang === 'th' ? 'สีแดง' : currentLang === 'en' ? 'Red' : '红色'}</div>
-                      <div className="text-muted-foreground">{currentLang === 'th' ? 'พาณิชยกรรมและที่อยู่อาศัยหนาแน่นสูง' : currentLang === 'en' ? 'Commercial & high-density residential' : '商业和高密度住宅'}</div>
+                      <div className="font-medium">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นมาก' : currentLang === 'en' ? 'High-density residential' : '高密度住宅'}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-blue-500 rounded-full border border-border" />
+                    <div className="w-4 h-4 bg-yellow-600 border border-border flex-shrink-0" />
                     <div>
-                      <div className="font-medium">{currentLang === 'th' ? 'สีน้ำเงิน' : currentLang === 'en' ? 'Blue' : '蓝色'}</div>
-                      <div className="text-muted-foreground">{currentLang === 'th' ? 'อุตสาหกรรมและคลังสินค้า' : currentLang === 'en' ? 'Industrial & warehouse' : '工业和仓库'}</div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อนุรักษ์เพื่อการอยู่อาศัย' : currentLang === 'en' ? 'Conservation for housing' : '住房保护'}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-orange-500 rounded-full border border-border" />
+                    <div className="w-4 h-4 bg-red-500 border border-border flex-shrink-0" />
                     <div>
-                      <div className="font-medium">{currentLang === 'th' ? 'สีส้ม' : currentLang === 'en' ? 'Orange' : '橙色'}</div>
-                      <div className="text-muted-foreground">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นปานกลาง' : currentLang === 'en' ? 'Medium-density residential' : '中密度住宅'}</div>
+                      <div className="font-medium">{currentLang === 'th' ? 'พาณิชยกรรมและที่อยู่อาศัยหนาแน่นมาก' : currentLang === 'en' ? 'Commercial & high-density residential' : '商业和高密度住宅'}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-purple-500 rounded-full border border-border" />
+                    <div className="w-4 h-4 bg-purple-500 border border-border flex-shrink-0" />
                     <div>
-                      <div className="font-medium">{currentLang === 'th' ? 'สีม่วง' : currentLang === 'en' ? 'Purple' : '紫色'}</div>
-                      <div className="text-muted-foreground">{currentLang === 'th' ? 'สถาบันการศึกษาและศาสนา' : currentLang === 'en' ? 'Educational & religious institutions' : '教育和宗教机构'}</div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อุตสาหกรรม' : currentLang === 'en' ? 'Industrial' : '工业'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-pink-500 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อุตสาหกรรมและคลังสินค้า' : currentLang === 'en' ? 'Industrial & warehouse' : '工业和仓库'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-pink-300 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'คลังสินค้า' : currentLang === 'en' ? 'Warehouse' : '仓库'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-cyan-400 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อุตสาหกรรมและพาณิชย์' : currentLang === 'en' ? 'Industrial & commercial' : '工业和商业'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 border-l-2 border-gray-400 pl-2">
+                    <div className="w-4 h-4 bg-cyan-600 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อุตสาหกรรมไม่เป็นอันตรายต่อสุขภาพชุมชน อันใดที่ต้องและคลังสินค้า' : currentLang === 'en' ? 'Non-hazardous industry and warehouse' : '无害工业和仓库'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-blue-500 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อุตสาหกรรมและคลังสินค้าและการพาณิชย์กรรม' : currentLang === 'en' ? 'Industrial, warehouse & commercial' : '工业、仓库和商业'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-amber-600 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'ชุมชน' : currentLang === 'en' ? 'Community' : '社区'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-green-200 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'ชุมชน ๒' : currentLang === 'en' ? 'Community 2' : '社区2'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-cyan-300 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'รักษาคุณภาพและสิ่งแวดล้อม' : currentLang === 'en' ? 'Environmental conservation' : '环境保护'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-green-600 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สถาบันการศึกษา' : currentLang === 'en' ? 'Educational institutions' : '教育机构'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-gray-400 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สถาบันศาสนา' : currentLang === 'en' ? 'Religious institutions' : '宗教机构'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-blue-600 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'สถาบันราชการ การสาธารณูปการและสาธารณประโยชน์' : currentLang === 'en' ? 'Government, utilities & public benefit' : '政府、公用事业和公共利益'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-teal-600 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'เชิงพาณิชย์' : currentLang === 'en' ? 'Commercial' : '商业'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 bg-brown-500 border border-border flex-shrink-0" style={{backgroundColor: '#8B4513'}}>
+                    </div>
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'ที่โล่งเพื่อปฏิบัติการเกษตรกรรม' : currentLang === 'en' ? 'Open area for agriculture' : '农业开放区'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 border-l-2 border-gray-400 pl-2">
+                    <div className="w-4 h-4 bg-lime-400 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อนุรักษ์ป่าไผ่' : currentLang === 'en' ? 'Bamboo forest conservation' : '竹林保护'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 border-l-2 border-gray-400 pl-2">
+                    <div className="w-4 h-4 bg-green-700 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อนุรักษ์ชายป่าชายเลนและการประดิษฐ์กรรมท่องเที่ยวแวดล้อม' : currentLang === 'en' ? 'Mangrove conservation & eco-tourism' : '红树林保护和生态旅游'}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 border-l-2 border-gray-400 pl-2">
+                    <div className="w-4 h-4 bg-emerald-500 border border-border flex-shrink-0" />
+                    <div>
+                      <div className="font-medium">{currentLang === 'th' ? 'อนุรักษ์สัตว์ป่าเพื่อเลี้ยงและการท่องเที่ยว' : currentLang === 'en' ? 'Wildlife conservation for breeding & tourism' : '野生动物保护繁殖和旅游'}</div>
                     </div>
                   </div>
                 </div>
@@ -1224,7 +1315,7 @@ function App() {
                     {property.zoning && (
                       <div className="flex items-center gap-2">
                         <div 
-                          className="w-4 h-4 rounded-full border border-border"
+                          className="w-4 h-4 border border-border flex-shrink-0"
                           style={{ backgroundColor: property.zoning.colorHex }}
                           aria-label={`${t('property.zoning')}: ${t(property.zoning.name)}`}
                         />
@@ -1413,7 +1504,7 @@ function App() {
                         <div className="text-sm text-muted-foreground mb-2">{t('property.zoning')}</div>
                         <div className="flex items-center gap-2">
                           <div 
-                            className="w-6 h-6 rounded-full border border-border"
+                            className="w-6 h-6 border border-border flex-shrink-0"
                             style={{ backgroundColor: selectedProperty.zoning.colorHex }}
                             aria-label={`${t('property.zoning')}: ${t(selectedProperty.zoning.name)}`}
                           />
