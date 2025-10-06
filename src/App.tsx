@@ -29,7 +29,10 @@ import {
   CaretRight as ChevronRight,
   X,
   Sun,
-  Moon
+  Moon,
+  TextAa,
+  Minus,
+  Plus
 } from '@phosphor-icons/react'
 
 // Translations
@@ -522,6 +525,9 @@ function App() {
   // Language state
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
+  // Font size control state
+  const [fontSize, setFontSize] = useKV('fontSize', 'medium')
+  
   // Theme state
   const [theme, setTheme] = useKV('theme', 'dark')
   
@@ -640,7 +646,7 @@ function App() {
     }
   }
   
-  // Set initial language and theme on mount and ensure proper update
+  // Set initial language, theme, and font size on mount
   useEffect(() => {
     if (currentLang) {
       document.documentElement.lang = currentLang
@@ -652,7 +658,15 @@ function App() {
     } else {
       document.documentElement.removeAttribute('data-theme')
     }
-  }, [currentLang, theme])
+
+    // Apply font size
+    const fontSizeClasses = {
+      small: 'text-sm',
+      medium: 'text-base', 
+      large: 'text-lg'
+    }
+    document.documentElement.setAttribute('data-font-size', fontSize || 'medium')
+  }, [currentLang, theme, fontSize])
   
   // Change theme
   const toggleTheme = () => {
@@ -1016,7 +1030,10 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className={`min-h-screen bg-background text-foreground ${
+      fontSize === 'small' ? 'text-sm' : 
+      fontSize === 'large' ? 'text-lg' : 'text-base'
+    }`}>
       <Toaster />
       {/* Skip Link for Accessibility */}
       <a href="#main-content" className="skip-link">
@@ -1054,6 +1071,33 @@ function App() {
           
           {/* Controls */}
           <div className="flex items-center gap-3">
+            {/* Font Size Controls */}
+            <div className="flex items-center border border-border rounded-md">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
+                className="w-8 h-8 p-0 rounded-r-none border-r border-border"
+                aria-label="ลดขนาดตัวอักษร"
+                disabled={fontSize === 'small'}
+              >
+                <Minus size={14} />
+              </Button>
+              <div className="px-2 text-xs font-medium min-w-[24px] text-center">
+                <TextAa size={14} />
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
+                className="w-8 h-8 p-0 rounded-l-none border-l border-border"
+                aria-label="เพิ่มขนาดตัวอักษร"
+                disabled={fontSize === 'large'}
+              >
+                <Plus size={14} />
+              </Button>
+            </div>
+            
             {/* Theme Toggle */}
             <Button
               variant="ghost"
@@ -1112,7 +1156,7 @@ function App() {
       </section>
 
       {/* Search & Filters */}
-      <section id="properties" className="py-8 bg-card border-b border-border">
+      <section id="properties" className="py-8 bg-card border-b border-border search-filter-section">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-6">
             {/* Search */}
@@ -1234,7 +1278,7 @@ function App() {
       </section>
 
       {/* Information Section */}
-      <section className="py-12 bg-muted/30">
+      <section className="py-12 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* About NextPlot */}
@@ -1447,7 +1491,7 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProperties.map((property) => (
-              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
+              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full min-h-[480px]">
                 <div className="relative aspect-video bg-muted">
                   {property.media[0] && (
                     <img
