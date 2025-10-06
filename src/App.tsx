@@ -563,6 +563,18 @@ function App() {
   const [showShareModal, setShowShareModal] = useState(false)
   const [shareProperty, setShareProperty] = useState<Property | null>(null)
   
+  // Login modal state
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: '',
+    rememberMe: false
+  })
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
+  
+  // User state
+  const [user, setUser] = useKV<{email: string, name: string} | null>('user', null)
+  
   // Gallery state
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   
@@ -826,6 +838,50 @@ function App() {
     }
   }
   
+  // Handle login
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoggingIn(true)
+    
+    try {
+      // Validate required fields
+      if (!loginForm.email || !loginForm.password) {
+        throw new Error('Please fill all required fields')
+      }
+      
+      // Mock authentication - in real app, this would call an API
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // For demo purposes, accept any email/password
+      const userData = {
+        email: loginForm.email,
+        name: loginForm.email.split('@')[0] // Use email prefix as name
+      }
+      
+      setUser(userData)
+      toast.success(currentLang === 'th' ? 'เข้าสู่ระบบสำเร็จ' : 
+                    currentLang === 'en' ? 'Login successful' : '登录成功')
+      setShowLoginModal(false)
+      setLoginForm({
+        email: '',
+        password: '',
+        rememberMe: false
+      })
+    } catch (error) {
+      toast.error(currentLang === 'th' ? 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' : 
+                  currentLang === 'en' ? 'Invalid email or password' : '邮箱或密码错误')
+    } finally {
+      setIsLoggingIn(false)
+    }
+  }
+  
+  // Handle logout
+  const handleLogout = () => {
+    setUser(null)
+    toast.success(currentLang === 'th' ? 'ออกจากระบบแล้ว' : 
+                  currentLang === 'en' ? 'Logged out successfully' : '退出登录成功')
+  }
+  
   // Get status badge variant
   const getStatusVariant = (status: string) => {
     switch (status) {
@@ -898,8 +954,15 @@ function App() {
               </SelectContent>
             </Select>
             
-            <Button variant="outline" size="sm">
-              {t('nav.login')}
+            <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowLoginModal(true)}>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <User size={16} />
+                  <span className="hidden sm:inline">{user.name}</span>
+                </div>
+              ) : (
+                t('nav.login')
+              )}
             </Button>
           </div>
         </div>
@@ -1057,7 +1120,7 @@ function App() {
                 <CardTitle className="text-2xl">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
-                <p className="text-muted-foreground mb-4 text-base">
+                <p className="text-muted-foreground mb-4 text-lg">
                   {currentLang === 'th' ? 
                     'NextPlot เป็นแพลตฟอร์มอสังหาริมทรัพย์ครบวงจร ที่ให้บริการซื้อ-ขาย-เช่า และฝากขายที่ดิน บ้าน อาคารพาณิชย์ โกดัง และโรงงานทั่วประเทศไทย' :
                     currentLang === 'en' ?
@@ -1065,7 +1128,7 @@ function App() {
                     'NextPlot 是一个综合性房地产平台，为泰国全境的土地、房屋、商业建筑、仓库和工厂提供买卖租赁和寄售服务。'
                   }
                 </p>
-                <ul className="space-y-2 text-base text-muted-foreground">
+                <ul className="space-y-2 text-lg text-muted-foreground">
                   <li className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-accent rounded-full" />
                     {currentLang === 'th' ? 'ระบบค้นหาขั้นสูง' : currentLang === 'en' ? 'Advanced Search System' : '高级搜索系统'}
@@ -1790,6 +1853,109 @@ function App() {
             >
               {isSubmitting ? t('form.submitting') : t('form.submit')}
             </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Login Modal */}
+      <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {currentLang === 'th' ? 'เข้าสู่ระบบ' : 
+               currentLang === 'en' ? 'Login' : '登录'}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <Label htmlFor="login-email">
+                  {currentLang === 'th' ? 'อีเมล' : 
+                   currentLang === 'en' ? 'Email' : '邮箱'} *
+                </Label>
+                <Input
+                  id="login-email"
+                  type="email"
+                  placeholder={currentLang === 'th' ? 'กรุณากรอกอีเมล' : 
+                              currentLang === 'en' ? 'Enter your email' : '请输入邮箱'}
+                  value={loginForm.email}
+                  onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
+                  required
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="login-password">
+                  {currentLang === 'th' ? 'รหัสผ่าน' : 
+                   currentLang === 'en' ? 'Password' : '密码'} *
+                </Label>
+                <Input
+                  id="login-password"
+                  type="password"
+                  placeholder={currentLang === 'th' ? 'กรุณากรอกรหัสผ่าน' : 
+                              currentLang === 'en' ? 'Enter your password' : '请输入密码'}
+                  value={loginForm.password}
+                  onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
+                  required
+                />
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="remember-me"
+                  checked={loginForm.rememberMe}
+                  onCheckedChange={(checked) => setLoginForm(prev => ({ ...prev, rememberMe: !!checked }))}
+                />
+                <Label htmlFor="remember-me" className="text-sm">
+                  {currentLang === 'th' ? 'จดจำการเข้าสู่ระบบ' : 
+                   currentLang === 'en' ? 'Remember me' : '记住我'}
+                </Label>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <Button 
+                type="submit" 
+                className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                disabled={isLoggingIn}
+              >
+                {isLoggingIn ? 
+                  (currentLang === 'th' ? 'กำลังเข้าสู่ระบบ...' : 
+                   currentLang === 'en' ? 'Logging in...' : '登录中...') :
+                  (currentLang === 'th' ? 'เข้าสู่ระบบ' : 
+                   currentLang === 'en' ? 'Login' : '登录')
+                }
+              </Button>
+              
+              <div className="text-center text-sm text-muted-foreground">
+                {currentLang === 'th' ? 'ยังไม่มีบัญชี?' : 
+                 currentLang === 'en' ? "Don't have an account?" : '还没有账户？'}
+                {' '}
+                <Button variant="link" className="p-0 h-auto text-accent">
+                  {currentLang === 'th' ? 'สมัครสมาชิก' : 
+                   currentLang === 'en' ? 'Sign up' : '注册'}
+                </Button>
+              </div>
+              
+              <div className="text-center">
+                <Button variant="link" className="p-0 h-auto text-sm text-muted-foreground">
+                  {currentLang === 'th' ? 'ลืมรหัสผ่าน?' : 
+                   currentLang === 'en' ? 'Forgot password?' : '忘记密码？'}
+                </Button>
+              </div>
+            </div>
+            
+            <div className="border-t border-border pt-4">
+              <div className="text-xs text-muted-foreground text-center">
+                {currentLang === 'th' ? 
+                  'สำหรับการทดสอบ: ใช้อีเมลและรหัสผ่านใดก็ได้' :
+                 currentLang === 'en' ? 
+                  'For demo: Use any email and password' :
+                  '演示用：使用任何邮箱和密码'
+                }
+              </div>
+            </div>
           </form>
         </DialogContent>
       </Dialog>
