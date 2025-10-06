@@ -91,39 +91,7 @@
   --radius-full: 9999px;
 }
 
-/* System font stack with Thai support */
-body {
-  font-family: system-ui, -apple-system, "Segoe UI", "Leelawadee UI", Tahoma, "Noto Sans Thai", "Sukhumvit Set", "Helvetica Neue", Arial, sans-serif;
-  @apply bg-background text-foreground;
-}
-
-/* Font size control */
-:root[data-font-size="small"] {
-  font-size: 14px;
-}
-
-:root[data-font-size="medium"] {
-  font-size: 16px;
-}
-
-:root[data-font-size="large"] {
-  font-size: 18px;
-}
-
-/* Focus ring for accessibility */
-*:focus-visible {
-  outline: 3px solid oklch(0.65 0.12 85);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px oklch(0.65 0.12 85 / 0.35);
-}
-
-/* Gold button hover state */
-.btn-gold:hover {
-  background-color: oklch(0.6 0.12 85); /* Darker gold */
-  color: oklch(1 0 0); /* White text on hover */
-}
-
-/* Logo styles without glow effects */
+/* Enhanced logo styles */
 .logo-glow {
   transition: opacity 0.3s ease;
 }
@@ -132,16 +100,16 @@ body {
   opacity: 0.8;
 }
 
-/* Enhanced logo styles without glow */
 .logo-glow-enhanced {
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .logo-glow-enhanced:hover {
-  opacity: 0.8;
+  transform: scale(1.05);
+  filter: brightness(1.1);
 }
 
-/* Text clamp utility */
+/* Utility classes */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -149,7 +117,6 @@ body {
   overflow: hidden;
 }
 
-/* Skip link for accessibility */
 .skip-link {
   position: absolute;
   top: -40px;
@@ -159,55 +126,33 @@ body {
   color: var(--accent-foreground);
   padding: 8px 16px;
   text-decoration: none;
-  z-index: 100;
   border-radius: var(--radius);
-  transition: all 0.2s ease;
+  z-index: 1000;
 }
 
 .skip-link:focus {
   top: 10px;
 }
 
-/* Modern form styles */
-.auth-form-container {
+/* Enhanced form styles */
+.form-input {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) * 1.5);
-  padding: 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.form-input {
+  padding: 12px 16px;
   width: 100%;
-  height: 3rem;
-  padding: 0 0.75rem;
-  border-radius: var(--radius);
-  border: 1.5px solid var(--border);
-  background: var(--card);
   color: var(--foreground);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .form-input:focus {
+  outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px oklch(0.65 0.12 85 / 0.15);
-}
-
-/* Force all inputs and selects to use card background for better contrast */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="tel"],
-input[type="number"],
-textarea,
-select {
-  background: var(--card) !important;
-  color: var(--foreground) !important;
+  box-shadow: 0 0 0 3px oklch(0.65 0.12 85 / 0.2);
 }
 
 /* Password strength indicator */
 .password-strength {
-  width: 100%;
   height: 4px;
   background: var(--muted);
   border-radius: 2px;
@@ -221,45 +166,180 @@ select {
 }
 
 .password-strength-weak {
-  width: 25%;
   background: #ef4444;
+  width: 25%;
 }
 
 .password-strength-medium {
-  width: 50%;
   background: #f59e0b;
+  width: 50%;
 }
 
 .password-strength-strong {
-  width: 75%;
   background: #10b981;
+  width: 75%;
 }
 
 .password-strength-very-strong {
-  width: 100%;
   background: var(--accent);
+  width: 100%;
 }
 
-/* Auth button styles */
-.auth-button {
+/* Enhanced button styles */
+.btn-enhanced {
   transition: all 0.2s ease;
-  font-weight: 600;
-  letter-spacing: 0.025em;
+  position: relative;
+  overflow: hidden;
 }
 
-.auth-button:hover {
+.btn-enhanced:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-enhanced:active {
+  transform: translateY(0);
 }
 
 /* Auth link styles */
 .auth-link {
   color: var(--accent);
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .auth-link:hover {
-  color: oklch(0.6 0.12 85);
+  text-decoration: underline;
+  opacity: 0.8;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
