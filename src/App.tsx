@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Checkbox } from '@/components/ui/checkbox'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { Toaster } from '@/components/ui/sonner'
 import { toast } from 'sonner'
 import { 
   MagnifyingGlass as Search, 
@@ -373,12 +374,70 @@ interface LeadForm {
   propertyId: string
 }
 
+// Sample property data
+const sampleProperties: Property[] = [
+  {
+    id: '1',
+    code: 'NP001',
+    title: 'ที่ดินเปล่า ใกล้ถนนใหญ่ เหมาะสำหรับการลงทุน',
+    location: 'บางนา กรุงเทพมหานคร',
+    price: 15000000,
+    currency: 'THB',
+    area: { value: 2.5, unit: 'rai' },
+    status: 'available',
+    tags: ['ใกล้ถนนใหญ่', 'เหมาะลงทุน', 'โฉนดพร้อม'],
+    isSensitive: false,
+    media: [{
+      type: 'image',
+      src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
+      alt: 'ที่ดินเปล่า ใกล้ถนนใหญ่'
+    }],
+    zoning: { name: 'สีเหลือง', colorHex: '#FFD700', note: 'ที่อยู่อาศัยหนาแน่นน้อย' }
+  },
+  {
+    id: '2', 
+    code: 'NP002',
+    title: 'ที่ดินพร้อมบ้านเก่า ติดคลอง วิวธรรมชาติ',
+    location: 'นนทบุรี',
+    price: 8500000,
+    currency: 'THB',
+    area: { value: 1600, unit: 'sqm' },
+    status: 'available',
+    tags: ['ติดคลอง', 'วิวธรรมชาติ', 'บ้านเก่า'],
+    isSensitive: false,
+    media: [{
+      type: 'image',
+      src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
+      alt: 'ที่ดินติดคลอง'
+    }],
+    zoning: { name: 'สีเขียว', colorHex: '#32CD32', note: 'อนุรักษ์ชนบทและเกษตรกรรม' }
+  },
+  {
+    id: '3',
+    code: 'NP003', 
+    title: 'ที่ดินเชิงพาณิช ทำเลทอง ใจกลางเมือง',
+    location: 'สีลม กรุงเทพมหานคร',
+    price: 45000000,
+    currency: 'THB',
+    area: { value: 800, unit: 'sqm' },
+    status: 'reserved',
+    tags: ['ทำเลทอง', 'เชิงพาณิช', 'ใจกลางเมือง'],
+    isSensitive: false,
+    media: [{
+      type: 'image',
+      src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+      alt: 'ที่ดินเชิงพาณิช'
+    }],
+    zoning: { name: 'สีแดง', colorHex: '#FF4444', note: 'พาณิชยกรรมและที่อยู่อาศัยหนาแน่นสูง' }
+  }
+]
+
 function App() {
   // Language state
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
-  // Property state
-  const [properties] = useKV<Property[]>('properties', [])
+  // Property state - Initialize with sample data if empty
+  const [properties, setProperties] = useKV<Property[]>('properties', sampleProperties)
   const [filteredProperties, setFilteredProperties] = useState<Property[]>([])
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
   const [showPropertyModal, setShowPropertyModal] = useState(false)
@@ -422,6 +481,13 @@ function App() {
   const t = (key: string): string => {
     return translations[currentLang as keyof typeof translations]?.[key as keyof typeof translations['th']] || key
   }
+  
+  // Set initial language on mount
+  useEffect(() => {
+    if (currentLang) {
+      document.documentElement.lang = currentLang
+    }
+  }, [currentLang])
   
   // Change language and update HTML lang attribute
   const changeLanguage = (lang: string) => {
@@ -658,6 +724,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Toaster />
       {/* Skip Link for Accessibility */}
       <a href="#main-content" className="skip-link">
         ข้ามไปเนื้อหาหลัก
