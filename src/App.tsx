@@ -1098,99 +1098,198 @@ function App() {
       </a>
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
-        <div className="container mx-auto pl-1 pr-4 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-1">
-            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
-              <img 
-                src={nextplotLogo} 
-                alt="NextPlot Logo" 
-                className="w-full h-full object-contain p-1 logo-glow-enhanced"
-              />
+        <div className="container mx-auto pl-1 pr-4 py-4">
+          {/* Desktop Layout */}
+          <div className="hidden md:flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center gap-1">
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden">
+                <img 
+                  src={nextplotLogo} 
+                  alt="NextPlot Logo" 
+                  className="w-full h-full object-contain p-1 logo-glow-enhanced"
+                />
+              </div>
+              <div className="text-center">
+                <div className="font-bold text-accent font-mono text-3xl">NextPlot</div>
+                <div className="text-accent text-base font-semibold logo-glow">PLOT FOR SALE</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="font-bold text-accent font-mono text-3xl">NextPlot</div>
-              <div className="text-accent text-base font-semibold logo-glow">PLOT FOR SALE</div>
+            
+            {/* Navigation */}
+            <nav className="flex items-center gap-6" role="navigation" aria-label="Main navigation">
+              <a href="#" className="hover:text-accent transition-colors">{t('nav.home')}</a>
+              <a href="#properties" className="hover:text-accent transition-colors">{t('nav.properties')}</a>
+              <a href="#contact" className="hover:text-accent transition-colors">{t('nav.contact')}</a>
+              <a 
+                href="https://landsmaps.dol.go.th/" 
+                target="_blank" 
+                rel="noopener"
+                className="hover:text-accent transition-colors"
+              >
+                {t('nav.landsmaps')}
+              </a>
+            </nav>
+            
+            {/* Controls */}
+            <div className="flex items-center gap-3">
+              {/* Font Size Controls */}
+              <div className="flex items-center border border-border rounded-md">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
+                  className="w-8 h-8 p-0 rounded-r-none border-r border-border"
+                  aria-label="ลดขนาดตัวอักษร"
+                  disabled={fontSize === 'small'}
+                >
+                  <Minus size={14} />
+                </Button>
+                <div className="px-2 text-xs font-medium min-w-[24px] text-center">
+                  <TextAa size={14} />
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
+                  className="w-8 h-8 p-0 rounded-l-none border-l border-border"
+                  aria-label="เพิ่มขนาดตัวอักษร"
+                  disabled={fontSize === 'large'}
+                >
+                  <Plus size={14} />
+                </Button>
+              </div>
+              
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="w-9 h-9 p-0"
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              </Button>
+              
+              {/* Language Selector */}
+              <Select value={currentLang} onValueChange={changeLanguage}>
+                <SelectTrigger className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="th">TH</SelectItem>
+                  <SelectItem value="en">EN</SelectItem>
+                  <SelectItem value="zh">ZH</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
+                {user ? (
+                  <div className="flex items-center gap-2">
+                    <User size={16} />
+                    <span className="hidden sm:inline">{user.name}</span>
+                  </div>
+                ) : (
+                  t('nav.login')
+                )}
+              </Button>
             </div>
           </div>
-          
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
-            <a href="#" className="hover:text-accent transition-colors">{t('nav.home')}</a>
-            <a href="#properties" className="hover:text-accent transition-colors">{t('nav.properties')}</a>
-            <a href="#contact" className="hover:text-accent transition-colors">{t('nav.contact')}</a>
-            <a 
-              href="https://landsmaps.dol.go.th/" 
-              target="_blank" 
-              rel="noopener"
-              className="hover:text-accent transition-colors"
-            >
-              {t('nav.landsmaps')}
-            </a>
-          </nav>
-          
-          {/* Controls */}
-          <div className="flex items-center gap-3">
-            {/* Font Size Controls */}
-            <div className="flex items-center border border-border rounded-md">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
-                className="w-8 h-8 p-0 rounded-r-none border-r border-border"
-                aria-label="ลดขนาดตัวอักษร"
-                disabled={fontSize === 'small'}
-              >
-                <Minus size={14} />
-              </Button>
-              <div className="px-2 text-xs font-medium min-w-[24px] text-center">
-                <TextAa size={14} />
+
+          {/* Mobile Layout */}
+          <div className="md:hidden">
+            {/* Top Row - Logo and Title (unchanged) */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-1">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden">
+                  <img 
+                    src={nextplotLogo} 
+                    alt="NextPlot Logo" 
+                    className="w-full h-full object-contain p-1 logo-glow-enhanced"
+                  />
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-accent font-mono text-xl">NextPlot</div>
+                  <div className="text-accent text-sm font-semibold logo-glow">PLOT FOR SALE</div>
+                </div>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
-                className="w-8 h-8 p-0 rounded-l-none border-l border-border"
-                aria-label="เพิ่มขนาดตัวอักษร"
-                disabled={fontSize === 'large'}
-              >
-                <Plus size={14} />
+              
+              <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
+                {user ? (
+                  <div className="flex items-center gap-1">
+                    <User size={14} />
+                    <span className="text-xs">{user.name.split(' ')[0]}</span>
+                  </div>
+                ) : (
+                  <span className="text-xs">{t('nav.login')}</span>
+                )}
               </Button>
             </div>
-            
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTheme}
-              className="w-9 h-9 p-0"
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-            
-            {/* Language Selector */}
-            <Select value={currentLang} onValueChange={changeLanguage}>
-              <SelectTrigger className="w-16">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="th">TH</SelectItem>
-                <SelectItem value="en">EN</SelectItem>
-                <SelectItem value="zh">ZH</SelectItem>
-              </SelectContent>
-            </Select>
-            
-            <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <User size={16} />
-                  <span className="hidden sm:inline">{user.name}</span>
+
+            {/* Bottom Row - Controls */}
+            <div className="flex items-center justify-between gap-2">
+              {/* Navigation Links */}
+              <div className="flex items-center gap-1 text-xs text-accent">
+                <a href="#" className="px-2 py-1 border border-accent/30 rounded">{t('nav.home')}</a>
+                <span className="text-accent">|</span>
+                <a href="#properties" className="px-2 py-1 border border-accent/30 rounded">{t('nav.properties')}</a>
+                <span className="text-accent">|</span>
+                <a href="#contact" className="px-2 py-1 border border-accent/30 rounded">{t('nav.contact')}</a>
+              </div>
+              
+              {/* Right Controls */}
+              <div className="flex items-center gap-2">
+                {/* Font Size Controls */}
+                <div className="flex items-center border border-border rounded-md">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setFontSize(current => current === 'large' ? 'medium' : current === 'medium' ? 'small' : 'small')}
+                    className="w-6 h-6 p-0 rounded-r-none border-r border-border"
+                    aria-label="ลดขนาดตัวอักษร"
+                    disabled={fontSize === 'small'}
+                  >
+                    <Minus size={10} />
+                  </Button>
+                  <div className="px-1 text-xs font-medium min-w-[16px] text-center">
+                    <TextAa size={10} />
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setFontSize(current => current === 'small' ? 'medium' : current === 'medium' ? 'large' : 'large')}
+                    className="w-6 h-6 p-0 rounded-l-none border-l border-border"
+                    aria-label="เพิ่มขนาดตัวอักษร"
+                    disabled={fontSize === 'large'}
+                  >
+                    <Plus size={10} />
+                  </Button>
                 </div>
-              ) : (
-                t('nav.login')
-              )}
-            </Button>
+                
+                {/* Theme Toggle */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleTheme}
+                  className="w-7 h-7 p-0"
+                  aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+                </Button>
+                
+                {/* Language Selector */}
+                <Select value={currentLang} onValueChange={changeLanguage}>
+                  <SelectTrigger className="w-16 h-7 text-xs">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="th">TH</SelectItem>
+                    <SelectItem value="en">EN</SelectItem>
+                    <SelectItem value="zh">ZH</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -2643,7 +2742,7 @@ function App() {
             {/* Logo & Description */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden">
                   <img 
                     src={nextplotLogo} 
                     alt="NextPlot Logo" 
