@@ -1101,7 +1101,7 @@ function App() {
       <header className="border-b border-border bg-card" role="banner">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
               <img 
                 src={nextplotLogo} 
