@@ -554,7 +554,7 @@ function App() {
     pdpaConsent: false,
     propertyId: ''
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmittingContact, setIsSubmittingContact] = useState(false)
   
   // Favorites state
   const [favorites, setFavorites] = useKV<string[]>('favorites', [])
@@ -563,14 +563,29 @@ function App() {
   const [showShareModal, setShowShareModal] = useState(false)
   const [shareProperty, setShareProperty] = useState<Property | null>(null)
   
-  // Login modal state
-  const [showLoginModal, setShowLoginModal] = useState(false)
+  // Auth modal state
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [authMode, setAuthMode] = useState<'login' | 'register' | 'forgot'>('login')
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
     rememberMe: false
   })
-  const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const [registerForm, setRegisterForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+    agreeTerms: false
+  })
+  const [forgotForm, setForgotForm] = useState({
+    email: ''
+  })
+  const [isSubmittingAuth, setIsSubmittingAuth] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   
   // User state
   const [user, setUser] = useKV<{email: string, name: string} | null>('user', null)
@@ -583,6 +598,46 @@ function App() {
     const lang = currentLang as keyof typeof translations
     const translation = translations[lang]?.[key as keyof typeof translations['th']]
     return translation || key
+  }
+  
+  // Email validation
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+  
+  // Phone validation (Thai format)
+  const isValidPhone = (phone: string) => {
+    const phoneRegex = /^[0-9-+\s()]{10,}$/
+    return phoneRegex.test(phone)
+  }
+  const getPasswordStrength = (password: string) => {
+    if (!password) return { score: 0, label: '' }
+    
+    let score = 0
+    if (password.length >= 8) score += 1
+    if (password.length >= 12) score += 1
+    if (/[a-z]/.test(password)) score += 1
+    if (/[A-Z]/.test(password)) score += 1
+    if (/[0-9]/.test(password)) score += 1
+    if (/[^a-zA-Z0-9]/.test(password)) score += 1
+    
+    if (score <= 2) return { 
+      score: 1, 
+      label: currentLang === 'th' ? 'อ่อนแอ' : currentLang === 'en' ? 'Weak' : '弱'
+    }
+    if (score <= 4) return { 
+      score: 2, 
+      label: currentLang === 'th' ? 'ปานกลาง' : currentLang === 'en' ? 'Medium' : '中等'
+    }
+    if (score <= 5) return { 
+      score: 3, 
+      label: currentLang === 'th' ? 'แข็งแกร่ง' : currentLang === 'en' ? 'Strong' : '强'
+    }
+    return { 
+      score: 4, 
+      label: currentLang === 'th' ? 'แข็งแกร่งมาก' : currentLang === 'en' ? 'Very Strong' : '很强'
+    }
   }
   
   // Set initial language and theme on mount and ensure proper update
@@ -807,7 +862,7 @@ function App() {
   // Submit contact form
   const submitContactForm = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    setIsSubmittingContact(true)
     
     try {
       // Validate required fields
@@ -834,44 +889,112 @@ function App() {
     } catch (error) {
       toast.error(t('form.error'))
     } finally {
-      setIsSubmitting(false)
+      setIsSubmittingContact(false)
     }
   }
   
-  // Handle login
-  const handleLogin = async (e: React.FormEvent) => {
+  // Handle authentication
+  const handleAuth = async (e: React.FormEvent, mode: 'login' | 'register' | 'forgot') => {
     e.preventDefault()
-    setIsLoggingIn(true)
+    setIsSubmittingAuth(true)
     
     try {
-      // Validate required fields
-      if (!loginForm.email || !loginForm.password) {
-        throw new Error('Please fill all required fields')
+      if (mode === 'login') {
+        // Validate required fields
+        if (!loginForm.email || !loginForm.password) {
+          throw new Error('Please fill all required fields')
+        }
+        
+        // Mock authentication - in real app, this would call an API
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        // For demo purposes, accept any email/password
+        const userData = {
+          email: loginForm.email,
+          name: loginForm.email.split('@')[0] // Use email prefix as name
+        }
+        
+        setUser(userData)
+        toast.success(currentLang === 'th' ? 'เข้าสู่ระบบสำเร็จ' : 
+                      currentLang === 'en' ? 'Login successful' : '登录成功')
+        setShowAuthModal(false)
+        setLoginForm({
+          email: '',
+          password: '',
+          rememberMe: false
+        })
+      } else if (mode === 'register') {
+        // Validate required fields
+        if (!registerForm.firstName || !registerForm.lastName || !registerForm.email || 
+            !registerForm.phone || !registerForm.password || !registerForm.confirmPassword || 
+            !registerForm.agreeTerms) {
+          throw new Error('Please fill all required fields')
+        }
+        
+        if (registerForm.password !== registerForm.confirmPassword) {
+          throw new Error('Passwords do not match')
+        }
+        
+        if (registerForm.password.length < 8) {
+          throw new Error('Password must be at least 8 characters')
+        }
+        
+        // Mock registration - in real app, this would call an API
+        await new Promise(resolve => setTimeout(resolve, 1500))
+        
+        const userData = {
+          email: registerForm.email,
+          name: `${registerForm.firstName} ${registerForm.lastName}`
+        }
+        
+        setUser(userData)
+        toast.success(currentLang === 'th' ? 'สมัครสมาชิกสำเร็จ' : 
+                      currentLang === 'en' ? 'Registration successful' : '注册成功')
+        setShowAuthModal(false)
+        setRegisterForm({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          password: '',
+          confirmPassword: '',
+          agreeTerms: false
+        })
+      } else if (mode === 'forgot') {
+        // Validate email
+        if (!forgotForm.email) {
+          throw new Error('Please enter your email')
+        }
+        
+        // Mock password reset - in real app, this would call an API
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        toast.success(currentLang === 'th' ? 'ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลแล้ว' : 
+                      currentLang === 'en' ? 'Password reset link sent to your email' : '密码重置链接已发送到您的邮箱')
+        setAuthMode('login')
+        setForgotForm({ email: '' })
       }
-      
-      // Mock authentication - in real app, this would call an API
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // For demo purposes, accept any email/password
-      const userData = {
-        email: loginForm.email,
-        name: loginForm.email.split('@')[0] // Use email prefix as name
+    } catch (error: any) {
+      if (mode === 'login') {
+        toast.error(currentLang === 'th' ? 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' : 
+                    currentLang === 'en' ? 'Invalid email or password' : '邮箱或密码错误')
+      } else if (mode === 'register') {
+        if (error.message.includes('match')) {
+          toast.error(currentLang === 'th' ? 'รหัสผ่านไม่ตรงกัน' : 
+                      currentLang === 'en' ? 'Passwords do not match' : '密码不匹配')
+        } else if (error.message.includes('8 characters')) {
+          toast.error(currentLang === 'th' ? 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร' : 
+                      currentLang === 'en' ? 'Password must be at least 8 characters' : '密码至少需要8个字符')
+        } else {
+          toast.error(currentLang === 'th' ? 'กรุณากรอกข้อมูลให้ครบถ้วน' : 
+                      currentLang === 'en' ? 'Please fill all required fields' : '请填写所有必填字段')
+        }
+      } else {
+        toast.error(currentLang === 'th' ? 'กรุณากรอกอีเมล' : 
+                    currentLang === 'en' ? 'Please enter your email' : '请输入您的邮箱')
       }
-      
-      setUser(userData)
-      toast.success(currentLang === 'th' ? 'เข้าสู่ระบบสำเร็จ' : 
-                    currentLang === 'en' ? 'Login successful' : '登录成功')
-      setShowLoginModal(false)
-      setLoginForm({
-        email: '',
-        password: '',
-        rememberMe: false
-      })
-    } catch (error) {
-      toast.error(currentLang === 'th' ? 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' : 
-                  currentLang === 'en' ? 'Invalid email or password' : '邮箱或密码错误')
     } finally {
-      setIsLoggingIn(false)
+      setIsSubmittingAuth(false)
     }
   }
   
@@ -954,7 +1077,7 @@ function App() {
               </SelectContent>
             </Select>
             
-            <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowLoginModal(true)}>
+            <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
               {user ? (
                 <div className="flex items-center gap-2">
                   <User size={16} />
@@ -1849,114 +1972,563 @@ function App() {
             <Button 
               type="submit" 
               className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
-              disabled={isSubmitting || !contactForm.pdpaConsent}
+              disabled={isSubmittingContact || !contactForm.pdpaConsent}
             >
-              {isSubmitting ? t('form.submitting') : t('form.submit')}
+              {isSubmittingContact ? t('form.submitting') : t('form.submit')}
             </Button>
           </form>
         </DialogContent>
       </Dialog>
 
-      {/* Login Modal */}
-      <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
+      {/* Auth Modal (Login/Register/Forgot) */}
+      <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {currentLang === 'th' ? 'เข้าสู่ระบบ' : 
-               currentLang === 'en' ? 'Login' : '登录'}
+              {authMode === 'login' ? 
+                (currentLang === 'th' ? 'เข้าสู่ระบบ' : 
+                 currentLang === 'en' ? 'Sign In to NextPlot' : '登录 NextPlot') :
+               authMode === 'register' ?
+                (currentLang === 'th' ? 'สมัครสมาชิก' : 
+                 currentLang === 'en' ? 'Create Account' : '创建账户') :
+                (currentLang === 'th' ? 'รีเซ็ตรหัสผ่าน' : 
+                 currentLang === 'en' ? 'Reset Password' : '重置密码')
+              }
             </DialogTitle>
           </DialogHeader>
           
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
-              <div>
-                <Label htmlFor="login-email">
-                  {currentLang === 'th' ? 'อีเมล' : 
-                   currentLang === 'en' ? 'Email' : '邮箱'} *
-                </Label>
-                <Input
-                  id="login-email"
-                  type="email"
-                  placeholder={currentLang === 'th' ? 'กรุณากรอกอีเมล' : 
-                              currentLang === 'en' ? 'Enter your email' : '请输入邮箱'}
-                  value={loginForm.email}
-                  onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
-                  required
-                />
+          {authMode === 'login' && (
+            <form onSubmit={(e) => handleAuth(e, 'login')} className="space-y-4">
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="login-email">
+                    {currentLang === 'th' ? 'อีเมล' : 
+                     currentLang === 'en' ? 'Email Address' : '邮箱地址'} *
+                  </Label>
+                  <Input
+                    id="login-email"
+                    type="email"
+                    placeholder={currentLang === 'th' ? 'กรุณากรอกอีเมล' : 
+                                currentLang === 'en' ? 'Enter your email' : '请输入邮箱'}
+                    value={loginForm.email}
+                    onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
+                    required
+                    className="h-12"
+                    autoComplete="email"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="login-password">
+                    {currentLang === 'th' ? 'รหัสผ่าน' : 
+                     currentLang === 'en' ? 'Password' : '密码'} *
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="login-password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder={currentLang === 'th' ? 'กรุณากรอกรหัสผ่าน' : 
+                                  currentLang === 'en' ? 'Enter your password' : '请输入密码'}
+                      value={loginForm.password}
+                      onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
+                      required
+                      className="h-12 pr-10"
+                      autoComplete="current-password"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-12 w-12 px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="remember-me"
+                      checked={loginForm.rememberMe}
+                      onCheckedChange={(checked) => setLoginForm(prev => ({ ...prev, rememberMe: !!checked }))}
+                    />
+                    <Label htmlFor="remember-me" className="text-sm">
+                      {currentLang === 'th' ? 'จดจำการเข้าสู่ระบบ' : 
+                       currentLang === 'en' ? 'Remember me' : '记住我'}
+                    </Label>
+                  </div>
+                  
+                  <Button 
+                    type="button"
+                    variant="link" 
+                    className="p-0 h-auto text-sm text-accent hover:text-accent/80"
+                    onClick={() => setAuthMode('forgot')}
+                  >
+                    {currentLang === 'th' ? 'ลืมรหัสผ่าน?' : 
+                     currentLang === 'en' ? 'Forgot password?' : '忘记密码？'}
+                  </Button>
+                </div>
               </div>
               
-              <div>
-                <Label htmlFor="login-password">
-                  {currentLang === 'th' ? 'รหัสผ่าน' : 
-                   currentLang === 'en' ? 'Password' : '密码'} *
-                </Label>
-                <Input
-                  id="login-password"
-                  type="password"
-                  placeholder={currentLang === 'th' ? 'กรุณากรอกรหัสผ่าน' : 
-                              currentLang === 'en' ? 'Enter your password' : '请输入密码'}
-                  value={loginForm.password}
-                  onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
-                  required
-                />
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="remember-me"
-                  checked={loginForm.rememberMe}
-                  onCheckedChange={(checked) => setLoginForm(prev => ({ ...prev, rememberMe: !!checked }))}
-                />
-                <Label htmlFor="remember-me" className="text-sm">
-                  {currentLang === 'th' ? 'จดจำการเข้าสู่ระบบ' : 
-                   currentLang === 'en' ? 'Remember me' : '记住我'}
-                </Label>
-              </div>
-            </div>
-            
-            <div className="space-y-3">
-              <Button 
-                type="submit" 
-                className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
-                disabled={isLoggingIn}
-              >
-                {isLoggingIn ? 
-                  (currentLang === 'th' ? 'กำลังเข้าสู่ระบบ...' : 
-                   currentLang === 'en' ? 'Logging in...' : '登录中...') :
-                  (currentLang === 'th' ? 'เข้าสู่ระบบ' : 
-                   currentLang === 'en' ? 'Login' : '登录')
-                }
-              </Button>
-              
-              <div className="text-center text-sm text-muted-foreground">
-                {currentLang === 'th' ? 'ยังไม่มีบัญชี?' : 
-                 currentLang === 'en' ? "Don't have an account?" : '还没有账户？'}
-                {' '}
-                <Button variant="link" className="p-0 h-auto text-accent">
-                  {currentLang === 'th' ? 'สมัครสมาชิก' : 
-                   currentLang === 'en' ? 'Sign up' : '注册'}
+              <div className="space-y-3 pt-2">
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium"
+                  disabled={isSubmittingAuth}
+                >
+                  {isSubmittingAuth ? 
+                    (currentLang === 'th' ? 'กำลังเข้าสู่ระบบ...' : 
+                     currentLang === 'en' ? 'Signing in...' : '登录中...') :
+                    (currentLang === 'th' ? 'เข้าสู่ระบบ' : 
+                     currentLang === 'en' ? 'Sign In' : '登录')
+                  }
                 </Button>
+                
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-border" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-card px-2 text-muted-foreground">
+                      {currentLang === 'th' ? 'หรือ' : 
+                       currentLang === 'en' ? 'Or' : '或'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <Button 
+                    type="button"
+                    variant="outline" 
+                    className="h-12"
+                    onClick={() => toast.info(currentLang === 'th' ? 'ฟีเจอร์นี้ยังไม่พร้อมใช้งาน' : 
+                                             currentLang === 'en' ? 'Feature coming soon' : '功能即将推出')}
+                  >
+                    <Globe size={18} className="mr-2" />
+                    Google
+                  </Button>
+                  <Button 
+                    type="button"
+                    variant="outline" 
+                    className="h-12"
+                    onClick={() => toast.info(currentLang === 'th' ? 'ฟีเจอร์นี้ยังไม่พร้อมใช้งาน' : 
+                                             currentLang === 'en' ? 'Feature coming soon' : '功能即将推出')}
+                  >
+                    <MessageCircle size={18} className="mr-2" />
+                    Line
+                  </Button>
+                </div>
+                
+                <div className="text-center text-sm">
+                  <span className="text-muted-foreground">
+                    {currentLang === 'th' ? 'ยังไม่มีบัญชี?' : 
+                     currentLang === 'en' ? "Don't have an account?" : '还没有账户？'}
+                  </span>
+                  {' '}
+                  <Button 
+                    type="button"
+                    variant="link" 
+                    className="p-0 h-auto text-accent font-medium hover:text-accent/80"
+                    onClick={() => setAuthMode('register')}
+                  >
+                    {currentLang === 'th' ? 'สมัครสมาชิก' : 
+                     currentLang === 'en' ? 'Create account' : '创建账户'}
+                  </Button>
+                </div>
+              </div>
+            </form>
+          )}
+
+          {authMode === 'register' && (
+            <form onSubmit={(e) => handleAuth(e, 'register')} className="space-y-4">
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="register-firstName">
+                      {currentLang === 'th' ? 'ชื่อ' : 
+                       currentLang === 'en' ? 'First Name' : '名字'} *
+                    </Label>
+                    <Input
+                      id="register-firstName"
+                      type="text"
+                      placeholder={currentLang === 'th' ? 'ชื่อ' : 
+                                  currentLang === 'en' ? 'First name' : '名字'}
+                      value={registerForm.firstName}
+                      onChange={(e) => setRegisterForm(prev => ({ ...prev, firstName: e.target.value }))}
+                      required
+                      className="h-12"
+                      autoComplete="given-name"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="register-lastName">
+                      {currentLang === 'th' ? 'นามสกุล' : 
+                       currentLang === 'en' ? 'Last Name' : '姓氏'} *
+                    </Label>
+                    <Input
+                      id="register-lastName"
+                      type="text"
+                      placeholder={currentLang === 'th' ? 'นามสกุล' : 
+                                  currentLang === 'en' ? 'Last name' : '姓氏'}
+                      value={registerForm.lastName}
+                      onChange={(e) => setRegisterForm(prev => ({ ...prev, lastName: e.target.value }))}
+                      required
+                      className="h-12"
+                      autoComplete="family-name"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="register-email">
+                    {currentLang === 'th' ? 'อีเมล' : 
+                     currentLang === 'en' ? 'Email Address' : '邮箱地址'} *
+                  </Label>
+                  <Input
+                    id="register-email"
+                    type="email"
+                    placeholder={currentLang === 'th' ? 'กรุณากรอกอีเมล' : 
+                                currentLang === 'en' ? 'Enter your email' : '请输入邮箱'}
+                    value={registerForm.email}
+                    onChange={(e) => setRegisterForm(prev => ({ ...prev, email: e.target.value }))}
+                    required
+                    className="h-12"
+                    autoComplete="email"
+                  />
+                  {registerForm.email && !isValidEmail(registerForm.email) && (
+                    <div className="flex items-center gap-1 text-xs text-red-500 mt-1">
+                      <X size={12} />
+                      {currentLang === 'th' ? 'รูปแบบอีเมลไม่ถูกต้อง' : 
+                       currentLang === 'en' ? 'Invalid email format' : '邮箱格式无效'}
+                    </div>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="register-phone">
+                    {currentLang === 'th' ? 'เบอร์โทรศัพท์' : 
+                     currentLang === 'en' ? 'Phone Number' : '电话号码'} *
+                  </Label>
+                  <Input
+                    id="register-phone"
+                    type="tel"
+                    placeholder={currentLang === 'th' ? 'เช่น 081-234-5678' : 
+                                currentLang === 'en' ? 'e.g. 081-234-5678' : '例如：081-234-5678'}
+                    value={registerForm.phone}
+                    onChange={(e) => setRegisterForm(prev => ({ ...prev, phone: e.target.value }))}
+                    required
+                    className="h-12"
+                    autoComplete="tel"
+                  />
+                  {registerForm.phone && !isValidPhone(registerForm.phone) && (
+                    <div className="flex items-center gap-1 text-xs text-red-500 mt-1">
+                      <X size={12} />
+                      {currentLang === 'th' ? 'รูปแบบเบอร์โทรไม่ถูกต้อง' : 
+                       currentLang === 'en' ? 'Invalid phone format' : '电话格式无效'}
+                    </div>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="register-password">
+                    {currentLang === 'th' ? 'รหัสผ่าน' : 
+                     currentLang === 'en' ? 'Password' : '密码'} *
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="register-password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder={currentLang === 'th' ? 'อย่างน้อย 8 ตัวอักษร' : 
+                                  currentLang === 'en' ? 'At least 8 characters' : '至少8个字符'}
+                      value={registerForm.password}
+                      onChange={(e) => setRegisterForm(prev => ({ ...prev, password: e.target.value }))}
+                      required
+                      minLength={8}
+                      className="h-12 pr-10"
+                      autoComplete="new-password"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-12 w-12 px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </Button>
+                  </div>
+                  {registerForm.password && (
+                    <div className="mt-2">
+                      <div className="password-strength">
+                        <div 
+                          className={`password-strength-bar password-strength-${
+                            getPasswordStrength(registerForm.password).score === 1 ? 'weak' :
+                            getPasswordStrength(registerForm.password).score === 2 ? 'medium' :
+                            getPasswordStrength(registerForm.password).score === 3 ? 'strong' :
+                            'very-strong'
+                          }`}
+                        />
+                      </div>
+                      <div className="flex justify-between items-center mt-1">
+                        <span className="text-xs text-muted-foreground">
+                          {currentLang === 'th' ? 'ความแข็งแกร่ง:' : 
+                           currentLang === 'en' ? 'Strength:' : '强度：'}
+                          {' '}
+                          <span className={
+                            getPasswordStrength(registerForm.password).score === 1 ? 'text-red-500' :
+                            getPasswordStrength(registerForm.password).score === 2 ? 'text-yellow-500' :
+                            getPasswordStrength(registerForm.password).score === 3 ? 'text-green-500' :
+                            'text-accent'
+                          }>
+                            {getPasswordStrength(registerForm.password).label}
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="register-confirmPassword">
+                    {currentLang === 'th' ? 'ยืนยันรหัสผ่าน' : 
+                     currentLang === 'en' ? 'Confirm Password' : '确认密码'} *
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="register-confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder={currentLang === 'th' ? 'กรอกรหัสผ่านอีกครั้ง' : 
+                                  currentLang === 'en' ? 'Re-enter password' : '再次输入密码'}
+                      value={registerForm.confirmPassword}
+                      onChange={(e) => setRegisterForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                      required
+                      className="h-12 pr-10"
+                      autoComplete="new-password"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-12 w-12 px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    >
+                      {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </Button>
+                  </div>
+                  {registerForm.confirmPassword && registerForm.password && (
+                    <div className="mt-2">
+                      {registerForm.password === registerForm.confirmPassword ? (
+                        <div className="flex items-center gap-1 text-xs text-green-600">
+                          <div className="w-3 h-3 rounded-full bg-green-600 flex items-center justify-center">
+                            <div className="w-1 h-1 bg-white rounded-full" />
+                          </div>
+                          {currentLang === 'th' ? 'รหัสผ่านตรงกัน' : 
+                           currentLang === 'en' ? 'Passwords match' : '密码匹配'}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1 text-xs text-red-500">
+                          <X size={12} />
+                          {currentLang === 'th' ? 'รหัสผ่านไม่ตรงกัน' : 
+                           currentLang === 'en' ? 'Passwords do not match' : '密码不匹配'}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+                
+                <div className="flex items-start space-x-2">
+                  <Checkbox
+                    id="agree-terms"
+                    checked={registerForm.agreeTerms}
+                    onCheckedChange={(checked) => setRegisterForm(prev => ({ ...prev, agreeTerms: !!checked }))}
+                    required
+                    className="mt-1"
+                  />
+                  <Label htmlFor="agree-terms" className="text-sm leading-relaxed">
+                    {currentLang === 'th' ? 
+                      'ข้าพเจ้ายอมรับ' :
+                     currentLang === 'en' ? 
+                      'I agree to the' : 
+                      '我同意'}
+                    {' '}
+                    <Button variant="link" className="p-0 h-auto text-accent text-sm">
+                      {currentLang === 'th' ? 'เงื่อนไขการใช้งาน' : 
+                       currentLang === 'en' ? 'Terms of Service' : '服务条款'}
+                    </Button>
+                    {' '}
+                    {currentLang === 'th' ? 'และ' : 
+                     currentLang === 'en' ? 'and' : '和'}
+                    {' '}
+                    <Button variant="link" className="p-0 h-auto text-accent text-sm">
+                      {currentLang === 'th' ? 'นโยบายความเป็นส่วนตัว' : 
+                       currentLang === 'en' ? 'Privacy Policy' : '隐私政策'}
+                    </Button>
+                  </Label>
+                </div>
               </div>
               
-              <div className="text-center">
-                <Button variant="link" className="p-0 h-auto text-sm text-muted-foreground">
-                  {currentLang === 'th' ? 'ลืมรหัสผ่าน?' : 
-                   currentLang === 'en' ? 'Forgot password?' : '忘记密码？'}
+              <div className="space-y-3 pt-2">
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium"
+                  disabled={isSubmittingAuth}
+                >
+                  {isSubmittingAuth ? 
+                    (currentLang === 'th' ? 'กำลังสมัครสมาชิก...' : 
+                     currentLang === 'en' ? 'Creating account...' : '创建账户中...') :
+                    (currentLang === 'th' ? 'สมัครสมาชิก' : 
+                     currentLang === 'en' ? 'Create Account' : '创建账户')
+                  }
                 </Button>
+                
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-border" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-card px-2 text-muted-foreground">
+                      {currentLang === 'th' ? 'หรือ' : 
+                       currentLang === 'en' ? 'Or' : '或'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <Button 
+                    type="button"
+                    variant="outline" 
+                    className="h-12"
+                    onClick={() => toast.info(currentLang === 'th' ? 'ฟีเจอร์นี้ยังไม่พร้อมใช้งาน' : 
+                                             currentLang === 'en' ? 'Feature coming soon' : '功能即将推出')}
+                  >
+                    <Globe size={18} className="mr-2" />
+                    Google
+                  </Button>
+                  <Button 
+                    type="button"
+                    variant="outline" 
+                    className="h-12"
+                    onClick={() => toast.info(currentLang === 'th' ? 'ฟีเจอร์นี้ยังไม่พร้อมใช้งาน' : 
+                                             currentLang === 'en' ? 'Feature coming soon' : '功能即将推出')}
+                  >
+                    <MessageCircle size={18} className="mr-2" />
+                    Line
+                  </Button>
+                </div>
+                
+                <div className="text-center text-sm">
+                  <span className="text-muted-foreground">
+                    {currentLang === 'th' ? 'มีบัญชีอยู่แล้ว?' : 
+                     currentLang === 'en' ? 'Already have an account?' : '已有账户？'}
+                  </span>
+                  {' '}
+                  <Button 
+                    type="button"
+                    variant="link" 
+                    className="p-0 h-auto text-accent font-medium hover:text-accent/80"
+                    onClick={() => setAuthMode('login')}
+                  >
+                    {currentLang === 'th' ? 'เข้าสู่ระบบ' : 
+                     currentLang === 'en' ? 'Sign in' : '登录'}
+                  </Button>
+                </div>
+              </div>
+            </form>
+          )}
+
+          {authMode === 'forgot' && (
+            <form onSubmit={(e) => handleAuth(e, 'forgot')} className="space-y-4">
+              <div className="space-y-4">
+                <div className="text-center text-sm text-muted-foreground">
+                  {currentLang === 'th' ? 
+                    'กรอกอีเมลของคุณ เราจะส่งลิงก์สำหรับรีเซ็ตรหัสผ่านให้' :
+                   currentLang === 'en' ? 
+                    'Enter your email address and we\'ll send you a link to reset your password.' :
+                    '输入您的邮箱地址，我们将向您发送重置密码的链接。'}
+                </div>
+                
+                <div>
+                  <Label htmlFor="forgot-email">
+                    {currentLang === 'th' ? 'อีเมล' : 
+                     currentLang === 'en' ? 'Email Address' : '邮箱地址'} *
+                  </Label>
+                  <Input
+                    id="forgot-email"
+                    type="email"
+                    placeholder={currentLang === 'th' ? 'กรุณากรอกอีเมล' : 
+                                currentLang === 'en' ? 'Enter your email' : '请输入邮箱'}
+                    value={forgotForm.email}
+                    onChange={(e) => setForgotForm(prev => ({ ...prev, email: e.target.value }))}
+                    required
+                    className="h-12"
+                    autoComplete="email"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-3 pt-2">
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium"
+                  disabled={isSubmittingAuth}
+                >
+                  {isSubmittingAuth ? 
+                    (currentLang === 'th' ? 'กำลังส่ง...' : 
+                     currentLang === 'en' ? 'Sending...' : '发送中...') :
+                    (currentLang === 'th' ? 'ส่งลิงก์รีเซ็ต' : 
+                     currentLang === 'en' ? 'Send Reset Link' : '发送重置链接')
+                  }
+                </Button>
+                
+                <div className="text-center text-sm">
+                  <Button 
+                    type="button"
+                    variant="link" 
+                    className="p-0 h-auto text-accent font-medium hover:text-accent/80"
+                    onClick={() => setAuthMode('login')}
+                  >
+                    {currentLang === 'th' ? 'กลับไปหน้าเข้าสู่ระบบ' : 
+                     currentLang === 'en' ? 'Back to sign in' : '返回登录'}
+                  </Button>
+                </div>
+              </div>
+            </form>
+          )}
+          
+          <div className="border-t border-border pt-4">
+            <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-green-500 rounded-full" />
+                <span>
+                  {currentLang === 'th' ? 'ปลอดภัย SSL' : 
+                   currentLang === 'en' ? 'SSL Secured' : 'SSL 安全'}
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                <span>
+                  {currentLang === 'th' ? 'ปกป้องข้อมูล PDPA' : 
+                   currentLang === 'en' ? 'PDPA Protected' : 'PDPA 保护'}
+                </span>
               </div>
             </div>
-            
-            <div className="border-t border-border pt-4">
-              <div className="text-xs text-muted-foreground text-center">
-                {currentLang === 'th' ? 
-                  'สำหรับการทดสอบ: ใช้อีเมลและรหัสผ่านใดก็ได้' :
-                 currentLang === 'en' ? 
-                  'For demo: Use any email and password' :
-                  '演示用：使用任何邮箱和密码'
-                }
+            {authMode !== 'forgot' && (
+              <div className="text-center mt-2">
+                <div className="text-xs text-muted-foreground">
+                  {currentLang === 'th' ? 
+                    'สำหรับการทดสอบ: ใช้อีเมลและรหัสผ่านใดก็ได้' :
+                   currentLang === 'en' ? 
+                    'Demo: Use any email and password for testing' :
+                    '演示：使用任何邮箱和密码进行测试'}
+                </div>
               </div>
-            </div>
-          </form>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
 
