@@ -699,7 +699,7 @@ function App() {
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
   // Theme state - make sure it defaults properly and applies immediately
-  const [theme, setTheme] = useKV('theme', 'dark')
+  const [theme, setTheme] = useKV('theme', 'light')
   
   // Apply theme immediately on load
   useEffect(() => {
@@ -709,14 +709,14 @@ function App() {
         document.body.style.backgroundColor = 'oklch(0.98 0 0)'
         document.body.style.color = 'oklch(0.15 0 0)'
       } else {
-        document.documentElement.removeAttribute('data-theme')
+        document.documentElement.setAttribute('data-theme', 'dark')
         document.body.style.backgroundColor = 'oklch(0.15 0 0)'
         document.body.style.color = 'oklch(0.85 0 0)'
       }
     }
     
     // Apply theme immediately - handle undefined case
-    const currentTheme = theme || 'dark'
+    const currentTheme = theme || 'light'
     applyTheme(currentTheme)
     
     // Also listen for theme changes from localStorage
@@ -868,26 +868,37 @@ function App() {
     }
     
     // Apply theme to root element - ensure proper initialization
-    if (theme === 'light') {
+    // Default to light theme
+    const currentTheme = theme || 'light'
+    if (currentTheme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light')
+      document.body.style.backgroundColor = 'oklch(0.98 0 0)'
+      document.body.style.color = 'oklch(0.15 0 0)'
     } else {
-      document.documentElement.removeAttribute('data-theme')
+      document.documentElement.setAttribute('data-theme', 'dark')
+      document.body.style.backgroundColor = 'oklch(0.15 0 0)'
+      document.body.style.color = 'oklch(0.85 0 0)'
     }
   }, [currentLang, theme])
   
   // Initialize theme on component mount
   useEffect(() => {
-    // Force theme application on first load
-    if (theme === 'light') {
+    // Force light theme application on first load
+    const initialTheme = theme || 'light'
+    if (initialTheme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light')
+      document.body.style.backgroundColor = 'oklch(0.98 0 0)'
+      document.body.style.color = 'oklch(0.15 0 0)'
     } else {
-      document.documentElement.removeAttribute('data-theme')
+      document.documentElement.setAttribute('data-theme', 'dark')
+      document.body.style.backgroundColor = 'oklch(0.15 0 0)'
+      document.body.style.color = 'oklch(0.85 0 0)'
     }
   }, [])
   
   // Change theme and ensure immediate application
   const toggleTheme = () => {
-    const currentTheme = theme || 'dark'
+    const currentTheme = theme || 'light'
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
     setTheme(newTheme)
     
@@ -898,7 +909,7 @@ function App() {
         document.body.style.backgroundColor = 'oklch(0.98 0 0)'
         document.body.style.color = 'oklch(0.15 0 0)'
       } else {
-        document.documentElement.removeAttribute('data-theme')
+        document.documentElement.setAttribute('data-theme', 'dark')
         document.body.style.backgroundColor = 'oklch(0.15 0 0)'
         document.body.style.color = 'oklch(0.85 0 0)'
       }
@@ -1338,9 +1349,9 @@ function App() {
                 size="sm"
                 onClick={toggleTheme}
                 className="w-9 h-9 p-0 hover:bg-muted"
-                aria-label={(theme || 'dark') === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label={(theme || 'light') === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {(theme || 'dark') === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                {(theme || 'light') === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </Button>
               
               {/* Language Selector */}
