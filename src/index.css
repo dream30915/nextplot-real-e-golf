@@ -348,15 +348,26 @@ select:hover,
   }
 }
 
-/* Text golden glow */
+/* Text golden glow with transparency */
 .text-golden-glow {
   color: var(--accent);
   text-shadow: 0 0 8px rgba(201, 161, 74, 0.5);
   transition: all 0.3s ease;
+  opacity: 0.8; /* Add transparency to text */
 }
 
 .text-golden-glow:hover {
   text-shadow: 0 0 12px rgba(201, 161, 74, 0.8);
+  opacity: 1; /* Full opacity on hover */
+}
+
+/* Golden lines with transparency */
+.golden-lines {
+  border-color: rgba(201, 161, 74, 0.6) !important; /* Transparent golden lines */
+}
+
+.golden-lines:hover {
+  border-color: var(--accent) !important; /* Full opacity on hover */
 }
 
 /* Ripple effect for clicks */

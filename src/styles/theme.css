@@ -1,19 +1,17 @@
 @import "tailwindcss";
 
-@import '@radix-ui/colors/sa
-@import '@radix-ui/colors/olive-dark.css' layer(
+/* Import Radix UI colors */
+@import '@radix-ui/colors/sand.css' layer(base);
 @import '@radix-ui/colors/sand-dark.css' layer(base);
-@import '@radix-ui/colors/red-dark.css' layer(bas
+@import '@radix-ui/colors/olive.css' layer(base);
+@import '@radix-ui/colors/olive-dark.css' layer(base);
+@import '@radix-ui/colors/red.css' layer(base);
+@import '@radix-ui/colors/red-dark.css' layer(base);
+@import '@radix-ui/colors/ruby.css' layer(base);
 @import '@radix-ui/colors/ruby-dark.css' layer(base);
-@import '@radix-ui/colors/crimson-dark.css' laye
-@import '@radix-ui/colors/pink-dark.css' layer(base);
-@import '@radix-ui/colors/plum-dark.css' layer(
-@import '@radix-ui/colors/jade-dark.css' layer(base)
-@import '@radix-ui/colors/green-dark.css' layer(
-@import '@radix-ui/colors/grass-dark.css' layer(base)
-@import '@radix-ui/colors/bronze-dark.css' layer(ba
-@import '@radix-ui/colors/gold-dark.css' layer(base);
-@import '@radix-ui/colors/brown-dark.css' layer(
+@import '@radix-ui/colors/crimson.css' layer(base);
+@import '@radix-ui/colors/crimson-dark.css' layer(base);
+@import '@radix-ui/colors/pink.css' layer(base);
 @import '@radix-ui/colors/pink-dark.css' layer(base);
 @import '@radix-ui/colors/plum.css' layer(base);
 @import '@radix-ui/colors/plum-dark.css' layer(base);
@@ -38,22 +36,109 @@
 @import '@radix-ui/colors/lime.css' layer(base);
 @import '@radix-ui/colors/lime-dark.css' layer(base);
 @import '@radix-ui/colors/mint.css' layer(base);
-
+@import '@radix-ui/colors/mint-dark.css' layer(base);
 @import '@radix-ui/colors/sky.css' layer(base);
 @import '@radix-ui/colors/sky-dark.css' layer(base);
+@import '@radix-ui/colors/blue.css' layer(base);
+@import '@radix-ui/colors/blue-dark.css' layer(base);
+@import '@radix-ui/colors/indigo.css' layer(base);
+@import '@radix-ui/colors/indigo-dark.css' layer(base);
+@import '@radix-ui/colors/violet.css' layer(base);
+@import '@radix-ui/colors/violet-dark.css' layer(base);
+@import '@radix-ui/colors/purple.css' layer(base);
+@import '@radix-ui/colors/purple-dark.css' layer(base);
 @import '@radix-ui/colors/tomato.css' layer(base);
 @import '@radix-ui/colors/tomato-dark.css' layer(base);
 @import '@radix-ui/colors/gray.css' layer(base);
 @import '@radix-ui/colors/gray-dark.css' layer(base);
 @import '@radix-ui/colors/mauve.css' layer(base);
-}
+@import '@radix-ui/colors/mauve-dark.css' layer(base);
 @import '@radix-ui/colors/slate.css' layer(base);
 @import '@radix-ui/colors/slate-dark.css' layer(base);
 @import '@radix-ui/colors/slate-alpha.css' layer(base);
 @import '@radix-ui/colors/slate-dark-alpha.css' layer(base);
+@import '@radix-ui/colors/sage.css' layer(base);
+@import '@radix-ui/colors/sage-dark.css' layer(base);
 
-    --size-3: calc(0.75rem * 1);
+:root {
+  /* Spacing scale */
+  --size-1: 0.25rem;
+  --size-2: 0.5rem;
+  --size-3: 0.75rem;
+  --size-4: 1rem;
+  --size-5: 1.25rem;
+  --size-6: 1.5rem;
+  --size-8: 2rem;
+  --size-10: 2.5rem;
+  --size-12: 3rem;
+  --size-16: 4rem;
 
+  /* Color contrast values for accessibility */
+  --red-contrast: #fff;
+  --ruby-contrast: #fff;
+  --crimson-contrast: #fff;
+  --pink-contrast: #fff;
+  --plum-contrast: #fff;
+  --purple-contrast: #fff;
+  --violet-contrast: #fff;
+  --indigo-contrast: #fff;
+  --blue-contrast: #fff;
+  --cyan-contrast: #fff;
+  --teal-contrast: #fff;
+  --jade-contrast: #fff;
+  --green-contrast: #fff;
+  --grass-contrast: #fff;
+  --bronze-contrast: #fff;
+  --gold-contrast: #000;
+  --brown-contrast: #fff;
+  --orange-contrast: #fff;
+  --amber-contrast: #000;
+  --yellow-contrast: #000;
+  --lime-contrast: #000;
+  --mint-contrast: #000;
+  --sky-contrast: #000;
+  --gray-contrast: #fff;
+  --mauve-contrast: #fff;
+  --slate-contrast: #fff;
+  --sage-contrast: #fff;
+  --olive-contrast: #fff;
+  --sand-contrast: #fff;
+
+  /* Font families */
+  --font-sans-serif: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --font-family: var(--font-sans-serif);
+
+  /* Neutral colors - using gray scale */
+  --color-neutral-1: var(--gray-1);
+  --color-neutral-2: var(--gray-2);
+  --color-neutral-3: var(--gray-3);
+  --color-neutral-4: var(--gray-4);
+  --color-neutral-5: var(--gray-5);
+  --color-neutral-6: var(--gray-6);
+  --color-neutral-7: var(--gray-7);
+  --color-neutral-8: var(--gray-8);
+  --color-neutral-9: var(--gray-9);
+  --color-neutral-10: var(--gray-10);
+  --color-neutral-11: var(--gray-11);
+  --color-neutral-12: var(--gray-12);
+
+  /* Default theme colors */
+  --color-bg: var(--color-neutral-1);
+  --color-bg-inset: var(--color-neutral-2);
+  --color-bg-overlay: var(--color-neutral-3);
+}
+
+/* Dark theme adjustments */
+#spark-app.dark-theme {
+  --color-bg-inset: #000000;
+}
+
+/* 
+  Tailwind CSS v4 compatibility styles
   
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
@@ -62,124 +147,10 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
-    --indigo-
-    
-    --jade
-    --grass
-    --gold-co
-    --orange-contrast: #ff
-    --yellow-contrast: #000;
-   
- 
-
-    --olive-c
-
-    --font-sans-serif: 
-      "Apple Color
-      "Liberation Mono", "Courie
-
-    --color-neutral-1: var(--gray-1
-    --color-neutral-3: var(--gra
-    --color-neutral-5: var(--
-    --color-neutral-7: var(--gra
-    --color-neutral-9: var(--gr
-    --color-neutral-11: var(--gr
-
-    --color-bg: var(--color-neut
-    --color-bg-overlay: var(--co
-
-  #spark-app.dark-theme {
-    --color-bg-inset: #000000;
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-border, #e5e7eb);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    --indigo-contrast: #fff;
-    --blue-contrast: #fff;
-    --cyan-contrast: #fff;
-    --teal-contrast: #fff;
-    --jade-contrast: #fff;
-    --green-contrast: #fff;
-    --grass-contrast: #fff;
-    --bronze-contrast: #fff;
-    --gold-contrast: #000;
-    --brown-contrast: #fff;
-    --orange-contrast: #fff;
-    --amber-contrast: #000;
-    --yellow-contrast: #000;
-    --lime-contrast: #000;
-    --mint-contrast: #000;
-    --sky-contrast: #000;
-    --gray-contrast: #fff;
-    --mauve-contrast: #fff;
-    --slate-contrast: #fff;
-    --sage-contrast: #fff;
-    --olive-contrast: #fff;
-    --sand-contrast: #fff;
-
-    /* Font families */
-    --font-sans-serif: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
-    --font-family: var(--font-sans-serif);
-
-    /* Neutral colors - using gray scale */
-    --color-neutral-1: var(--gray-1);
-    --color-neutral-2: var(--gray-2);
-    --color-neutral-3: var(--gray-3);
-    --color-neutral-4: var(--gray-4);
-    --color-neutral-5: var(--gray-5);
-    --color-neutral-6: var(--gray-6);
-    --color-neutral-7: var(--gray-7);
-    --color-neutral-8: var(--gray-8);
-    --color-neutral-9: var(--gray-9);
-    --color-neutral-10: var(--gray-10);
-    --color-neutral-11: var(--gray-11);
-    --color-neutral-12: var(--gray-12);
-
-    /* Default theme colors */
-    --color-bg: var(--color-neutral-1);
-    --color-bg-inset: var(--color-neutral-2);
-
-
-
-
-
-
-
-
-
+}
