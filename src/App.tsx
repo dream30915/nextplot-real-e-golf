@@ -1362,7 +1362,7 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* About NextPlot */}
-            <Card className="p-6 flex flex-col h-full">
+            <Card className="p-6 flex flex-col h-full card-gold-border">
               <CardHeader className="p-0 mb-4">
                 <CardTitle className="text-2xl">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
               </CardHeader>
@@ -1393,7 +1393,7 @@ function App() {
             </Card>
 
             {/* Land Area Guide */}
-            <Card className="p-6 flex flex-col h-full">
+            <Card className="p-6 flex flex-col h-full card-gold-border">
               <CardHeader className="p-0 mb-4">
                 <CardTitle className="text-2xl">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
               </CardHeader>
@@ -1420,7 +1420,7 @@ function App() {
             </Card>
 
             {/* Zoning Colors */}
-            <Card className="p-6">
+            <Card className="p-6 card-gold-border">
               <CardHeader className="p-0 mb-4">
                 <CardTitle className="text-2xl">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
               </CardHeader>
@@ -1571,7 +1571,7 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProperties.map((property) => (
-              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
+              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full property-card-gold">
                 <div className="relative aspect-[4/3] bg-muted flex-shrink-0">
                   {property.media[0] ? (
                     <img

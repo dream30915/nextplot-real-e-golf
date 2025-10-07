@@ -269,6 +269,33 @@ textarea,
   width: 100%;
 }
 
+/* Gold border for cards with content */
+.card-gold-border {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 15px oklch(0.65 0.12 85 / 0.1), 
+              0 0 30px oklch(0.65 0.12 85 / 0.05);
+  transition: all 0.3s ease;
+}
+
+.card-gold-border:hover {
+  box-shadow: 0 0 20px oklch(0.65 0.12 85 / 0.15), 
+              0 0 40px oklch(0.65 0.12 85 / 0.08);
+}
+
+/* Property card gold border */
+.property-card-gold {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 12px oklch(0.65 0.12 85 / 0.08), 
+              0 0 25px oklch(0.65 0.12 85 / 0.04);
+  transition: all 0.3s ease;
+}
+
+.property-card-gold:hover {
+  box-shadow: 0 0 18px oklch(0.65 0.12 85 / 0.12), 
+              0 0 35px oklch(0.65 0.12 85 / 0.06);
+  transform: translateY(-2px);
+}
+
 /* Enhanced dialog styles */
 .dialog-overlay {
   background: rgba(0, 0, 0, 0.6);
