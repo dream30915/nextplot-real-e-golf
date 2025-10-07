@@ -1130,6 +1130,18 @@ function App() {
               {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
             </Button>
             
+            {/* User Auth Button */}
+            <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <User size={16} />
+                  <span className="hidden sm:inline">{user.name}</span>
+                </div>
+              ) : (
+                t('nav.login')
+              )}
+            </Button>
+            
             {/* Theme Toggle */}
             <Button
               variant="ghost"
@@ -1152,17 +1164,6 @@ function App() {
                 <SelectItem value="zh">ZH</SelectItem>
               </SelectContent>
             </Select>
-            
-            <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <User size={16} />
-                  <span className="hidden sm:inline">{user.name}</span>
-                </div>
-              ) : (
-                t('nav.login')
-              )}
-            </Button>
           </div>
         </div>
       </header>
