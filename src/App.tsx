@@ -1163,7 +1163,7 @@ function App() {
               
               {/* Language Selector */}
               <Select value={currentLang} onValueChange={changeLanguage}>
-                <SelectTrigger className="w-16">
+                <SelectTrigger className="w-9 h-9 p-0">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
