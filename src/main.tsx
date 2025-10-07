@@ -5,6 +5,12 @@ import { ErrorFallback } from './ErrorFallback.tsx'
 
 import "./main.css"
 
+createRoot(document.getElementById('root')!).render(
+  <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <App />
+  </ErrorBoundary>
+)
+
 
 
 

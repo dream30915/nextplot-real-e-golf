@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -702,7 +702,7 @@ function App() {
   const [theme, setTheme] = useKV('theme', 'light')
   
   // Property state - Initialize with sample data if empty
-  const [properties, setProperties] = useKV<Property[]>('properties', sampleProperties)
+  const [properties] = useKV<Property[]>('properties', sampleProperties)
   const [filteredProperties, setFilteredProperties] = useState<Property[]>([])
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
   const [showPropertyModal, setShowPropertyModal] = useState(false)
@@ -778,11 +778,11 @@ function App() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   
   // Translation helper
-  const t = (key: string): string => {
+  const t = useCallback((key: string): string => {
     const lang = currentLang as keyof typeof translations
     const translation = translations[lang]?.[key as keyof typeof translations['th']]
     return translation || key
-  }
+  }, [currentLang])
   
   // Email validation
   const isValidEmail = (email: string) => {
@@ -957,7 +957,7 @@ function App() {
     }
     
     setFilteredProperties(filtered)
-  }, [properties, filters])
+  }, [properties, filters, t])
   
   // Toggle favorite
   const toggleFavorite = (propertyId: string) => {
@@ -994,7 +994,7 @@ function App() {
               url: shareUrl
             })
             return
-          } catch (err) {
+          } catch {
             console.log('Native share cancelled')
           }
         }
@@ -1008,11 +1008,12 @@ function App() {
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank', 'noopener')
         break
         
-      case 'email':
+      case 'email': {
         const subject = encodeURIComponent(t(property.title))
         const body = encodeURIComponent(`${shareText}\n\n${shareUrl}`)
         window.open(`mailto:?subject=${subject}&body=${body}`)
         break
+      }
         
       case 'copy':
         try {
@@ -1075,7 +1076,7 @@ function App() {
         pdpaConsent: false,
         propertyId: ''
       })
-    } catch (error) {
+    } catch {
       toast.error(t('form.error'))
     } finally {
       setIsSubmittingContact(false)
@@ -1163,15 +1164,16 @@ function App() {
         setAuthMode('login')
         setForgotForm({ email: '' })
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : ''
       if (mode === 'login') {
         toast.error(currentLang === 'th' ? 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' : 
                     currentLang === 'en' ? 'Invalid email or password' : '邮箱或密码错误')
       } else if (mode === 'register') {
-        if (error.message.includes('match')) {
+        if (errorMessage.includes('match')) {
           toast.error(currentLang === 'th' ? 'รหัสผ่านไม่ตรงกัน' : 
                       currentLang === 'en' ? 'Passwords do not match' : '密码不匹配')
-        } else if (error.message.includes('8 characters')) {
+        } else if (errorMessage.includes('8 characters')) {
           toast.error(currentLang === 'th' ? 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร' : 
                       currentLang === 'en' ? 'Password must be at least 8 characters' : '密码至少需要8个字符')
         } else {
