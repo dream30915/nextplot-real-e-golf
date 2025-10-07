@@ -698,8 +698,8 @@ function App() {
   // Language state
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
-  // Theme state
-  const [theme, setTheme] = useKV('theme', 'dark')
+  // Theme state - default to light theme (white background)
+  const [theme, setTheme] = useKV('theme', 'light')
   
   // Property state - Initialize with sample data if empty
   const [properties, setProperties] = useKV<Property[]>('properties', sampleProperties)
@@ -830,9 +830,9 @@ function App() {
       document.documentElement.lang = currentLang
     }
     
-    // Apply theme to root element
-    if (theme === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light')
+    // Apply theme to root element - default to light theme (white background)
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark')
     } else {
       document.documentElement.removeAttribute('data-theme')
     }
@@ -840,11 +840,11 @@ function App() {
   
   // Change theme
   const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    const newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
     
-    if (newTheme === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light')
+    if (newTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark')
     } else {
       document.documentElement.removeAttribute('data-theme')
     }
@@ -1283,9 +1283,9 @@ function App() {
                 size="sm"
                 onClick={toggleTheme}
                 className="w-9 h-9 p-0 hover:bg-muted"
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
               >
-                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
               </Button>
               
               {/* Language Selector */}
