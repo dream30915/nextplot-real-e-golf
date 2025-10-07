@@ -30,7 +30,10 @@ import {
   X,
   Sun,
   Moon,
-  List
+  List,
+  Play,
+  MonitorPlay,
+  Drone
 } from '@phosphor-icons/react'
 import nextplotLogo from '@/assets/images/nextplot.png128.png'
 
@@ -60,6 +63,7 @@ const translations = {
     'filter.areaMax': 'พื้นที่สูงสุด',
     'filter.status': 'สถานะ',
     'filter.status.all': 'ทั้งหมด',
+    'filter.propertyType': 'ประเภท',
     'filter.sort': 'เรียงตาม',
     'filter.apply': 'ค้นหา',
     'filter.clear': 'ล้างตัวกรอง',
@@ -152,6 +156,24 @@ const translations = {
     'property.tag.commercial': 'เชิงพาณิช',
     'property.tag.cityCenter': 'ใจกลางเมือง',
     
+    // Property Types
+    'propertyType.land': 'ที่ดินเปล่า',
+    'propertyType.house': 'บ้าน',
+    'propertyType.commercial': 'อาคารพาณิชย์',
+    'propertyType.warehouse': 'โกดัง',
+    'propertyType.factory': 'โรงงาน',
+    'propertyType.condo': 'คอนโด',
+    'propertyType.townhouse': 'ทาวน์เฮาส์',
+    'propertyType.all': 'ทุกประเภท',
+    
+    // Virtual Tour
+    'property.virtualTour': 'ทัวร์เสมือนจริง',
+    'property.view360': 'ดู 360°',
+    'property.walkthrough': 'เดินชม',
+    'property.droneTour': 'มุมมองโดรน',
+    'property.tourDuration': 'ระยะเวลา',
+    'property.fullscreenTour': 'เต็มจอ',
+    
     // Zoning
     'zoning.yellow': 'สีเหลือง',
     'zoning.green': 'สีเขียว', 
@@ -184,6 +206,7 @@ const translations = {
     'filter.areaMax': 'Max Area',
     'filter.status': 'Status',
     'filter.status.all': 'All',
+    'filter.propertyType': 'Type',
     'filter.sort': 'Sort by',
     'filter.apply': 'Search',
     'filter.clear': 'Clear Filters',
@@ -276,6 +299,24 @@ const translations = {
     'property.tag.commercial': 'Commercial',
     'property.tag.cityCenter': 'City Center',
     
+    // Property Types
+    'propertyType.land': 'Land',
+    'propertyType.house': 'House',
+    'propertyType.commercial': 'Commercial',
+    'propertyType.warehouse': 'Warehouse',
+    'propertyType.factory': 'Factory',
+    'propertyType.condo': 'Condo',
+    'propertyType.townhouse': 'Townhouse',
+    'propertyType.all': 'All Types',
+    
+    // Virtual Tour
+    'property.virtualTour': 'Virtual Tour',
+    'property.view360': 'View 360°',
+    'property.walkthrough': 'Walkthrough',
+    'property.droneTour': 'Drone Tour',
+    'property.tourDuration': 'Duration',
+    'property.fullscreenTour': 'Fullscreen Tour',
+    
     // Zoning
     'zoning.yellow': 'Yellow Zone',
     'zoning.green': 'Green Zone',
@@ -308,6 +349,7 @@ const translations = {
     'filter.areaMax': '最大面积',
     'filter.status': '状态',
     'filter.status.all': '全部',
+    'filter.propertyType': '类型',
     'filter.sort': '排序',
     'filter.apply': '搜索',
     'filter.clear': '清除筛选',
@@ -400,6 +442,24 @@ const translations = {
     'property.tag.commercial': '商业用地',
     'property.tag.cityCenter': '市中心',
     
+    // Property Types
+    'propertyType.land': '土地',
+    'propertyType.house': '房屋',
+    'propertyType.commercial': '商业建筑',
+    'propertyType.warehouse': '仓库',
+    'propertyType.factory': '工厂',
+    'propertyType.condo': '公寓',
+    'propertyType.townhouse': '联排别墅',
+    'propertyType.all': '所有类型',
+    
+    // Virtual Tour
+    'property.virtualTour': '虚拟游览',
+    'property.view360': '360°查看',
+    'property.walkthrough': '漫游',
+    'property.droneTour': '无人机航拍',
+    'property.tourDuration': '时长',
+    'property.fullscreenTour': '全屏游览',
+    
     // Zoning
     'zoning.yellow': '黄色区域',
     'zoning.green': '绿色区域',
@@ -423,15 +483,29 @@ interface Property {
     unit: 'rai' | 'sqm'
   }
   status: 'available' | 'reserved' | 'sold'
+  propertyType: 'land' | 'house' | 'commercial' | 'warehouse' | 'factory' | 'condo' | 'townhouse'
   tags: string[]
   isSensitive: boolean
   media: Array<{
-    type: 'image' | 'video'
+    type: 'image' | 'video' | 'virtual-tour'
     src: string
     alt?: string
     poster?: string
     isSensitive?: boolean
+    tourType?: '360' | 'walkthrough' | 'drone'
   }>
+  virtualTour?: {
+    type: '360' | 'walkthrough' | 'drone'
+    url: string
+    thumbnail: string
+    duration?: number
+    hotspots?: Array<{
+      x: number
+      y: number
+      title: string
+      description: string
+    }>
+  }
   zoning?: {
     name: string
     colorHex: string
@@ -448,6 +522,7 @@ interface FilterState {
   areaMin: string
   areaMax: string
   status: string
+  propertyType: string
   sort: string
 }
 
@@ -473,6 +548,7 @@ const sampleProperties: Property[] = [
     currency: 'THB',
     area: { value: 2.5, unit: 'rai' },
     status: 'available',
+    propertyType: 'land',
     tags: ['property.tag.nearMainRoad', 'property.tag.investment', 'property.tag.titleDeedReady'],
     isSensitive: false,
     media: [
@@ -485,8 +561,20 @@ const sampleProperties: Property[] = [
         type: 'image',
         src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
         alt: 'Land survey view'
+      },
+      {
+        type: 'virtual-tour',
+        src: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        alt: 'Virtual drone tour',
+        tourType: 'drone'
       }
     ],
+    virtualTour: {
+      type: 'drone',
+      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      thumbnail: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=400&q=80',
+      duration: 180
+    },
     zoning: { name: 'zoning.yellow', colorHex: '#FFEB3B', note: 'zoning.yellow.note' }
   },
   {
@@ -498,6 +586,7 @@ const sampleProperties: Property[] = [
     currency: 'THB',
     area: { value: 1600, unit: 'sqm' },
     status: 'available',
+    propertyType: 'house',
     tags: ['property.tag.waterfront', 'property.tag.natureView', 'property.tag.oldHouse'],
     isSensitive: false,
     media: [
@@ -515,8 +604,24 @@ const sampleProperties: Property[] = [
         type: 'image',
         src: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800&q=80',
         alt: 'Traditional house by water'
+      },
+      {
+        type: 'virtual-tour',
+        src: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        alt: '360° house walkthrough',
+        tourType: '360'
       }
     ],
+    virtualTour: {
+      type: '360',
+      url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+      thumbnail: 'https://images.unsplash.com/photo-1416331108676-a22ccb276e35?w=400&q=80',
+      duration: 240,
+      hotspots: [
+        { x: 0.3, y: 0.4, title: 'Living Room', description: 'Spacious living area with canal view' },
+        { x: 0.7, y: 0.6, title: 'Kitchen', description: 'Traditional Thai kitchen' }
+      ]
+    },
     zoning: { name: 'zoning.green', colorHex: '#4CAF50', note: 'zoning.green.note' }
   },
   {
@@ -528,6 +633,7 @@ const sampleProperties: Property[] = [
     currency: 'THB',
     area: { value: 800, unit: 'sqm' },
     status: 'reserved',
+    propertyType: 'commercial',
     tags: ['property.tag.primeLocation', 'property.tag.commercial', 'property.tag.cityCenter'],
     isSensitive: false,
     media: [
@@ -545,8 +651,20 @@ const sampleProperties: Property[] = [
         type: 'image',
         src: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80',
         alt: 'Commercial area view'
+      },
+      {
+        type: 'virtual-tour',
+        src: 'https://www.youtube.com/embed/M7lc1UVf-VE',
+        alt: 'Commercial walkthrough',
+        tourType: 'walkthrough'
       }
     ],
+    virtualTour: {
+      type: 'walkthrough',
+      url: 'https://www.youtube.com/embed/M7lc1UVf-VE',
+      thumbnail: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80',
+      duration: 300
+    },
     zoning: { name: 'zoning.red', colorHex: '#F44336', note: 'zoning.red.note' }
   },
   {
@@ -558,6 +676,7 @@ const sampleProperties: Property[] = [
     currency: 'THB',
     area: { value: 1200, unit: 'sqm' },
     status: 'available',
+    propertyType: 'land',
     tags: ['property.tag.investment', 'property.tag.titleDeedReady'],
     isSensitive: false,
     media: [
@@ -598,6 +717,7 @@ function App() {
     areaMin: '',
     areaMax: '',
     status: 'all',
+    propertyType: 'all',
     sort: 'latest'
   })
   
@@ -620,6 +740,10 @@ function App() {
   // Share modal state
   const [showShareModal, setShowShareModal] = useState(false)
   const [shareProperty, setShareProperty] = useState<Property | null>(null)
+  
+  // Virtual tour modal state
+  const [showVirtualTour, setShowVirtualTour] = useState(false)
+  const [tourProperty, setTourProperty] = useState<Property | null>(null)
   
   // Auth modal state
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -813,6 +937,11 @@ function App() {
     // Status filter
     if (filters.status && filters.status !== 'all') {
       filtered = filtered.filter(p => p.status === filters.status)
+    }
+    
+    // Property type filter
+    if (filters.propertyType && filters.propertyType !== 'all') {
+      filtered = filtered.filter(p => p.propertyType === filters.propertyType)
     }
     
     // Sort
@@ -1238,7 +1367,7 @@ function App() {
       {/* Search & Filters */}
       <section id="properties" className="py-8 bg-card border-b border-border search-filter-section">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4 mb-6">
             {/* Search */}
             <div className="lg:col-span-2">
               <div className="relative">
@@ -1262,6 +1391,25 @@ function App() {
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
                 className="text-base"
               />
+            </div>
+            
+            {/* Property Type */}
+            <div>
+              <Select key={`propertyType-${currentLang}`} value={filters.propertyType} onValueChange={(value) => setFilters(prev => ({ ...prev, propertyType: value }))}>
+                <SelectTrigger className="text-base">
+                  <SelectValue placeholder={t('filter.propertyType')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{t('propertyType.all')}</SelectItem>
+                  <SelectItem value="land">{t('propertyType.land')}</SelectItem>
+                  <SelectItem value="house">{t('propertyType.house')}</SelectItem>
+                  <SelectItem value="commercial">{t('propertyType.commercial')}</SelectItem>
+                  <SelectItem value="warehouse">{t('propertyType.warehouse')}</SelectItem>
+                  <SelectItem value="factory">{t('propertyType.factory')}</SelectItem>
+                  <SelectItem value="condo">{t('propertyType.condo')}</SelectItem>
+                  <SelectItem value="townhouse">{t('propertyType.townhouse')}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             {/* Price Range */}
@@ -1345,6 +1493,7 @@ function App() {
                 areaMin: '',
                 areaMax: '',
                 status: 'all',
+                propertyType: 'all',
                 sort: 'latest'
               })}
               variant="outline"
@@ -1629,8 +1778,13 @@ function App() {
                   </div>
                   
                   <div className="space-y-2 mb-4 flex-1">
-                    <div className="text-xl font-bold text-accent">
-                      {formatPrice(property.price, property.currency)}
+                    <div className="flex items-center justify-between">
+                      <div className="text-xl font-bold text-accent">
+                        {formatPrice(property.price, property.currency)}
+                      </div>
+                      <Badge variant="outline" className="text-xs property-type-badge">
+                        {t(`propertyType.${property.propertyType}`)}
+                      </Badge>
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {formatArea(property.area)}
@@ -1645,6 +1799,16 @@ function App() {
                           aria-label={`${t('property.zoning')}: ${t(property.zoning.name)}`}
                         />
                         <span className="text-sm">{t(property.zoning.name)}</span>
+                      </div>
+                    )}
+                    
+                    {/* Virtual Tour Indicator */}
+                    {property.virtualTour && (
+                      <div className="flex items-center gap-1 text-xs text-accent">
+                        {property.virtualTour.type === 'drone' ? <Drone size={14} /> : 
+                         property.virtualTour.type === '360' ? <MonitorPlay size={14} /> : 
+                         <Play size={14} />}
+                        <span>{t('property.virtualTour')}</span>
                       </div>
                     )}
                   </div>
@@ -1669,6 +1833,25 @@ function App() {
                     >
                       {t('property.viewDetails')}
                     </Button>
+                    
+                    {/* Virtual Tour Button */}
+                    {property.virtualTour && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setTourProperty(property)
+                          setShowVirtualTour(true)
+                        }}
+                        aria-label={t('property.virtualTour')}
+                        title={t('property.virtualTour')}
+                      >
+                        {property.virtualTour.type === 'drone' ? <Drone size={16} /> : 
+                         property.virtualTour.type === '360' ? <MonitorPlay size={16} /> : 
+                         <Play size={16} />}
+                      </Button>
+                    )}
+                    
                     <Button
                       size="sm"
                       variant="outline"
@@ -1702,6 +1885,7 @@ function App() {
                   areaMin: '',
                   areaMax: '',
                   status: 'all',
+                  propertyType: 'all',
                   sort: 'latest'
                 })}
                 variant="outline"
@@ -1821,6 +2005,9 @@ function App() {
                       <Badge variant={getStatusVariant(selectedProperty.status)}>
                         {t(`status.${selectedProperty.status}`)}
                       </Badge>
+                      <Badge variant="outline" className="property-type-badge">
+                        {t(`propertyType.${selectedProperty.propertyType}`)}
+                      </Badge>
                     </div>
                     
                     {/* Zoning */}
@@ -1869,6 +2056,29 @@ function App() {
                       <Phone size={20} className="mr-2" />
                       {t('property.contact')}
                     </Button>
+                    
+                    {/* Virtual Tour Button */}
+                    {selectedProperty.virtualTour && (
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {
+                          setTourProperty(selectedProperty)
+                          setShowVirtualTour(true)
+                        }}
+                      >
+                        {selectedProperty.virtualTour.type === 'drone' ? <Drone size={20} className="mr-2" /> : 
+                         selectedProperty.virtualTour.type === '360' ? <MonitorPlay size={20} className="mr-2" /> : 
+                         <Play size={20} className="mr-2" />}
+                        {t('property.virtualTour')}
+                        {selectedProperty.virtualTour.duration && (
+                          <span className="ml-2 text-sm text-muted-foreground">
+                            ({Math.floor(selectedProperty.virtualTour.duration / 60)}:{(selectedProperty.virtualTour.duration % 60).toString().padStart(2, '0')})
+                          </span>
+                        )}
+                      </Button>
+                    )}
                     
                     <div className="flex gap-2">
                       <Button
@@ -2662,6 +2872,121 @@ function App() {
               </div>
             )}
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Virtual Tour Modal */}
+      <Dialog open={showVirtualTour} onOpenChange={setShowVirtualTour}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden">
+          {tourProperty && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-3">
+                  {tourProperty.virtualTour?.type === 'drone' ? <Drone size={24} /> : 
+                   tourProperty.virtualTour?.type === '360' ? <MonitorPlay size={24} /> : 
+                   <Play size={24} />}
+                  {t('property.virtualTour')} - {t(tourProperty.title)}
+                  {tourProperty.virtualTour?.duration && (
+                    <span className="text-sm text-muted-foreground font-normal">
+                      ({Math.floor(tourProperty.virtualTour.duration / 60)}:{(tourProperty.virtualTour.duration % 60).toString().padStart(2, '0')})
+                    </span>
+                  )}
+                </DialogTitle>
+              </DialogHeader>
+              
+              <div className="aspect-video bg-black rounded-lg overflow-hidden">
+                {tourProperty.virtualTour && (
+                  <iframe
+                    src={tourProperty.virtualTour.url}
+                    className="w-full h-full"
+                    allowFullScreen
+                    title={`${t('property.virtualTour')} - ${t(tourProperty.title)}`}
+                    loading="lazy"
+                  />
+                )}
+              </div>
+              
+              {/* Tour Information */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div className="text-center">
+                  <div className="text-sm text-muted-foreground">{t('property.code')}</div>
+                  <div className="font-mono font-medium">{tourProperty.code}</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-sm text-muted-foreground">{t('property.price')}</div>
+                  <div className="font-bold text-accent">{formatPrice(tourProperty.price, tourProperty.currency)}</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-sm text-muted-foreground">{t('property.area')}</div>
+                  <div className="font-medium">{formatArea(tourProperty.area)}</div>
+                </div>
+              </div>
+              
+              {/* Tour Type Badge */}
+              <div className="flex justify-center mt-4">
+                <Badge variant="secondary" className="flex items-center gap-2">
+                  {tourProperty.virtualTour?.type === 'drone' ? (
+                    <>
+                      <Drone size={16} />
+                      {t('property.droneTour')}
+                    </>
+                  ) : tourProperty.virtualTour?.type === '360' ? (
+                    <>
+                      <MonitorPlay size={16} />
+                      {t('property.view360')}
+                    </>
+                  ) : (
+                    <>
+                      <Play size={16} />
+                      {t('property.walkthrough')}
+                    </>
+                  )}
+                </Badge>
+              </div>
+              
+              {/* Hotspots Information (for 360 tours) */}
+              {tourProperty.virtualTour?.type === '360' && tourProperty.virtualTour.hotspots && (
+                <div className="mt-4">
+                  <div className="text-sm font-medium mb-2">
+                    {currentLang === 'th' ? 'จุดที่น่าสนใจ' : 
+                     currentLang === 'en' ? 'Points of Interest' : '兴趣点'}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {tourProperty.virtualTour.hotspots.map((hotspot, index) => (
+                      <div key={index} className="p-3 bg-muted rounded-lg">
+                        <div className="font-medium text-sm">{hotspot.title}</div>
+                        <div className="text-xs text-muted-foreground">{hotspot.description}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Action Buttons */}
+              <div className="flex gap-2 mt-4">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => {
+                    setShowVirtualTour(false)
+                    openPropertyModal(tourProperty)
+                  }}
+                >
+                  {t('property.viewDetails')}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowVirtualTour(false)
+                    openContactForm(tourProperty)
+                  }}
+                >
+                  <Phone size={16} className="mr-2" />
+                  {t('property.contact')}
+                </Button>
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
 

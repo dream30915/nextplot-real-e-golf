@@ -329,6 +329,65 @@ textarea,
   }
 }
 
+/* Virtual Tour Styles */
+.virtual-tour-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.virtual-tour-iframe {
+  border: none;
+  background: #000;
+}
+
+.virtual-tour-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.virtual-tour-overlay:hover {
+  opacity: 1;
+}
+
+.virtual-tour-button {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.virtual-tour-button:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  transform: scale(1.1);
+}
+
+/* Property type badge */
+.property-type-badge {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  padding: 0.25rem 0.5rem;
+  border-radius: calc(var(--radius) * 0.5);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
 /* Enhanced loading button */
 .loading-button {
   position: relative;
