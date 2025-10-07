@@ -1088,18 +1088,31 @@ function App() {
       <header className="border-b border-border bg-card" role="banner">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
-              <img 
-                src={nextplotLogo} 
-                alt="NextPlot Logo" 
-                className="w-full h-full object-contain p-1 logo-glow-enhanced"
-              />
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+                <img 
+                  src={nextplotLogo} 
+                  alt="NextPlot Logo" 
+                  className="w-full h-full object-contain p-1"
+                />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-accent">NextPlot</div>
+                <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+              </div>
             </div>
-            <div>
-              <div className="text-2xl font-bold text-accent">NextPlot</div>
-              <div className="text-sm text-accent/80">PLOT FOR SALE</div>
-            </div>
+            
+            {/* Mobile Menu Button below logo */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden w-9 h-9 p-0 self-start"
+              aria-label={isMobileMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
+            >
+              {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
+            </Button>
           </div>
           
           {/* Navigation */}
@@ -1119,17 +1132,6 @@ function App() {
           
           {/* Controls */}
           <div className="flex items-center gap-3">
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden w-9 h-9 p-0"
-              aria-label={isMobileMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
-            >
-              {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
-            </Button>
-            
             {/* User Auth Button */}
             <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
               {user ? (
@@ -2676,7 +2678,7 @@ function App() {
                   <img 
                     src={nextplotLogo} 
                     alt="NextPlot Logo" 
-                    className="w-full h-full object-contain p-1 logo-glow-enhanced"
+                    className="w-full h-full object-contain p-1"
                   />
                 </div>
                 <div>
