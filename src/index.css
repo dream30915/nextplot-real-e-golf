@@ -3,39 +3,55 @@
 
 @layer base {
   * {
-    @apply border-border
+    @apply border-border;
   }
 }
 
 :root {
-  /* Dark mode as default */
-  --background: oklch(0.15 0 0); /* Dark gray background */
-  --foreground: oklch(0.85 0 0); /* Light gray text */
-
-  --card: oklch(0.32 0 0); /* More contrast gray cards - lighter for better visibility */
-  --card-foreground: oklch(0.85 0 0); /* Light gray text on cards */
-  --popover: oklch(0.28 0 0);
-  --popover-foreground: oklch(0.85 0 0);
-
-  --primary: oklch(0.85 0 0); /* Light gray for primary */
-  --primary-foreground: oklch(0.15 0 0); /* Dark text on light */
-  --secondary: oklch(0.32 0 0); /* Medium dark gray - better contrast */
-  --secondary-foreground: oklch(0.85 0 0); /* Light text on secondary */
-  --muted: oklch(0.32 0 0); /* Medium dark gray - better contrast */
-  --muted-foreground: oklch(0.65 0 0); /* Medium light gray */
-
-  /* Luxury Gold Accent */
-  --accent: oklch(0.65 0.12 85); /* Rich gold */
-  --accent-foreground: oklch(1 0 0); /* White text on gold */
+  --radius: 0.5rem;
   
+  /* Base colors that define the core visual identity - White background theme */
+  --background: oklch(1 0 0); /* Pure white background */
+  --foreground: oklch(0.15 0 0); /* Dark text for contrast */
+  
+  --card: oklch(0.95 0 0); /* Light gray card background */
+  --card-foreground: oklch(0.15 0 0); /* Dark text */
+  --popover: oklch(0.95 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+  
+  /* Action colors that represent interactive elements */
+  --primary: oklch(0.15 0 0); /* Dark primary */
+  --primary-foreground: oklch(1 0 0); /* White text */
+  --secondary: oklch(0.90 0 0); /* Light secondary */
+  --secondary-foreground: oklch(0.15 0 0);
+  --accent: oklch(0.65 0.12 85); /* Gold accent */
+  --accent-foreground: oklch(1 0 0); /* White text on gold */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
-
-  --border: oklch(0.38 0 0); /* Lighter border for more contrast - even better visibility */
-  --input: oklch(0.38 0 0); /* Lighter input border - even better visibility */
-  --ring: oklch(0.65 0.12 85); /* Gold focus ring */
-
-  --radius: 0.5rem;
+  
+  /* Supporting UI colors for various states and elements */
+  --muted: oklch(0.92 0 0); /* Light muted background */
+  --muted-foreground: oklch(0.45 0 0); /* Muted dark text */
+  --border: oklch(0.85 0 0); /* Light borders */
+  --input: oklch(0.85 0 0); /* Input borders */
+  --ring: oklch(0.65 0.12 85); /* Focus ring */
+  
+  /* Chart colors */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  
+  /* Sidebar colors */
+  --sidebar: oklch(0.95 0 0);
+  --sidebar-foreground: oklch(0.15 0 0);
+  --sidebar-primary: oklch(0.65 0.12 85);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.90 0 0);
+  --sidebar-accent-foreground: oklch(0.15 0 0);
+  --sidebar-border: oklch(0.85 0 0);
+  --sidebar-ring: oklch(0.65 0.12 85);
 }
 
 /* Light mode - improved contrast and visibility */
@@ -430,6 +446,7 @@ textarea,
   }
 }
 
+/* Map the CSS variables to Tailwind's theme system */
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -450,11 +467,354 @@ textarea,
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Map radius variables to create a consistent rounding system */
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) * 1.5);
   --radius-xl: calc(var(--radius) * 2);
   --radius-2xl: calc(var(--radius) * 3);
   --radius-full: 9999px;
+  
+  /* Animation keyframes */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Standard hover effects for interactive elements */
+[role="button"]:hover,
+button:hover,
+select:hover,
+.ui-button:hover {
+  background-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+  transition: all 0.2s ease;
+}
+
+/* Select item hover */
+.select-item:hover {
+  background-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+}
+
+/* Disabled state */
+[disabled]:hover {
+  background-color: transparent !important;
+  color: var(--muted-foreground) !important;
+  cursor: not-allowed !important;
+}
+
+/* Standard button effects */
+.btn-standard {
+  transition: all 0.2s ease;
+}
+
+.btn-standard:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Input field standard effects */
+.input-standard {
+  transition: all 0.2s ease;
+}
+
+.input-standard:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px oklch(0.65 0.12 85 / 0.2);
+}
+
+/* Card standard effects */
+.card-standard {
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.card-standard:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Property card standard */
+.property-card-standard {
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.property-card-standard:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Standard icon effects */
+.icon-standard {
+  transition: all 0.2s ease;
+}
+
+.icon-standard:hover {
+  color: var(--accent);
+}
+
+/* Standard modal styles */
+.modal-standard {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+}
+
+/* Standard badge */
+.badge-standard {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  transition: all 0.2s ease;
+}
+
+.badge-standard:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.password-strength-medium {
+  background: #f59e0b;
+  width: 50%;
+}
+
+.password-strength-strong {
+  background: #10b981;
+  width: 75%;
+}
+
+.password-strength-very-strong {
+  background: var(--accent);
+  width: 100%;
+}
+
+/* Standard border for content cards */
+.card-border {
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.card-border:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Property card standard styling */
+.property-card {
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.property-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Enhanced dialog styles */
+.dialog-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.dialog-content {
+  border: 1px solid var(--border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Password strength indicator */
+.password-strength {
+  height: 4px;
+  background: var(--muted);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.password-strength-weak .password-strength-bar {
+  width: 25%;
+  background-color: #ef4444;
+}
+
+.password-strength-medium .password-strength-bar {
+  width: 50%;
+  background-color: #f59e0b;
+}
+
+.password-strength-strong .password-strength-bar {
+  width: 75%;
+  background-color: #10b981;
+}
+
+.password-strength-very-strong .password-strength-bar {
+  width: 100%;
+  background-color: var(--accent);
+}
+
+/* Property type badge */
+.property-type-badge {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  padding: 0.25rem 0.5rem;
+  border-radius: calc(var(--radius) * 0.5);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Animation keyframes */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* Virtual Tour Styles */
+.virtual-tour-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.virtual-tour-iframe {
+  border: none;
+  background: #000;
+}
+
+.virtual-tour-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.virtual-tour-overlay:hover {
+  opacity: 1;
+}
+
+.virtual-tour-button {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.virtual-tour-button:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  transform: scale(1.1);
+}
+
+/* Standard text contrast */
+.text-muted-foreground {
+  color: var(--muted-foreground) !important;
+}
+
+/* Ensure proper contrast for all text elements */
+.card-content p,
+.card-content div,
+.text-sm {
+  color: var(--foreground) !important;
+}
+
+/* Better contrast for property cards */
+.property-card-text {
+  color: var(--foreground) !important;
+  font-weight: 500;
+}
+
+/* Light theme text adjustments */
+[data-theme="light"] .text-muted-foreground {
+  color: var(--muted-foreground) !important;
+}
+
+[data-theme="light"] .card-content p,
+[data-theme="light"] .card-content div,
+[data-theme="light"] .text-sm {
+  color: var(--foreground) !important;
+}
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  padding: 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Mobile navigation specific styling */
+@media (max-width: 767px) {
+  .mobile-nav-link {
+    color: white !important;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-link:hover {
+    background-color: var(--accent) !important;
+    color: var(--accent-foreground) !important;
+    border-color: var(--accent) !important;
+  }
 }
