@@ -10,30 +10,30 @@
 :root {
   --radius: 0.5rem;
   
-  /* Base colors that define the core visual identity */
-  --background: oklch(0.18 0 0); /* #2E2E2E */
-  --foreground: oklch(1 0 0); /* #FFFFFF */
+  /* Base colors that define the core visual identity - Lighter dark theme */
+  --background: oklch(0.25 0 0); /* Lighter background - #404040 */
+  --foreground: oklch(0.95 0 0); /* Bright white text - #F2F2F2 */
   
-  --card: oklch(0.23 0 0); /* #3A3A3A */
-  --card-foreground: oklch(1 0 0); /* #FFFFFF */
-  --popover: oklch(0.23 0 0);
-  --popover-foreground: oklch(1 0 0);
+  --card: oklch(0.3 0 0); /* Lighter cards - #4D4D4D */
+  --card-foreground: oklch(0.95 0 0); /* Bright white text */
+  --popover: oklch(0.3 0 0);
+  --popover-foreground: oklch(0.95 0 0);
   
   /* Action colors that represent interactive elements */
-  --primary: oklch(0.18 0 0); /* #2E2E2E */
-  --primary-foreground: oklch(1 0 0); /* #FFFFFF */
-  --secondary: oklch(0.23 0 0); /* #3A3A3A */
-  --secondary-foreground: oklch(1 0 0);
+  --primary: oklch(0.25 0 0); /* #404040 */
+  --primary-foreground: oklch(0.95 0 0); /* Bright white */
+  --secondary: oklch(0.3 0 0); /* #4D4D4D */
+  --secondary-foreground: oklch(0.95 0 0);
   --accent: oklch(0.7 0.1 85); /* #C9A14A - Luxury Gold */
   --accent-foreground: oklch(0.07 0 0); /* #111111 */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
   
   /* Supporting UI colors for various states and elements */
-  --muted: oklch(0.9 0 0); /* #E5E5E5 */
-  --muted-foreground: oklch(0.18 0 0); /* #2E2E2E */
-  --border: oklch(0.35 0 0);
-  --input: oklch(0.35 0 0);
+  --muted: oklch(0.85 0 0); /* Lighter muted - #D9D9D9 */
+  --muted-foreground: oklch(0.4 0 0); /* Darker text for contrast - #666666 */
+  --border: oklch(0.45 0 0); /* Lighter borders - #737373 */
+  --input: oklch(0.45 0 0); /* Lighter input borders */
   --ring: oklch(0.7 0.1 85); /* Gold focus ring */
   
   /* Chart colors */
@@ -44,14 +44,49 @@
   --chart-5: oklch(0.769 0.188 70.08);
   
   /* Sidebar colors */
-  --sidebar: oklch(0.23 0 0);
-  --sidebar-foreground: oklch(1 0 0);
+  --sidebar: oklch(0.3 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
   --sidebar-primary: oklch(0.7 0.1 85);
   --sidebar-primary-foreground: oklch(0.07 0 0);
-  --sidebar-accent: oklch(0.23 0 0);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.35 0 0);
+  --sidebar-accent: oklch(0.3 0 0);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.45 0 0);
   --sidebar-ring: oklch(0.7 0.1 85);
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --background: oklch(0.98 0 0); /* #FAFAFA */
+  --foreground: oklch(0.15 0 0); /* #262626 */
+  
+  --card: oklch(1 0 0); /* #FFFFFF */
+  --card-foreground: oklch(0.15 0 0); /* #262626 */
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+  
+  --primary: oklch(0.15 0 0); /* #262626 */
+  --primary-foreground: oklch(0.98 0 0); /* #FAFAFA */
+  --secondary: oklch(0.96 0 0); /* #F5F5F5 */
+  --secondary-foreground: oklch(0.15 0 0);
+  --accent: oklch(0.65 0.12 85); /* Darker gold for light theme */
+  --accent-foreground: oklch(0.98 0 0); /* White text on gold */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0 0);
+  
+  --muted: oklch(0.96 0 0); /* #F5F5F5 */
+  --muted-foreground: oklch(0.45 0 0); /* #737373 */
+  --border: oklch(0.89 0 0); /* #E4E4E4 */
+  --input: oklch(0.89 0 0);
+  --ring: oklch(0.65 0.12 85);
+  
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.15 0 0);
+  --sidebar-primary: oklch(0.65 0.12 85);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.96 0 0);
+  --sidebar-accent-foreground: oklch(0.15 0 0);
+  --sidebar-border: oklch(0.89 0 0);
+  --sidebar-ring: oklch(0.65 0.12 85);
 }
 
 /* Map the CSS variables to Tailwind's theme system */
@@ -577,7 +612,34 @@ select:hover,
   background-color: var(--accent);
 }
 
-/* Skip link for accessibility */
+/* Enhanced contrast for better readability */
+.text-muted-foreground {
+  color: oklch(0.6 0 0) !important; /* Lighter gray for better readability */
+}
+
+/* Ensure proper contrast for all text elements */
+.card-content p,
+.card-content div,
+.text-sm {
+  color: var(--foreground) !important;
+}
+
+/* Better contrast for property cards */
+.property-card-text {
+  color: var(--foreground) !important;
+  font-weight: 500;
+}
+
+/* Light theme text adjustments */
+[data-theme="light"] .text-muted-foreground {
+  color: oklch(0.5 0 0) !important;
+}
+
+[data-theme="light"] .card-content p,
+[data-theme="light"] .card-content div,
+[data-theme="light"] .text-sm {
+  color: var(--foreground) !important;
+}
 .skip-link {
   position: absolute;
   top: -40px;

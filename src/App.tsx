@@ -1766,12 +1766,12 @@ function App() {
                 
                 <CardContent className="p-4 flex-1 flex flex-col">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-lg line-clamp-2 flex-1">{t(property.title)}</h3>
+                    <h3 className="font-semibold text-lg line-clamp-2 flex-1 text-foreground property-card-text">{t(property.title)}</h3>
                   </div>
                   
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
+                  <div className="flex items-center gap-1 text-sm text-foreground mb-2 property-card-text">
                     <MapPin size={14} className="icon-golden-glow" />
-                    <span>{t(property.location)}</span>
+                    <span className="text-foreground font-medium">{t(property.location)}</span>
                   </div>
                   
                   <div className="space-y-2 mb-4 flex-1">
@@ -1783,7 +1783,7 @@ function App() {
                         {t(`propertyType.${property.propertyType}`)}
                       </Badge>
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-sm text-foreground property-card-text font-medium">
                       {formatArea(property.area)}
                     </div>
                     
@@ -1795,13 +1795,13 @@ function App() {
                           style={{ backgroundColor: property.zoning.colorHex }}
                           aria-label={`${t('property.zoning')}: ${t(property.zoning.name)}`}
                         />
-                        <span className="text-sm">{t(property.zoning.name)}</span>
+                        <span className="text-sm text-foreground font-medium">{t(property.zoning.name)}</span>
                       </div>
                     )}
                     
                     {/* Virtual Tour Indicator */}
                     {property.virtualTour && (
-                      <div className="flex items-center gap-1 text-xs text-accent">
+                      <div className="flex items-center gap-1 text-xs text-accent font-medium">
                         {property.virtualTour.type === 'drone' ? <Drone size={14} /> : 
                          property.virtualTour.type === '360' ? <MonitorPlay size={14} /> : 
                          <Play size={14} />}
