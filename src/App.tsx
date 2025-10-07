@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,7 +13,6 @@ import { Toaster } from '@/components/ui/sonner'
 import { toast } from 'sonner'
 import { 
   MagnifyingGlass as Search, 
-  Funnel as Filter, 
   ShareNetwork as Share, 
   Heart, 
   MapPin, 
@@ -896,17 +895,17 @@ function App() {
     if (filters.keyword) {
       const keyword = filters.keyword.toLowerCase()
       filtered = filtered.filter(p => 
-        p.title.toLowerCase().includes(keyword) ||
-        p.location.toLowerCase().includes(keyword) ||
+        t(p.title).toLowerCase().includes(keyword) ||
+        t(p.location).toLowerCase().includes(keyword) ||
         p.code.toLowerCase().includes(keyword) ||
-        p.tags.some(tag => tag.toLowerCase().includes(keyword))
+        p.tags.some(tag => t(tag).toLowerCase().includes(keyword))
       )
     }
     
     // Location filter
     if (filters.location) {
       filtered = filtered.filter(p => 
-        p.location.toLowerCase().includes(filters.location.toLowerCase())
+        t(p.location).toLowerCase().includes(filters.location.toLowerCase())
       )
     }
     
@@ -1212,7 +1211,6 @@ function App() {
       <a href="#main-content" className="skip-link">
         ข้ามไปเนื้อหาหลัก
       </a>
-
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -1226,8 +1224,8 @@ function App() {
               />
             </div>
             <div>
-              <div className="text-2xl font-bold text-accent">NextPlot</div>
-              <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+              <div className="text-2xl font-bold text-accent text-golden-glow">NextPlot</div>
+              <div className="text-sm text-accent/80 logo-glow">PLOT FOR SALE</div>
             </div>
           </div>
           
@@ -1276,7 +1274,7 @@ function App() {
               variant="ghost"
               size="sm"
               onClick={toggleTheme}
-              className="w-9 h-9 p-0"
+              className="w-9 h-9 p-0 bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow icon-golden-glow ripple-golden-glow"
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
@@ -1284,7 +1282,7 @@ function App() {
             
             {/* Language Selector */}
             <Select value={currentLang} onValueChange={changeLanguage}>
-              <SelectTrigger className="w-16">
+              <SelectTrigger className="w-16 bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -1354,30 +1352,29 @@ function App() {
             {t('hero.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow">
               {t('hero.cta.viewAll')}
             </Button>
-            <Button size="lg" variant="outline" onClick={() => openContactForm()}>
+            <Button size="lg" variant="outline" onClick={() => openContactForm()} className="golden-glow ripple-golden-glow">
               {t('hero.cta.contact')}
             </Button>
           </div>
         </div>
       </section>
-
       {/* Search & Filters */}
       <section id="properties" className="py-8 bg-card border-b border-border search-filter-section">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4 mb-6">
             {/* Search */}
             <div className="lg:col-span-2">
-              <div className="relative">
-                <Search size={20} className="absolute left-3 top-3 text-muted-foreground" />
+              <div className="relative search-golden-glow">
+                <Search size={20} className="absolute left-3 top-3 text-muted-foreground icon-golden-glow" />
                 <Input
                   key={`search-${currentLang}`}
                   placeholder={t('search.placeholder')}
                   value={filters.keyword}
                   onChange={(e) => setFilters(prev => ({ ...prev, keyword: e.target.value }))}
-                  className="pl-10 text-base"
+                  className="pl-10 text-base input-golden-glow"
                 />
               </div>
             </div>
@@ -1389,7 +1386,7 @@ function App() {
                 placeholder={t('filter.location')}
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
             </div>
             
@@ -1420,7 +1417,7 @@ function App() {
                 type="number"
                 value={filters.priceMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMin: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
               <Input
                 key={`priceMax-${currentLang}`}
@@ -1428,7 +1425,7 @@ function App() {
                 type="number"
                 value={filters.priceMax}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMax: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
             </div>
             
@@ -1440,7 +1437,7 @@ function App() {
                 type="number"
                 value={filters.areaMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMin: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
               <Input
                 key={`areaMax-${currentLang}`}
@@ -1448,14 +1445,14 @@ function App() {
                 type="number"
                 value={filters.areaMax}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMax: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
             </div>
             
             {/* Status */}
             <div>
               <Select key={`status-${currentLang}`} value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
-                <SelectTrigger className="text-base">
+                <SelectTrigger className="text-base btn-golden-glow">
                   <SelectValue placeholder={t('filter.status')} />
                 </SelectTrigger>
                 <SelectContent>
@@ -1470,7 +1467,7 @@ function App() {
             {/* Sort */}
             <div>
               <Select key={`sort-${currentLang}`} value={filters.sort} onValueChange={(value) => setFilters(prev => ({ ...prev, sort: value }))}>
-                <SelectTrigger className="text-base">
+                <SelectTrigger className="text-base btn-golden-glow">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -1498,7 +1495,7 @@ function App() {
               })}
               variant="outline"
               size="sm"
-              className="text-base"
+              className="text-base btn-golden-glow ripple-golden-glow"
             >
               {t('filter.clear')}
             </Button>
@@ -1506,14 +1503,14 @@ function App() {
         </div>
       </section>
 
-      {/* Information Section */}
-      <section className="py-12 bg-background">
+      {/* Information Cards */}
+      <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* About NextPlot */}
             <Card className="p-6 flex flex-col h-full card-gold-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
+                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
                 <p className="text-muted-foreground mb-4 text-lg">
@@ -1526,15 +1523,15 @@ function App() {
                 </p>
                 <ul className="space-y-2 text-lg text-muted-foreground">
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
                     {currentLang === 'th' ? 'ระบบค้นหาขั้นสูง' : currentLang === 'en' ? 'Advanced Search System' : '高级搜索系统'}
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
                     {currentLang === 'th' ? 'แชร์ได้หลายช่องทาง' : currentLang === 'en' ? 'Multi-channel Sharing' : '多渠道分享'}
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
                     {currentLang === 'th' ? 'ระบบ PDPA ครบถ้วน' : currentLang === 'en' ? 'Complete PDPA System' : '完整的PDPA系统'}
                   </li>
                 </ul>
@@ -1544,20 +1541,20 @@ function App() {
             {/* Land Area Guide */}
             <Card className="p-6 flex flex-col h-full card-gold-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
+                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
                 <div className="space-y-3 text-base">
-                  <div className="bg-card p-3 rounded-lg">
-                    <div className="font-medium mb-2 text-lg">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
+                  <div className="bg-card p-3 rounded-lg golden-glow">
+                    <div className="font-medium mb-2 text-lg text-golden-glow">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
                     <div className="space-y-1 text-muted-foreground">
                       <div>1 {t('area.rai')} = 4 {t('area.ngan')} = 400 {t('area.wah')}</div>
                       <div>1 {t('area.ngan')} = 100 {t('area.wah')}</div>
                       <div>1 {t('area.wah')} = 4 {t('area.sqm')}</div>
                     </div>
                   </div>
-                  <div className="bg-card p-3 rounded-lg">
-                    <div className="font-medium mb-2 text-lg">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
+                  <div className="bg-card p-3 rounded-lg golden-glow">
+                    <div className="font-medium mb-2 text-lg text-golden-glow">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
                     <div className="space-y-1 text-muted-foreground">
                       <div>1 {t('area.rai')} = 1,600 {t('area.sqm')}</div>
                       <div>1 {t('area.ngan')} = 400 {t('area.sqm')}</div>
@@ -1571,12 +1568,12 @@ function App() {
             {/* Zoning Colors */}
             <Card className="p-6 card-gold-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
+                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="space-y-2 text-base max-h-80 overflow-y-auto">
                   <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 bg-yellow-400 border border-border flex-shrink-0" />
+                    <div className="w-4 h-4 bg-yellow-400 border border-border flex-shrink-0 badge-golden-glow" />
                     <div>
                       <div className="font-medium">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นน้อย' : currentLang === 'en' ? 'Low-density residential' : '低密度住宅'}</div>
                     </div>
@@ -1714,7 +1711,7 @@ function App() {
           </div>
         </div>
       </section>
-
+      
       {/* Properties Grid */}
       <main id="main-content" className="py-8" role="main">
         <div className="container mx-auto px-4">
@@ -1736,14 +1733,14 @@ function App() {
                     />
                   ) : (
                     <div className="w-full h-full bg-muted flex items-center justify-center">
-                      <MapPin size={48} className="text-muted-foreground" />
+                      <MapPin size={48} className="text-muted-foreground icon-golden-glow" />
                     </div>
                   )}
                   
                   {/* Status Badge */}
                   <Badge 
                     variant={getStatusVariant(property.status)}
-                    className="absolute top-2 left-2"
+                    className="absolute top-2 left-2 badge-golden-glow"
                   >
                     {t(`status.${property.status}`)}
                   </Badge>
@@ -1752,7 +1749,7 @@ function App() {
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="absolute top-2 right-2 w-8 h-8 p-0 bg-background/80 hover:bg-background"
+                    className="absolute top-2 right-2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow ripple-golden-glow"
                     onClick={(e) => {
                       e.stopPropagation()
                       toggleFavorite(property.id)
@@ -1762,7 +1759,7 @@ function App() {
                     <Heart 
                       size={16} 
                       weight={(favorites || []).includes(property.id) ? 'fill' : 'regular'}
-                      className={(favorites || []).includes(property.id) ? 'text-red-500' : 'text-foreground'}
+                      className={(favorites || []).includes(property.id) ? 'text-red-500' : 'text-foreground icon-golden-glow'}
                     />
                   </Button>
                 </div>
@@ -1773,7 +1770,7 @@ function App() {
                   </div>
                   
                   <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-                    <MapPin size={14} />
+                    <MapPin size={14} className="icon-golden-glow" />
                     <span>{t(property.location)}</span>
                   </div>
                   
@@ -1794,7 +1791,7 @@ function App() {
                     {property.zoning && (
                       <div className="flex items-center gap-2">
                         <div 
-                          className="w-4 h-4 border border-border flex-shrink-0"
+                          className="w-4 h-4 border border-border flex-shrink-0 badge-golden-glow"
                           style={{ backgroundColor: property.zoning.colorHex }}
                           aria-label={`${t('property.zoning')}: ${t(property.zoning.name)}`}
                         />
@@ -1817,7 +1814,7 @@ function App() {
                   {property.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-4">
                       {property.tags.slice(0, 3).map((tag, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
+                        <Badge key={index} variant="secondary" className="text-xs badge-golden-glow">
                           {t(tag)}
                         </Badge>
                       ))}
@@ -1828,7 +1825,7 @@ function App() {
                   <div className="flex gap-2 mt-auto">
                     <Button 
                       size="sm" 
-                      className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
+                      className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
                       onClick={() => openPropertyModal(property)}
                     >
                       {t('property.viewDetails')}
@@ -1860,8 +1857,9 @@ function App() {
                         setShowShareModal(true)
                       }}
                       aria-label={t('property.share')}
+                      className="golden-glow ripple-golden-glow"
                     >
-                      <Share size={16} />
+                      <Share size={16} className="icon-golden-glow" />
                     </Button>
                   </div>
                 </CardContent>
@@ -1897,21 +1895,20 @@ function App() {
           )}
         </div>
       </main>
-
       {/* Property Detail Modal */}
       <Dialog open={showPropertyModal} onOpenChange={setShowPropertyModal}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto modal-golden-glow">
           {selectedProperty && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl">{t(selectedProperty.title)}</DialogTitle>
+                <DialogTitle className="text-2xl text-golden-glow">{t(selectedProperty.title)}</DialogTitle>
               </DialogHeader>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Image Gallery */}
                 <div className="space-y-4">
                   {selectedProperty.media.length > 0 && (
-                    <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
+                    <div className="relative aspect-video bg-muted rounded-lg overflow-hidden golden-glow">
                       <img
                         src={selectedProperty.media[currentImageIndex]?.src}
                         alt={selectedProperty.media[currentImageIndex]?.alt || t(selectedProperty.title)}
@@ -1923,27 +1920,27 @@ function App() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background"
+                            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow"
                             onClick={() => setCurrentImageIndex(prev => 
                               prev === 0 ? selectedProperty.media.length - 1 : prev - 1
                             )}
                             aria-label="Previous image"
                           >
-                            <ChevronLeft size={16} />
+                            <ChevronLeft size={16} className="icon-golden-glow" />
                           </Button>
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow"
                             onClick={() => setCurrentImageIndex(prev => 
                               prev === selectedProperty.media.length - 1 ? 0 : prev + 1
                             )}
                             aria-label="Next image"
                           >
-                            <ChevronRight size={16} />
+                            <ChevronRight size={16} className="icon-golden-glow" />
                           </Button>
                           
-                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-sm">
+                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-sm golden-glow">
                             {currentImageIndex + 1} / {selectedProperty.media.length}
                           </div>
                         </>
@@ -1957,7 +1954,7 @@ function App() {
                       {selectedProperty.media.map((media, index) => (
                         <button
                           key={index}
-                          className={`flex-shrink-0 w-16 h-16 rounded border-2 overflow-hidden ${
+                          className={`flex-shrink-0 w-16 h-16 rounded border-2 overflow-hidden golden-glow ${
                             index === currentImageIndex ? 'border-accent' : 'border-border'
                           }`}
                           onClick={() => setCurrentImageIndex(index)}
@@ -1979,12 +1976,12 @@ function App() {
                   <div className="space-y-4">
                     <div>
                       <div className="text-sm text-muted-foreground">{t('property.code')}</div>
-                      <div className="font-mono text-lg">{selectedProperty.code}</div>
+                      <div className="font-mono text-lg text-golden-glow">{selectedProperty.code}</div>
                     </div>
                     
                     <div>
                       <div className="text-sm text-muted-foreground">{t('property.price')}</div>
-                      <div className="text-3xl font-bold text-accent">
+                      <div className="text-3xl font-bold text-accent text-golden-glow">
                         {formatPrice(selectedProperty.price, selectedProperty.currency)}
                       </div>
                     </div>
@@ -1997,12 +1994,12 @@ function App() {
                     </div>
                     
                     <div className="flex items-center gap-1 text-muted-foreground">
-                      <MapPin size={16} />
+                      <MapPin size={16} className="icon-golden-glow" />
                       <span>{t(selectedProperty.location)}</span>
                     </div>
                     
                     <div className="flex items-center gap-2">
-                      <Badge variant={getStatusVariant(selectedProperty.status)}>
+                      <Badge variant={getStatusVariant(selectedProperty.status)} className="badge-golden-glow">
                         {t(`status.${selectedProperty.status}`)}
                       </Badge>
                       <Badge variant="outline" className="property-type-badge">
@@ -2016,7 +2013,7 @@ function App() {
                         <div className="text-sm text-muted-foreground mb-2">{t('property.zoning')}</div>
                         <div className="flex items-center gap-2">
                           <div 
-                            className="w-6 h-6 border border-border flex-shrink-0"
+                            className="w-6 h-6 border border-border flex-shrink-0 badge-golden-glow"
                             style={{ backgroundColor: selectedProperty.zoning.colorHex }}
                             aria-label={`${t('property.zoning')}: ${t(selectedProperty.zoning.name)}`}
                           />
@@ -2035,7 +2032,7 @@ function App() {
                       <div className="text-sm text-muted-foreground mb-2">{t('property.tags')}</div>
                       <div className="flex flex-wrap gap-2">
                         {selectedProperty.tags.map((tag, index) => (
-                          <Badge key={index} variant="secondary">
+                          <Badge key={index} variant="secondary" className="badge-golden-glow">
                             {t(tag)}
                           </Badge>
                         ))}
@@ -2047,13 +2044,13 @@ function App() {
                   <div className="flex flex-col gap-3">
                     <Button 
                       size="lg" 
-                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
                       onClick={() => {
                         setShowPropertyModal(false)
                         openContactForm(selectedProperty)
                       }}
                     >
-                      <Phone size={20} className="mr-2" />
+                      <Phone size={20} className="mr-2 icon-golden-glow" />
                       {t('property.contact')}
                     </Button>
                     
@@ -2084,13 +2081,13 @@ function App() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex-1"
+                        className="flex-1 golden-glow ripple-golden-glow"
                         onClick={() => {
                           setShareProperty(selectedProperty)
                           setShowShareModal(true)
                         }}
                       >
-                        <Share size={16} className="mr-2" />
+                        <Share size={16} className="mr-2 icon-golden-glow" />
                         {t('property.share')}
                       </Button>
                       
@@ -2098,7 +2095,7 @@ function App() {
                         variant="outline"
                         size="sm"
                         onClick={() => toggleFavorite(selectedProperty.id)}
-                        className={(favorites || []).includes(selectedProperty.id) ? 'bg-red-50 text-red-600 border-red-200' : ''}
+                        className={(favorites || []).includes(selectedProperty.id) ? 'bg-red-50 text-red-600 border-red-200 golden-glow' : 'golden-glow ripple-golden-glow'}
                       >
                         <Heart 
                           size={16} 
@@ -2110,8 +2107,9 @@ function App() {
                         variant="outline"
                         size="sm"
                         onClick={() => window.open('https://landsmaps.dol.go.th/', '_blank', 'noopener')}
+                        className="golden-glow ripple-golden-glow"
                       >
-                        <MapPin size={16} />
+                        <MapPin size={16} className="icon-golden-glow" />
                       </Button>
                     </div>
                   </div>
@@ -2121,12 +2119,11 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Share Modal */}
       <Dialog open={showShareModal} onOpenChange={setShowShareModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md modal-golden-glow">
           <DialogHeader>
-            <DialogTitle>{t('property.share')}</DialogTitle>
+            <DialogTitle className="text-golden-glow">{t('property.share')}</DialogTitle>
           </DialogHeader>
           
           {shareProperty && (
@@ -2141,9 +2138,9 @@ function App() {
                   <Button
                     variant="outline"
                     onClick={() => handleShare(shareProperty, 'native')}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   >
-                    <Share size={16} />
+                    <Share size={16} className="icon-golden-glow" />
                     Share
                   </Button>
                 )}
@@ -2151,50 +2148,50 @@ function App() {
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'line')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.line')}
                 >
-                  <MessageCircle size={16} />
+                  <MessageCircle size={16} className="icon-golden-glow" />
                   Line
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'facebook')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.facebook')}
                 >
-                  <Globe size={16} />
+                  <Globe size={16} className="icon-golden-glow" />
                   Facebook
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'email')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.email')}
                 >
-                  <Mail size={16} />
+                  <Mail size={16} className="icon-golden-glow" />
                   Email
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'wechat')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.wechat')}
                 >
-                  <MessageCircle size={16} />
+                  <MessageCircle size={16} className="icon-golden-glow" />
                   WeChat
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'copy')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.copy')}
                 >
-                  <Copy size={16} />
+                  <Copy size={16} className="icon-golden-glow" />
                   {t('share.copy')}
                 </Button>
               </div>
@@ -2202,12 +2199,11 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Contact Form Modal */}
       <Dialog open={showContactForm} onOpenChange={setShowContactForm}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md modal-golden-glow">
           <DialogHeader>
-            <DialogTitle>{t('nav.contact')}</DialogTitle>
+            <DialogTitle className="text-golden-glow">{t('nav.contact')}</DialogTitle>
           </DialogHeader>
           
           <form onSubmit={submitContactForm} className="space-y-4">
@@ -2238,6 +2234,7 @@ function App() {
                   value={contactForm.name}
                   onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
                   required
+                  className="input-golden-glow"
                 />
               </div>
               
@@ -2252,6 +2249,7 @@ function App() {
                   value={contactForm.phone}
                   onChange={(e) => setContactForm(prev => ({ ...prev, phone: e.target.value }))}
                   required
+                  className="input-golden-glow"
                 />
               </div>
               
@@ -2264,6 +2262,7 @@ function App() {
                   placeholder={t('form.email.placeholder')}
                   value={contactForm.email}
                   onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                  className="input-golden-glow"
                 />
               </div>
               
@@ -2274,7 +2273,7 @@ function App() {
                   value={contactForm.preferredChannel} 
                   onValueChange={(value) => setContactForm(prev => ({ ...prev, preferredChannel: value }))}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="btn-golden-glow">
                     <SelectValue placeholder={t('form.preferredChannel')} />
                   </SelectTrigger>
                   <SelectContent>
@@ -2296,6 +2295,7 @@ function App() {
                   value={contactForm.message}
                   onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                   rows={3}
+                  className="input-golden-glow"
                 />
               </div>
               
@@ -2305,6 +2305,7 @@ function App() {
                   checked={contactForm.pdpaConsent}
                   onCheckedChange={(checked) => setContactForm(prev => ({ ...prev, pdpaConsent: !!checked }))}
                   required
+                  className="golden-glow"
                 />
                 <Label htmlFor="pdpa" className="text-sm leading-relaxed">
                   {t('form.pdpaConsent')}
@@ -2314,7 +2315,7 @@ function App() {
             
             <Button 
               type="submit" 
-              className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+              className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
               disabled={isSubmittingContact || !contactForm.pdpaConsent}
             >
               {isSubmittingContact ? t('form.submitting') : t('form.submit')}
@@ -2322,12 +2323,11 @@ function App() {
           </form>
         </DialogContent>
       </Dialog>
-
       {/* Auth Modal (Login/Register/Forgot) */}
       <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md modal-golden-glow">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-golden-glow">
               {authMode === 'login' ? 
                 (currentLang === 'th' ? 'เข้าสู่ระบบ' : 
                  currentLang === 'en' ? 'Sign In to NextPlot' : '登录 NextPlot') :
@@ -2356,7 +2356,7 @@ function App() {
                     value={loginForm.email}
                     onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
                     required
-                    className="h-12"
+                    className="h-12 input-golden-glow"
                     autoComplete="email"
                   />
                 </div>
@@ -2419,7 +2419,7 @@ function App() {
               <div className="space-y-3 pt-2">
                 <Button 
                   type="submit" 
-                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium"
+                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium btn-golden-glow ripple-golden-glow"
                   disabled={isSubmittingAuth}
                 >
                   {isSubmittingAuth ? 
@@ -2996,17 +2996,17 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Logo & Description */}
             <div>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden">
                   <img 
                     src={nextplotLogo} 
                     alt="NextPlot Logo" 
                     className="w-full h-full object-contain p-1 logo-glow-enhanced"
                   />
                 </div>
-                <div>
+                <div className="text-center">
                   <div className="text-xl font-bold text-accent">NextPlot</div>
-                  <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+                  <div className="text-sm text-accent font-semibold logo-glow">PLOT FOR SALE</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
@@ -3020,20 +3020,20 @@ function App() {
                 {currentLang === 'th' ? 'เมนู' : currentLang === 'en' ? 'Menu' : '菜单'}
               </h3>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.home')}
                 </a>
-                <a href="#properties" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#properties" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.properties')}
                 </a>
-                <a href="#contact" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#contact" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.contact')}
                 </a>
                 <a 
                   href="https://landsmaps.dol.go.th/" 
                   target="_blank" 
                   rel="noopener"
-                  className="block text-sm text-muted-foreground hover:text-accent transition-colors"
+                  className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors"
                 >
                   {t('nav.landsmaps')}
                 </a>
@@ -3046,10 +3046,10 @@ function App() {
                 {currentLang === 'th' ? 'นโยบาย' : currentLang === 'en' ? 'Policy' : '政策'}
               </h3>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('footer.privacy')}
                 </a>
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('footer.terms')}
                 </a>
               </div>
@@ -3064,7 +3064,7 @@ function App() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 export default App
