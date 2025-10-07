@@ -1086,9 +1086,10 @@ function App() {
 
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex flex-col gap-2">
+        <div className="container mx-auto px-4 py-4">
+          {/* Top Row - Logo and Login */}
+          <div className="flex items-center justify-between mb-3">
+            {/* Logo */}
             <div className="flex items-center gap-2">
               <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
                 <img 
@@ -1103,35 +1104,6 @@ function App() {
               </div>
             </div>
             
-            {/* Mobile Menu Button below logo */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden w-9 h-9 p-0 self-start hover:bg-muted"
-              aria-label={isMobileMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
-            >
-              {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
-            </Button>
-          </div>
-          
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
-            <a href="#" className="hover:text-accent transition-colors">{t('nav.home')}</a>
-            <a href="#properties" className="hover:text-accent transition-colors">{t('nav.properties')}</a>
-            <a href="#contact" className="hover:text-accent transition-colors">{t('nav.contact')}</a>
-            <a 
-              href="https://landsmaps.dol.go.th/" 
-              target="_blank" 
-              rel="noopener"
-              className="hover:text-accent transition-colors"
-            >
-              {t('nav.landsmaps')}
-            </a>
-          </nav>
-          
-          {/* Controls */}
-          <div className="flex items-center gap-3">
             {/* User Auth Button */}
             <Button variant="outline" size="sm" onClick={() => user ? handleLogout() : setShowAuthModal(true)}>
               {user ? (
@@ -1143,29 +1115,64 @@ function App() {
                 t('nav.login')
               )}
             </Button>
+          </div>
+          
+          {/* Bottom Row - Navigation and Controls */}
+          <div className="flex items-center justify-between">
+            {/* Left: Mobile Menu Button and Navigation */}
+            <div className="flex items-center gap-4">
+              {/* Mobile Menu Button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden w-9 h-9 p-0 hover:bg-muted"
+                aria-label={isMobileMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
+              >
+                {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
+              </Button>
+              
+              {/* Navigation */}
+              <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
+                <a href="#" className="hover:text-accent transition-colors">{t('nav.home')}</a>
+                <a href="#properties" className="hover:text-accent transition-colors">{t('nav.properties')}</a>
+                <a href="#contact" className="hover:text-accent transition-colors">{t('nav.contact')}</a>
+                <a 
+                  href="https://landsmaps.dol.go.th/" 
+                  target="_blank" 
+                  rel="noopener"
+                  className="hover:text-accent transition-colors"
+                >
+                  {t('nav.landsmaps')}
+                </a>
+              </nav>
+            </div>
             
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTheme}
-              className="w-9 h-9 p-0 hover:bg-muted"
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-            
-            {/* Language Selector */}
-            <Select value={currentLang} onValueChange={changeLanguage}>
-              <SelectTrigger className="w-16">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="th">TH</SelectItem>
-                <SelectItem value="en">EN</SelectItem>
-                <SelectItem value="zh">ZH</SelectItem>
-              </SelectContent>
-            </Select>
+            {/* Right: Theme Toggle and Language Selector */}
+            <div className="flex items-center gap-3">
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="w-9 h-9 p-0 hover:bg-muted"
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              </Button>
+              
+              {/* Language Selector */}
+              <Select value={currentLang} onValueChange={changeLanguage}>
+                <SelectTrigger className="w-16">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="th">TH</SelectItem>
+                  <SelectItem value="en">EN</SelectItem>
+                  <SelectItem value="zh">ZH</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       </header>
