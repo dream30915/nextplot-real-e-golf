@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,7 +13,6 @@ import { Toaster } from '@/components/ui/sonner'
 import { toast } from 'sonner'
 import { 
   MagnifyingGlass as Search, 
-  Funnel as Filter, 
   ShareNetwork as Share, 
   Heart, 
   MapPin, 
@@ -30,10 +29,7 @@ import {
   X,
   Sun,
   Moon,
-  List,
-  Minus,
-  Plus,
-  TextAa
+  List
 } from '@phosphor-icons/react'
 import nextplotLogo from '@/assets/images/nextplot.png128.png'
 
@@ -654,14 +650,8 @@ function App() {
   // Mobile menu state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   
-  // Font size state
-  const [fontSize, setFontSize] = useKV('fontSize', 'medium')
-  
   // Gallery state
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  
-  // Mobile menu state
-  const [showMobileMenu, setShowMobileMenu] = useState(false)
   
   // Translation helper
   const t = (key: string): string => {
@@ -781,17 +771,17 @@ function App() {
     if (filters.keyword) {
       const keyword = filters.keyword.toLowerCase()
       filtered = filtered.filter(p => 
-        p.title.toLowerCase().includes(keyword) ||
-        p.location.toLowerCase().includes(keyword) ||
+        t(p.title).toLowerCase().includes(keyword) ||
+        t(p.location).toLowerCase().includes(keyword) ||
         p.code.toLowerCase().includes(keyword) ||
-        p.tags.some(tag => tag.toLowerCase().includes(keyword))
+        p.tags.some(tag => t(tag).toLowerCase().includes(keyword))
       )
     }
     
     // Location filter
     if (filters.location) {
       filtered = filtered.filter(p => 
-        p.location.toLowerCase().includes(filters.location.toLowerCase())
+        t(p.location).toLowerCase().includes(filters.location.toLowerCase())
       )
     }
     
