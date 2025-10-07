@@ -1108,7 +1108,7 @@ function App() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden w-9 h-9 p-0 self-start"
+              className="md:hidden w-9 h-9 p-0 self-start hover:bg-muted"
               aria-label={isMobileMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
             >
               {isMobileMenuOpen ? <X size={18} /> : <List size={18} />}
@@ -1149,7 +1149,7 @@ function App() {
               variant="ghost"
               size="sm"
               onClick={toggleTheme}
-              className="w-9 h-9 p-0"
+              className="w-9 h-9 p-0 hover:bg-muted"
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
