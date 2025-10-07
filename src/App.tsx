@@ -580,8 +580,45 @@ function App() {
   // Language state
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
-  // Theme state
+  // Theme state - make sure it defaults properly and applies immediately
   const [theme, setTheme] = useKV('theme', 'dark')
+  
+  // Apply theme immediately on load
+  useEffect(() => {
+    const applyTheme = (themeValue: string) => {
+      if (themeValue === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light')
+        document.body.style.backgroundColor = 'oklch(0.98 0 0)'
+        document.body.style.color = 'oklch(0.15 0 0)'
+      } else {
+        document.documentElement.removeAttribute('data-theme')
+        document.body.style.backgroundColor = 'oklch(0.15 0 0)'
+        document.body.style.color = 'oklch(0.85 0 0)'
+      }
+    }
+    
+    // Apply theme immediately - handle undefined case
+    const currentTheme = theme || 'dark'
+    applyTheme(currentTheme)
+    
+    // Also listen for theme changes from localStorage
+    const handleStorageChange = () => {
+      const storedTheme = localStorage.getItem('theme')
+      if (storedTheme) {
+        try {
+          const parsedTheme = JSON.parse(storedTheme)
+          if (typeof parsedTheme === 'string') {
+            applyTheme(parsedTheme)
+          }
+        } catch (e) {
+          // Ignore parsing errors
+        }
+      }
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
+  }, [theme])
   
   // Property state - Initialize with sample data if empty
   const [properties, setProperties] = useKV<Property[]>('properties', sampleProperties)
@@ -707,7 +744,7 @@ function App() {
       document.documentElement.lang = currentLang
     }
     
-    // Apply theme to root element
+    // Apply theme to root element - ensure proper initialization
     if (theme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light')
     } else {
@@ -715,16 +752,34 @@ function App() {
     }
   }, [currentLang, theme])
   
-  // Change theme
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    setTheme(newTheme)
-    
-    if (newTheme === 'light') {
+  // Initialize theme on component mount
+  useEffect(() => {
+    // Force theme application on first load
+    if (theme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light')
     } else {
       document.documentElement.removeAttribute('data-theme')
     }
+  }, [])
+  
+  // Change theme and ensure immediate application
+  const toggleTheme = () => {
+    const currentTheme = theme || 'dark'
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    
+    // Force immediate theme application
+    setTimeout(() => {
+      if (newTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light')
+        document.body.style.backgroundColor = 'oklch(0.98 0 0)'
+        document.body.style.color = 'oklch(0.15 0 0)'
+      } else {
+        document.documentElement.removeAttribute('data-theme')
+        document.body.style.backgroundColor = 'oklch(0.15 0 0)'
+        document.body.style.color = 'oklch(0.85 0 0)'
+      }
+    }, 0)
   }
   
   // Change language and update HTML lang attribute
@@ -1156,9 +1211,9 @@ function App() {
                 size="sm"
                 onClick={toggleTheme}
                 className="w-9 h-9 p-0 hover:bg-muted"
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label={(theme || 'dark') === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                {(theme || 'dark') === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </Button>
               
               {/* Language Selector */}

@@ -38,30 +38,33 @@
   --radius: 0.5rem;
 }
 
-/* Light mode */
+/* Light mode - improved contrast and visibility */
 :root[data-theme="light"] {
   --background: oklch(0.98 0 0); /* Very light gray */
-  --foreground: oklch(0.35 0 0); /* Medium gray, easier to read */
+  --foreground: oklch(0.15 0 0); /* Dark text for better contrast */
 
-  --card: oklch(1 0 0); /* Pure white cards */
-  --card-foreground: oklch(0.35 0 0); /* Medium gray text */
+  --card: oklch(0.96 0 0); /* Light gray cards for better contrast against background */
+  --card-foreground: oklch(0.15 0 0); /* Dark text */
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.35 0 0);
+  --popover-foreground: oklch(0.15 0 0);
 
-  --primary: oklch(0.35 0 0); /* Medium gray instead of dark */
+  --primary: oklch(0.15 0 0); /* Dark gray for primary */
   --primary-foreground: oklch(1 0 0); /* White text */
-  --secondary: oklch(0.94 0 0); /* Light gray */
-  --secondary-foreground: oklch(0.35 0 0); /* Medium gray text */
-  --muted: oklch(0.94 0 0); /* Light gray */
-  --muted-foreground: oklch(0.55 0 0); /* Lighter medium gray */
+  --secondary: oklch(0.90 0 0); /* Light gray */
+  --secondary-foreground: oklch(0.15 0 0); /* Dark text */
+  --muted: oklch(0.90 0 0); /* Light gray */
+  --muted-foreground: oklch(0.45 0 0); /* Medium gray */
 
-  --border: oklch(0.85 0 0); /* Light border */
-  --input: oklch(0.85 0 0); /* Light input border */
+  --border: oklch(0.80 0 0); /* Medium light border for visibility */
+  --input: oklch(0.80 0 0); /* Medium light input border */
 }
 
 /* System font stack with Thai support */
 body {
   font-family: system-ui, -apple-system, "Segoe UI", "Leelawadee UI", Tahoma, "Noto Sans Thai", "Sukhumvit Set", "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Font size control */
