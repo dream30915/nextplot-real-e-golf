@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,7 +13,6 @@ import { Toaster } from '@/components/ui/sonner'
 import { toast } from 'sonner'
 import { 
   MagnifyingGlass as Search, 
-  Funnel as Filter, 
   ShareNetwork as Share, 
   Heart, 
   MapPin, 
@@ -30,7 +29,10 @@ import {
   X,
   Sun,
   Moon,
-  List
+  List,
+  Play,
+  MonitorPlay,
+  Drone
 } from '@phosphor-icons/react'
 import nextplotLogo from '@/assets/images/nextplot.png128.png'
 
@@ -60,6 +62,7 @@ const translations = {
     'filter.areaMax': 'พื้นที่สูงสุด',
     'filter.status': 'สถานะ',
     'filter.status.all': 'ทั้งหมด',
+    'filter.propertyType': 'ประเภท',
     'filter.sort': 'เรียงตาม',
     'filter.apply': 'ค้นหา',
     'filter.clear': 'ล้างตัวกรอง',
@@ -152,6 +155,24 @@ const translations = {
     'property.tag.commercial': 'เชิงพาณิช',
     'property.tag.cityCenter': 'ใจกลางเมือง',
     
+    // Property Types
+    'propertyType.land': 'ที่ดินเปล่า',
+    'propertyType.house': 'บ้าน',
+    'propertyType.commercial': 'อาคารพาณิชย์',
+    'propertyType.warehouse': 'โกดัง',
+    'propertyType.factory': 'โรงงาน',
+    'propertyType.condo': 'คอนโด',
+    'propertyType.townhouse': 'ทาวน์เฮาส์',
+    'propertyType.all': 'ทุกประเภท',
+    
+    // Virtual Tour
+    'property.virtualTour': 'ทัวร์เสมือนจริง',
+    'property.view360': 'ดู 360°',
+    'property.walkthrough': 'เดินชม',
+    'property.droneTour': 'มุมมองโดรน',
+    'property.tourDuration': 'ระยะเวลา',
+    'property.fullscreenTour': 'เต็มจอ',
+    
     // Zoning
     'zoning.yellow': 'สีเหลือง',
     'zoning.green': 'สีเขียว', 
@@ -184,6 +205,7 @@ const translations = {
     'filter.areaMax': 'Max Area',
     'filter.status': 'Status',
     'filter.status.all': 'All',
+    'filter.propertyType': 'Type',
     'filter.sort': 'Sort by',
     'filter.apply': 'Search',
     'filter.clear': 'Clear Filters',
@@ -276,6 +298,24 @@ const translations = {
     'property.tag.commercial': 'Commercial',
     'property.tag.cityCenter': 'City Center',
     
+    // Property Types
+    'propertyType.land': 'Land',
+    'propertyType.house': 'House',
+    'propertyType.commercial': 'Commercial',
+    'propertyType.warehouse': 'Warehouse',
+    'propertyType.factory': 'Factory',
+    'propertyType.condo': 'Condo',
+    'propertyType.townhouse': 'Townhouse',
+    'propertyType.all': 'All Types',
+    
+    // Virtual Tour
+    'property.virtualTour': 'Virtual Tour',
+    'property.view360': 'View 360°',
+    'property.walkthrough': 'Walkthrough',
+    'property.droneTour': 'Drone Tour',
+    'property.tourDuration': 'Duration',
+    'property.fullscreenTour': 'Fullscreen Tour',
+    
     // Zoning
     'zoning.yellow': 'Yellow Zone',
     'zoning.green': 'Green Zone',
@@ -308,6 +348,7 @@ const translations = {
     'filter.areaMax': '最大面积',
     'filter.status': '状态',
     'filter.status.all': '全部',
+    'filter.propertyType': '类型',
     'filter.sort': '排序',
     'filter.apply': '搜索',
     'filter.clear': '清除筛选',
@@ -400,6 +441,24 @@ const translations = {
     'property.tag.commercial': '商业用地',
     'property.tag.cityCenter': '市中心',
     
+    // Property Types
+    'propertyType.land': '土地',
+    'propertyType.house': '房屋',
+    'propertyType.commercial': '商业建筑',
+    'propertyType.warehouse': '仓库',
+    'propertyType.factory': '工厂',
+    'propertyType.condo': '公寓',
+    'propertyType.townhouse': '联排别墅',
+    'propertyType.all': '所有类型',
+    
+    // Virtual Tour
+    'property.virtualTour': '虚拟游览',
+    'property.view360': '360°查看',
+    'property.walkthrough': '漫游',
+    'property.droneTour': '无人机航拍',
+    'property.tourDuration': '时长',
+    'property.fullscreenTour': '全屏游览',
+    
     // Zoning
     'zoning.yellow': '黄色区域',
     'zoning.green': '绿色区域',
@@ -423,15 +482,29 @@ interface Property {
     unit: 'rai' | 'sqm'
   }
   status: 'available' | 'reserved' | 'sold'
+  propertyType: 'land' | 'house' | 'commercial' | 'warehouse' | 'factory' | 'condo' | 'townhouse'
   tags: string[]
   isSensitive: boolean
   media: Array<{
-    type: 'image' | 'video'
+    type: 'image' | 'video' | 'virtual-tour'
     src: string
     alt?: string
     poster?: string
     isSensitive?: boolean
+    tourType?: '360' | 'walkthrough' | 'drone'
   }>
+  virtualTour?: {
+    type: '360' | 'walkthrough' | 'drone'
+    url: string
+    thumbnail: string
+    duration?: number
+    hotspots?: Array<{
+      x: number
+      y: number
+      title: string
+      description: string
+    }>
+  }
   zoning?: {
     name: string
     colorHex: string
@@ -448,6 +521,7 @@ interface FilterState {
   areaMin: string
   areaMax: string
   status: string
+  propertyType: string
   sort: string
 }
 
@@ -473,6 +547,7 @@ const sampleProperties: Property[] = [
     currency: 'THB',
     area: { value: 2.5, unit: 'rai' },
     status: 'available',
+    propertyType: 'land',
     tags: ['property.tag.nearMainRoad', 'property.tag.investment', 'property.tag.titleDeedReady'],
     isSensitive: false,
     media: [
@@ -485,8 +560,20 @@ const sampleProperties: Property[] = [
         type: 'image',
         src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
         alt: 'Land survey view'
+      },
+      {
+        type: 'virtual-tour',
+        src: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        alt: 'Virtual drone tour',
+        tourType: 'drone'
       }
     ],
+    virtualTour: {
+      type: 'drone',
+      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      thumbnail: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=400&q=80',
+      duration: 180
+    },
     zoning: { name: 'zoning.yellow', colorHex: '#FFEB3B', note: 'zoning.yellow.note' }
   },
   {
@@ -498,6 +585,7 @@ const sampleProperties: Property[] = [
     currency: 'THB',
     area: { value: 1600, unit: 'sqm' },
     status: 'available',
+    propertyType: 'house',
     tags: ['property.tag.waterfront', 'property.tag.natureView', 'property.tag.oldHouse'],
     isSensitive: false,
     media: [
@@ -515,8 +603,24 @@ const sampleProperties: Property[] = [
         type: 'image',
         src: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800&q=80',
         alt: 'Traditional house by water'
+      },
+      {
+        type: 'virtual-tour',
+        src: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+        alt: '360° house walkthrough',
+        tourType: '360'
       }
     ],
+    virtualTour: {
+      type: '360',
+      url: 'https://www.youtube.com/embed/ScMzIvxBSi4',
+      thumbnail: 'https://images.unsplash.com/photo-1416331108676-a22ccb276e35?w=400&q=80',
+      duration: 240,
+      hotspots: [
+        { x: 0.3, y: 0.4, title: 'Living Room', description: 'Spacious living area with canal view' },
+        { x: 0.7, y: 0.6, title: 'Kitchen', description: 'Traditional Thai kitchen' }
+      ]
+    },
     zoning: { name: 'zoning.green', colorHex: '#4CAF50', note: 'zoning.green.note' }
   },
   {
@@ -528,6 +632,7 @@ const sampleProperties: Property[] = [
     currency: 'THB',
     area: { value: 800, unit: 'sqm' },
     status: 'reserved',
+    propertyType: 'commercial',
     tags: ['property.tag.primeLocation', 'property.tag.commercial', 'property.tag.cityCenter'],
     isSensitive: false,
     media: [
@@ -545,8 +650,20 @@ const sampleProperties: Property[] = [
         type: 'image',
         src: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80',
         alt: 'Commercial area view'
+      },
+      {
+        type: 'virtual-tour',
+        src: 'https://www.youtube.com/embed/M7lc1UVf-VE',
+        alt: 'Commercial walkthrough',
+        tourType: 'walkthrough'
       }
     ],
+    virtualTour: {
+      type: 'walkthrough',
+      url: 'https://www.youtube.com/embed/M7lc1UVf-VE',
+      thumbnail: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80',
+      duration: 300
+    },
     zoning: { name: 'zoning.red', colorHex: '#F44336', note: 'zoning.red.note' }
   },
   {
@@ -558,6 +675,7 @@ const sampleProperties: Property[] = [
     currency: 'THB',
     area: { value: 1200, unit: 'sqm' },
     status: 'available',
+    propertyType: 'land',
     tags: ['property.tag.investment', 'property.tag.titleDeedReady'],
     isSensitive: false,
     media: [
@@ -598,6 +716,7 @@ function App() {
     areaMin: '',
     areaMax: '',
     status: 'all',
+    propertyType: 'all',
     sort: 'latest'
   })
   
@@ -620,6 +739,10 @@ function App() {
   // Share modal state
   const [showShareModal, setShowShareModal] = useState(false)
   const [shareProperty, setShareProperty] = useState<Property | null>(null)
+  
+  // Virtual tour modal state
+  const [showVirtualTour, setShowVirtualTour] = useState(false)
+  const [tourProperty, setTourProperty] = useState<Property | null>(null)
   
   // Auth modal state
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -772,17 +895,17 @@ function App() {
     if (filters.keyword) {
       const keyword = filters.keyword.toLowerCase()
       filtered = filtered.filter(p => 
-        p.title.toLowerCase().includes(keyword) ||
-        p.location.toLowerCase().includes(keyword) ||
+        t(p.title).toLowerCase().includes(keyword) ||
+        t(p.location).toLowerCase().includes(keyword) ||
         p.code.toLowerCase().includes(keyword) ||
-        p.tags.some(tag => tag.toLowerCase().includes(keyword))
+        p.tags.some(tag => t(tag).toLowerCase().includes(keyword))
       )
     }
     
     // Location filter
     if (filters.location) {
       filtered = filtered.filter(p => 
-        p.location.toLowerCase().includes(filters.location.toLowerCase())
+        t(p.location).toLowerCase().includes(filters.location.toLowerCase())
       )
     }
     
@@ -813,6 +936,11 @@ function App() {
     // Status filter
     if (filters.status && filters.status !== 'all') {
       filtered = filtered.filter(p => p.status === filters.status)
+    }
+    
+    // Property type filter
+    if (filters.propertyType && filters.propertyType !== 'all') {
+      filtered = filtered.filter(p => p.propertyType === filters.propertyType)
     }
     
     // Sort
@@ -1083,7 +1211,6 @@ function App() {
       <a href="#main-content" className="skip-link">
         ข้ามไปเนื้อหาหลัก
       </a>
-
       {/* Header */}
       <header className="border-b border-border bg-card" role="banner">
         <div className="container mx-auto px-4 py-4">
@@ -1234,30 +1361,29 @@ function App() {
             {t('hero.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow">
               {t('hero.cta.viewAll')}
             </Button>
-            <Button size="lg" variant="outline" onClick={() => openContactForm()}>
+            <Button size="lg" variant="outline" onClick={() => openContactForm()} className="golden-glow ripple-golden-glow">
               {t('hero.cta.contact')}
             </Button>
           </div>
         </div>
       </section>
-
       {/* Search & Filters */}
       <section id="properties" className="py-8 bg-card border-b border-border search-filter-section">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4 mb-6">
             {/* Search */}
             <div className="lg:col-span-2">
-              <div className="relative">
-                <Search size={20} className="absolute left-3 top-3 text-muted-foreground" />
+              <div className="relative search-golden-glow">
+                <Search size={20} className="absolute left-3 top-3 text-muted-foreground icon-golden-glow" />
                 <Input
                   key={`search-${currentLang}`}
                   placeholder={t('search.placeholder')}
                   value={filters.keyword}
                   onChange={(e) => setFilters(prev => ({ ...prev, keyword: e.target.value }))}
-                  className="pl-10 text-base"
+                  className="pl-10 text-base input-golden-glow"
                 />
               </div>
             </div>
@@ -1269,8 +1395,27 @@ function App() {
                 placeholder={t('filter.location')}
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
+            </div>
+            
+            {/* Property Type */}
+            <div>
+              <Select key={`propertyType-${currentLang}`} value={filters.propertyType} onValueChange={(value) => setFilters(prev => ({ ...prev, propertyType: value }))}>
+                <SelectTrigger className="text-base">
+                  <SelectValue placeholder={t('filter.propertyType')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{t('propertyType.all')}</SelectItem>
+                  <SelectItem value="land">{t('propertyType.land')}</SelectItem>
+                  <SelectItem value="house">{t('propertyType.house')}</SelectItem>
+                  <SelectItem value="commercial">{t('propertyType.commercial')}</SelectItem>
+                  <SelectItem value="warehouse">{t('propertyType.warehouse')}</SelectItem>
+                  <SelectItem value="factory">{t('propertyType.factory')}</SelectItem>
+                  <SelectItem value="condo">{t('propertyType.condo')}</SelectItem>
+                  <SelectItem value="townhouse">{t('propertyType.townhouse')}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             {/* Price Range */}
@@ -1281,7 +1426,7 @@ function App() {
                 type="number"
                 value={filters.priceMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMin: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
               <Input
                 key={`priceMax-${currentLang}`}
@@ -1289,7 +1434,7 @@ function App() {
                 type="number"
                 value={filters.priceMax}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMax: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
             </div>
             
@@ -1301,7 +1446,7 @@ function App() {
                 type="number"
                 value={filters.areaMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMin: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
               <Input
                 key={`areaMax-${currentLang}`}
@@ -1309,14 +1454,14 @@ function App() {
                 type="number"
                 value={filters.areaMax}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMax: e.target.value }))}
-                className="text-base"
+                className="text-base input-golden-glow"
               />
             </div>
             
             {/* Status */}
             <div>
               <Select key={`status-${currentLang}`} value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
-                <SelectTrigger className="text-base">
+                <SelectTrigger className="text-base btn-golden-glow">
                   <SelectValue placeholder={t('filter.status')} />
                 </SelectTrigger>
                 <SelectContent>
@@ -1331,7 +1476,7 @@ function App() {
             {/* Sort */}
             <div>
               <Select key={`sort-${currentLang}`} value={filters.sort} onValueChange={(value) => setFilters(prev => ({ ...prev, sort: value }))}>
-                <SelectTrigger className="text-base">
+                <SelectTrigger className="text-base btn-golden-glow">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -1354,11 +1499,12 @@ function App() {
                 areaMin: '',
                 areaMax: '',
                 status: 'all',
+                propertyType: 'all',
                 sort: 'latest'
               })}
               variant="outline"
               size="sm"
-              className="text-base"
+              className="text-base btn-golden-glow ripple-golden-glow"
             >
               {t('filter.clear')}
             </Button>
@@ -1366,14 +1512,14 @@ function App() {
         </div>
       </section>
 
-      {/* Information Section */}
-      <section className="py-12 bg-background">
+      {/* Information Cards */}
+      <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* About NextPlot */}
             <Card className="p-6 flex flex-col h-full card-gold-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
+                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
                 <p className="text-muted-foreground mb-4 text-lg">
@@ -1386,15 +1532,15 @@ function App() {
                 </p>
                 <ul className="space-y-2 text-lg text-muted-foreground">
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
                     {currentLang === 'th' ? 'ระบบค้นหาขั้นสูง' : currentLang === 'en' ? 'Advanced Search System' : '高级搜索系统'}
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
                     {currentLang === 'th' ? 'แชร์ได้หลายช่องทาง' : currentLang === 'en' ? 'Multi-channel Sharing' : '多渠道分享'}
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
+                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
                     {currentLang === 'th' ? 'ระบบ PDPA ครบถ้วน' : currentLang === 'en' ? 'Complete PDPA System' : '完整的PDPA系统'}
                   </li>
                 </ul>
@@ -1404,20 +1550,20 @@ function App() {
             {/* Land Area Guide */}
             <Card className="p-6 flex flex-col h-full card-gold-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
+                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
                 <div className="space-y-3 text-base">
-                  <div className="bg-card p-3 rounded-lg">
-                    <div className="font-medium mb-2 text-lg">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
+                  <div className="bg-card p-3 rounded-lg golden-glow">
+                    <div className="font-medium mb-2 text-lg text-golden-glow">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
                     <div className="space-y-1 text-muted-foreground">
                       <div>1 {t('area.rai')} = 4 {t('area.ngan')} = 400 {t('area.wah')}</div>
                       <div>1 {t('area.ngan')} = 100 {t('area.wah')}</div>
                       <div>1 {t('area.wah')} = 4 {t('area.sqm')}</div>
                     </div>
                   </div>
-                  <div className="bg-card p-3 rounded-lg">
-                    <div className="font-medium mb-2 text-lg">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
+                  <div className="bg-card p-3 rounded-lg golden-glow">
+                    <div className="font-medium mb-2 text-lg text-golden-glow">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
                     <div className="space-y-1 text-muted-foreground">
                       <div>1 {t('area.rai')} = 1,600 {t('area.sqm')}</div>
                       <div>1 {t('area.ngan')} = 400 {t('area.sqm')}</div>
@@ -1431,12 +1577,12 @@ function App() {
             {/* Zoning Colors */}
             <Card className="p-6 card-gold-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
+                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="space-y-2 text-base max-h-80 overflow-y-auto">
                   <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 bg-yellow-400 border border-border flex-shrink-0" />
+                    <div className="w-4 h-4 bg-yellow-400 border border-border flex-shrink-0 badge-golden-glow" />
                     <div>
                       <div className="font-medium">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นน้อย' : currentLang === 'en' ? 'Low-density residential' : '低密度住宅'}</div>
                     </div>
@@ -1574,7 +1720,7 @@ function App() {
           </div>
         </div>
       </section>
-
+      
       {/* Properties Grid */}
       <main id="main-content" className="py-8" role="main">
         <div className="container mx-auto px-4">
@@ -1596,14 +1742,14 @@ function App() {
                     />
                   ) : (
                     <div className="w-full h-full bg-muted flex items-center justify-center">
-                      <MapPin size={48} className="text-muted-foreground" />
+                      <MapPin size={48} className="text-muted-foreground icon-golden-glow" />
                     </div>
                   )}
                   
                   {/* Status Badge */}
                   <Badge 
                     variant={getStatusVariant(property.status)}
-                    className="absolute top-2 left-2"
+                    className="absolute top-2 left-2 badge-golden-glow"
                   >
                     {t(`status.${property.status}`)}
                   </Badge>
@@ -1612,7 +1758,7 @@ function App() {
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="absolute top-2 right-2 w-8 h-8 p-0 bg-background/80 hover:bg-background"
+                    className="absolute top-2 right-2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow ripple-golden-glow"
                     onClick={(e) => {
                       e.stopPropagation()
                       toggleFavorite(property.id)
@@ -1622,26 +1768,31 @@ function App() {
                     <Heart 
                       size={16} 
                       weight={(favorites || []).includes(property.id) ? 'fill' : 'regular'}
-                      className={(favorites || []).includes(property.id) ? 'text-red-500' : 'text-foreground'}
+                      className={(favorites || []).includes(property.id) ? 'text-red-500' : 'text-foreground icon-golden-glow'}
                     />
                   </Button>
                 </div>
                 
                 <CardContent className="p-4 flex-1 flex flex-col">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-lg line-clamp-2 flex-1">{t(property.title)}</h3>
+                    <h3 className="font-semibold text-lg line-clamp-2 flex-1 text-foreground property-card-text">{t(property.title)}</h3>
                   </div>
                   
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
-                    <MapPin size={14} />
-                    <span>{t(property.location)}</span>
+                  <div className="flex items-center gap-1 text-sm text-foreground mb-2 property-card-text">
+                    <MapPin size={14} className="icon-golden-glow" />
+                    <span className="text-foreground font-medium">{t(property.location)}</span>
                   </div>
                   
                   <div className="space-y-2 mb-4 flex-1">
-                    <div className="text-xl font-bold text-accent">
-                      {formatPrice(property.price, property.currency)}
+                    <div className="flex items-center justify-between">
+                      <div className="text-xl font-bold text-accent">
+                        {formatPrice(property.price, property.currency)}
+                      </div>
+                      <Badge variant="outline" className="text-xs property-type-badge">
+                        {t(`propertyType.${property.propertyType}`)}
+                      </Badge>
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-sm text-foreground property-card-text font-medium">
                       {formatArea(property.area)}
                     </div>
                     
@@ -1649,11 +1800,21 @@ function App() {
                     {property.zoning && (
                       <div className="flex items-center gap-2">
                         <div 
-                          className="w-4 h-4 border border-border flex-shrink-0"
+                          className="w-4 h-4 border border-border flex-shrink-0 badge-golden-glow"
                           style={{ backgroundColor: property.zoning.colorHex }}
                           aria-label={`${t('property.zoning')}: ${t(property.zoning.name)}`}
                         />
-                        <span className="text-sm">{t(property.zoning.name)}</span>
+                        <span className="text-sm text-foreground font-medium">{t(property.zoning.name)}</span>
+                      </div>
+                    )}
+                    
+                    {/* Virtual Tour Indicator */}
+                    {property.virtualTour && (
+                      <div className="flex items-center gap-1 text-xs text-accent font-medium">
+                        {property.virtualTour.type === 'drone' ? <Drone size={14} /> : 
+                         property.virtualTour.type === '360' ? <MonitorPlay size={14} /> : 
+                         <Play size={14} />}
+                        <span>{t('property.virtualTour')}</span>
                       </div>
                     )}
                   </div>
@@ -1662,7 +1823,7 @@ function App() {
                   {property.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-4">
                       {property.tags.slice(0, 3).map((tag, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
+                        <Badge key={index} variant="secondary" className="text-xs badge-golden-glow">
                           {t(tag)}
                         </Badge>
                       ))}
@@ -1673,11 +1834,30 @@ function App() {
                   <div className="flex gap-2 mt-auto">
                     <Button 
                       size="sm" 
-                      className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
+                      className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
                       onClick={() => openPropertyModal(property)}
                     >
                       {t('property.viewDetails')}
                     </Button>
+                    
+                    {/* Virtual Tour Button */}
+                    {property.virtualTour && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setTourProperty(property)
+                          setShowVirtualTour(true)
+                        }}
+                        aria-label={t('property.virtualTour')}
+                        title={t('property.virtualTour')}
+                      >
+                        {property.virtualTour.type === 'drone' ? <Drone size={16} /> : 
+                         property.virtualTour.type === '360' ? <MonitorPlay size={16} /> : 
+                         <Play size={16} />}
+                      </Button>
+                    )}
+                    
                     <Button
                       size="sm"
                       variant="outline"
@@ -1686,8 +1866,9 @@ function App() {
                         setShowShareModal(true)
                       }}
                       aria-label={t('property.share')}
+                      className="golden-glow ripple-golden-glow"
                     >
-                      <Share size={16} />
+                      <Share size={16} className="icon-golden-glow" />
                     </Button>
                   </div>
                 </CardContent>
@@ -1711,6 +1892,7 @@ function App() {
                   areaMin: '',
                   areaMax: '',
                   status: 'all',
+                  propertyType: 'all',
                   sort: 'latest'
                 })}
                 variant="outline"
@@ -1722,21 +1904,20 @@ function App() {
           )}
         </div>
       </main>
-
       {/* Property Detail Modal */}
       <Dialog open={showPropertyModal} onOpenChange={setShowPropertyModal}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto modal-golden-glow">
           {selectedProperty && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl">{t(selectedProperty.title)}</DialogTitle>
+                <DialogTitle className="text-2xl text-golden-glow">{t(selectedProperty.title)}</DialogTitle>
               </DialogHeader>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Image Gallery */}
                 <div className="space-y-4">
                   {selectedProperty.media.length > 0 && (
-                    <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
+                    <div className="relative aspect-video bg-muted rounded-lg overflow-hidden golden-glow">
                       <img
                         src={selectedProperty.media[currentImageIndex]?.src}
                         alt={selectedProperty.media[currentImageIndex]?.alt || t(selectedProperty.title)}
@@ -1748,27 +1929,27 @@ function App() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background"
+                            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow"
                             onClick={() => setCurrentImageIndex(prev => 
                               prev === 0 ? selectedProperty.media.length - 1 : prev - 1
                             )}
                             aria-label="Previous image"
                           >
-                            <ChevronLeft size={16} />
+                            <ChevronLeft size={16} className="icon-golden-glow" />
                           </Button>
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow"
                             onClick={() => setCurrentImageIndex(prev => 
                               prev === selectedProperty.media.length - 1 ? 0 : prev + 1
                             )}
                             aria-label="Next image"
                           >
-                            <ChevronRight size={16} />
+                            <ChevronRight size={16} className="icon-golden-glow" />
                           </Button>
                           
-                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-sm">
+                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-sm golden-glow">
                             {currentImageIndex + 1} / {selectedProperty.media.length}
                           </div>
                         </>
@@ -1782,7 +1963,7 @@ function App() {
                       {selectedProperty.media.map((media, index) => (
                         <button
                           key={index}
-                          className={`flex-shrink-0 w-16 h-16 rounded border-2 overflow-hidden ${
+                          className={`flex-shrink-0 w-16 h-16 rounded border-2 overflow-hidden golden-glow ${
                             index === currentImageIndex ? 'border-accent' : 'border-border'
                           }`}
                           onClick={() => setCurrentImageIndex(index)}
@@ -1804,12 +1985,12 @@ function App() {
                   <div className="space-y-4">
                     <div>
                       <div className="text-sm text-muted-foreground">{t('property.code')}</div>
-                      <div className="font-mono text-lg">{selectedProperty.code}</div>
+                      <div className="font-mono text-lg text-golden-glow">{selectedProperty.code}</div>
                     </div>
                     
                     <div>
                       <div className="text-sm text-muted-foreground">{t('property.price')}</div>
-                      <div className="text-3xl font-bold text-accent">
+                      <div className="text-3xl font-bold text-accent text-golden-glow">
                         {formatPrice(selectedProperty.price, selectedProperty.currency)}
                       </div>
                     </div>
@@ -1822,13 +2003,16 @@ function App() {
                     </div>
                     
                     <div className="flex items-center gap-1 text-muted-foreground">
-                      <MapPin size={16} />
+                      <MapPin size={16} className="icon-golden-glow" />
                       <span>{t(selectedProperty.location)}</span>
                     </div>
                     
                     <div className="flex items-center gap-2">
-                      <Badge variant={getStatusVariant(selectedProperty.status)}>
+                      <Badge variant={getStatusVariant(selectedProperty.status)} className="badge-golden-glow">
                         {t(`status.${selectedProperty.status}`)}
+                      </Badge>
+                      <Badge variant="outline" className="property-type-badge">
+                        {t(`propertyType.${selectedProperty.propertyType}`)}
                       </Badge>
                     </div>
                     
@@ -1838,7 +2022,7 @@ function App() {
                         <div className="text-sm text-muted-foreground mb-2">{t('property.zoning')}</div>
                         <div className="flex items-center gap-2">
                           <div 
-                            className="w-6 h-6 border border-border flex-shrink-0"
+                            className="w-6 h-6 border border-border flex-shrink-0 badge-golden-glow"
                             style={{ backgroundColor: selectedProperty.zoning.colorHex }}
                             aria-label={`${t('property.zoning')}: ${t(selectedProperty.zoning.name)}`}
                           />
@@ -1857,7 +2041,7 @@ function App() {
                       <div className="text-sm text-muted-foreground mb-2">{t('property.tags')}</div>
                       <div className="flex flex-wrap gap-2">
                         {selectedProperty.tags.map((tag, index) => (
-                          <Badge key={index} variant="secondary">
+                          <Badge key={index} variant="secondary" className="badge-golden-glow">
                             {t(tag)}
                           </Badge>
                         ))}
@@ -1869,27 +2053,50 @@ function App() {
                   <div className="flex flex-col gap-3">
                     <Button 
                       size="lg" 
-                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
                       onClick={() => {
                         setShowPropertyModal(false)
                         openContactForm(selectedProperty)
                       }}
                     >
-                      <Phone size={20} className="mr-2" />
+                      <Phone size={20} className="mr-2 icon-golden-glow" />
                       {t('property.contact')}
                     </Button>
+                    
+                    {/* Virtual Tour Button */}
+                    {selectedProperty.virtualTour && (
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {
+                          setTourProperty(selectedProperty)
+                          setShowVirtualTour(true)
+                        }}
+                      >
+                        {selectedProperty.virtualTour.type === 'drone' ? <Drone size={20} className="mr-2" /> : 
+                         selectedProperty.virtualTour.type === '360' ? <MonitorPlay size={20} className="mr-2" /> : 
+                         <Play size={20} className="mr-2" />}
+                        {t('property.virtualTour')}
+                        {selectedProperty.virtualTour.duration && (
+                          <span className="ml-2 text-sm text-muted-foreground">
+                            ({Math.floor(selectedProperty.virtualTour.duration / 60)}:{(selectedProperty.virtualTour.duration % 60).toString().padStart(2, '0')})
+                          </span>
+                        )}
+                      </Button>
+                    )}
                     
                     <div className="flex gap-2">
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex-1"
+                        className="flex-1 golden-glow ripple-golden-glow"
                         onClick={() => {
                           setShareProperty(selectedProperty)
                           setShowShareModal(true)
                         }}
                       >
-                        <Share size={16} className="mr-2" />
+                        <Share size={16} className="mr-2 icon-golden-glow" />
                         {t('property.share')}
                       </Button>
                       
@@ -1897,7 +2104,7 @@ function App() {
                         variant="outline"
                         size="sm"
                         onClick={() => toggleFavorite(selectedProperty.id)}
-                        className={(favorites || []).includes(selectedProperty.id) ? 'bg-red-50 text-red-600 border-red-200' : ''}
+                        className={(favorites || []).includes(selectedProperty.id) ? 'bg-red-50 text-red-600 border-red-200 golden-glow' : 'golden-glow ripple-golden-glow'}
                       >
                         <Heart 
                           size={16} 
@@ -1909,8 +2116,9 @@ function App() {
                         variant="outline"
                         size="sm"
                         onClick={() => window.open('https://landsmaps.dol.go.th/', '_blank', 'noopener')}
+                        className="golden-glow ripple-golden-glow"
                       >
-                        <MapPin size={16} />
+                        <MapPin size={16} className="icon-golden-glow" />
                       </Button>
                     </div>
                   </div>
@@ -1920,12 +2128,11 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Share Modal */}
       <Dialog open={showShareModal} onOpenChange={setShowShareModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md modal-golden-glow">
           <DialogHeader>
-            <DialogTitle>{t('property.share')}</DialogTitle>
+            <DialogTitle className="text-golden-glow">{t('property.share')}</DialogTitle>
           </DialogHeader>
           
           {shareProperty && (
@@ -1940,9 +2147,9 @@ function App() {
                   <Button
                     variant="outline"
                     onClick={() => handleShare(shareProperty, 'native')}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   >
-                    <Share size={16} />
+                    <Share size={16} className="icon-golden-glow" />
                     Share
                   </Button>
                 )}
@@ -1950,50 +2157,50 @@ function App() {
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'line')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.line')}
                 >
-                  <MessageCircle size={16} />
+                  <MessageCircle size={16} className="icon-golden-glow" />
                   Line
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'facebook')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.facebook')}
                 >
-                  <Globe size={16} />
+                  <Globe size={16} className="icon-golden-glow" />
                   Facebook
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'email')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.email')}
                 >
-                  <Mail size={16} />
+                  <Mail size={16} className="icon-golden-glow" />
                   Email
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'wechat')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.wechat')}
                 >
-                  <MessageCircle size={16} />
+                  <MessageCircle size={16} className="icon-golden-glow" />
                   WeChat
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'copy')}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
                   aria-label={t('share.copy')}
                 >
-                  <Copy size={16} />
+                  <Copy size={16} className="icon-golden-glow" />
                   {t('share.copy')}
                 </Button>
               </div>
@@ -2001,12 +2208,11 @@ function App() {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Contact Form Modal */}
       <Dialog open={showContactForm} onOpenChange={setShowContactForm}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md modal-golden-glow">
           <DialogHeader>
-            <DialogTitle>{t('nav.contact')}</DialogTitle>
+            <DialogTitle className="text-golden-glow">{t('nav.contact')}</DialogTitle>
           </DialogHeader>
           
           <form onSubmit={submitContactForm} className="space-y-4">
@@ -2037,6 +2243,7 @@ function App() {
                   value={contactForm.name}
                   onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
                   required
+                  className="input-golden-glow"
                 />
               </div>
               
@@ -2051,6 +2258,7 @@ function App() {
                   value={contactForm.phone}
                   onChange={(e) => setContactForm(prev => ({ ...prev, phone: e.target.value }))}
                   required
+                  className="input-golden-glow"
                 />
               </div>
               
@@ -2063,6 +2271,7 @@ function App() {
                   placeholder={t('form.email.placeholder')}
                   value={contactForm.email}
                   onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                  className="input-golden-glow"
                 />
               </div>
               
@@ -2073,7 +2282,7 @@ function App() {
                   value={contactForm.preferredChannel} 
                   onValueChange={(value) => setContactForm(prev => ({ ...prev, preferredChannel: value }))}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="btn-golden-glow">
                     <SelectValue placeholder={t('form.preferredChannel')} />
                   </SelectTrigger>
                   <SelectContent>
@@ -2095,6 +2304,7 @@ function App() {
                   value={contactForm.message}
                   onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                   rows={3}
+                  className="input-golden-glow"
                 />
               </div>
               
@@ -2104,6 +2314,7 @@ function App() {
                   checked={contactForm.pdpaConsent}
                   onCheckedChange={(checked) => setContactForm(prev => ({ ...prev, pdpaConsent: !!checked }))}
                   required
+                  className="golden-glow"
                 />
                 <Label htmlFor="pdpa" className="text-sm leading-relaxed">
                   {t('form.pdpaConsent')}
@@ -2113,7 +2324,7 @@ function App() {
             
             <Button 
               type="submit" 
-              className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+              className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
               disabled={isSubmittingContact || !contactForm.pdpaConsent}
             >
               {isSubmittingContact ? t('form.submitting') : t('form.submit')}
@@ -2121,12 +2332,11 @@ function App() {
           </form>
         </DialogContent>
       </Dialog>
-
       {/* Auth Modal (Login/Register/Forgot) */}
       <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md modal-golden-glow">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-golden-glow">
               {authMode === 'login' ? 
                 (currentLang === 'th' ? 'เข้าสู่ระบบ' : 
                  currentLang === 'en' ? 'Sign In to NextPlot' : '登录 NextPlot') :
@@ -2155,7 +2365,7 @@ function App() {
                     value={loginForm.email}
                     onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
                     required
-                    className="h-12"
+                    className="h-12 input-golden-glow"
                     autoComplete="email"
                   />
                 </div>
@@ -2218,7 +2428,7 @@ function App() {
               <div className="space-y-3 pt-2">
                 <Button 
                   type="submit" 
-                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium"
+                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium btn-golden-glow ripple-golden-glow"
                   disabled={isSubmittingAuth}
                 >
                   {isSubmittingAuth ? 
@@ -2674,23 +2884,138 @@ function App() {
         </DialogContent>
       </Dialog>
 
+      {/* Virtual Tour Modal */}
+      <Dialog open={showVirtualTour} onOpenChange={setShowVirtualTour}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden">
+          {tourProperty && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-3">
+                  {tourProperty.virtualTour?.type === 'drone' ? <Drone size={24} /> : 
+                   tourProperty.virtualTour?.type === '360' ? <MonitorPlay size={24} /> : 
+                   <Play size={24} />}
+                  {t('property.virtualTour')} - {t(tourProperty.title)}
+                  {tourProperty.virtualTour?.duration && (
+                    <span className="text-sm text-muted-foreground font-normal">
+                      ({Math.floor(tourProperty.virtualTour.duration / 60)}:{(tourProperty.virtualTour.duration % 60).toString().padStart(2, '0')})
+                    </span>
+                  )}
+                </DialogTitle>
+              </DialogHeader>
+              
+              <div className="aspect-video bg-black rounded-lg overflow-hidden">
+                {tourProperty.virtualTour && (
+                  <iframe
+                    src={tourProperty.virtualTour.url}
+                    className="w-full h-full"
+                    allowFullScreen
+                    title={`${t('property.virtualTour')} - ${t(tourProperty.title)}`}
+                    loading="lazy"
+                  />
+                )}
+              </div>
+              
+              {/* Tour Information */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div className="text-center">
+                  <div className="text-sm text-muted-foreground">{t('property.code')}</div>
+                  <div className="font-mono font-medium">{tourProperty.code}</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-sm text-muted-foreground">{t('property.price')}</div>
+                  <div className="font-bold text-accent">{formatPrice(tourProperty.price, tourProperty.currency)}</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-sm text-muted-foreground">{t('property.area')}</div>
+                  <div className="font-medium">{formatArea(tourProperty.area)}</div>
+                </div>
+              </div>
+              
+              {/* Tour Type Badge */}
+              <div className="flex justify-center mt-4">
+                <Badge variant="secondary" className="flex items-center gap-2">
+                  {tourProperty.virtualTour?.type === 'drone' ? (
+                    <>
+                      <Drone size={16} />
+                      {t('property.droneTour')}
+                    </>
+                  ) : tourProperty.virtualTour?.type === '360' ? (
+                    <>
+                      <MonitorPlay size={16} />
+                      {t('property.view360')}
+                    </>
+                  ) : (
+                    <>
+                      <Play size={16} />
+                      {t('property.walkthrough')}
+                    </>
+                  )}
+                </Badge>
+              </div>
+              
+              {/* Hotspots Information (for 360 tours) */}
+              {tourProperty.virtualTour?.type === '360' && tourProperty.virtualTour.hotspots && (
+                <div className="mt-4">
+                  <div className="text-sm font-medium mb-2">
+                    {currentLang === 'th' ? 'จุดที่น่าสนใจ' : 
+                     currentLang === 'en' ? 'Points of Interest' : '兴趣点'}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {tourProperty.virtualTour.hotspots.map((hotspot, index) => (
+                      <div key={index} className="p-3 bg-muted rounded-lg">
+                        <div className="font-medium text-sm">{hotspot.title}</div>
+                        <div className="text-xs text-muted-foreground">{hotspot.description}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Action Buttons */}
+              <div className="flex gap-2 mt-4">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => {
+                    setShowVirtualTour(false)
+                    openPropertyModal(tourProperty)
+                  }}
+                >
+                  {t('property.viewDetails')}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowVirtualTour(false)
+                    openContactForm(tourProperty)
+                  }}
+                >
+                  <Phone size={16} className="mr-2" />
+                  {t('property.contact')}
+                </Button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
       {/* Footer */}
       <footer className="bg-card border-t border-border py-8 mt-16" role="contentinfo">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Logo & Description */}
             <div>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center relative overflow-hidden">
                   <img 
                     src={nextplotLogo} 
                     alt="NextPlot Logo" 
                     className="w-full h-full object-contain p-1"
                   />
                 </div>
-                <div>
+                <div className="text-center">
                   <div className="text-xl font-bold text-accent">NextPlot</div>
-                  <div className="text-sm text-accent/80">PLOT FOR SALE</div>
+                  <div className="text-sm text-accent font-semibold logo-glow">PLOT FOR SALE</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
@@ -2704,20 +3029,20 @@ function App() {
                 {currentLang === 'th' ? 'เมนู' : currentLang === 'en' ? 'Menu' : '菜单'}
               </h3>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.home')}
                 </a>
-                <a href="#properties" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#properties" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.properties')}
                 </a>
-                <a href="#contact" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#contact" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('nav.contact')}
                 </a>
                 <a 
                   href="https://landsmaps.dol.go.th/" 
                   target="_blank" 
                   rel="noopener"
-                  className="block text-sm text-muted-foreground hover:text-accent transition-colors"
+                  className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors"
                 >
                   {t('nav.landsmaps')}
                 </a>
@@ -2730,10 +3055,10 @@ function App() {
                 {currentLang === 'th' ? 'นโยบาย' : currentLang === 'en' ? 'Policy' : '政策'}
               </h3>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('footer.privacy')}
                 </a>
-                <a href="#" className="block text-sm text-muted-foreground hover:text-accent transition-colors">
+                <a href="#" className="block text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground px-2 py-1 rounded transition-colors">
                   {t('footer.terms')}
                 </a>
               </div>
@@ -2748,7 +3073,7 @@ function App() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 export default App
