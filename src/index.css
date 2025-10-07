@@ -586,6 +586,13 @@ select:hover,
   overflow: hidden;
 }
 
+.password-strength {
+  height: 4px;
+  background: var(--muted);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
 .password-strength-bar {
   height: 100%;
   width: 0%;
