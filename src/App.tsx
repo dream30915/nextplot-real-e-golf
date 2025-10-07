@@ -1361,10 +1361,10 @@ function App() {
             {t('hero.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow">
+            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 btn-standard">
               {t('hero.cta.viewAll')}
             </Button>
-            <Button size="lg" variant="outline" onClick={() => openContactForm()} className="golden-glow ripple-golden-glow">
+            <Button size="lg" variant="outline" onClick={() => openContactForm()} className="btn-standard">
               {t('hero.cta.contact')}
             </Button>
           </div>
@@ -1376,14 +1376,14 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4 mb-6">
             {/* Search */}
             <div className="lg:col-span-2">
-              <div className="relative search-golden-glow">
-                <Search size={20} className="absolute left-3 top-3 text-muted-foreground icon-golden-glow" />
+              <div className="relative">
+                <Search size={20} className="absolute left-3 top-3 text-muted-foreground icon-standard" />
                 <Input
                   key={`search-${currentLang}`}
                   placeholder={t('search.placeholder')}
                   value={filters.keyword}
                   onChange={(e) => setFilters(prev => ({ ...prev, keyword: e.target.value }))}
-                  className="pl-10 text-base input-golden-glow"
+                  className="pl-10 text-base input-standard"
                 />
               </div>
             </div>
@@ -1395,7 +1395,7 @@ function App() {
                 placeholder={t('filter.location')}
                 value={filters.location}
                 onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
-                className="text-base input-golden-glow"
+                className="text-base input-standard"
               />
             </div>
             
@@ -1426,7 +1426,7 @@ function App() {
                 type="number"
                 value={filters.priceMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMin: e.target.value }))}
-                className="text-base input-golden-glow"
+                className="text-base input-standard"
               />
               <Input
                 key={`priceMax-${currentLang}`}
@@ -1434,7 +1434,7 @@ function App() {
                 type="number"
                 value={filters.priceMax}
                 onChange={(e) => setFilters(prev => ({ ...prev, priceMax: e.target.value }))}
-                className="text-base input-golden-glow"
+                className="text-base input-standard"
               />
             </div>
             
@@ -1446,7 +1446,7 @@ function App() {
                 type="number"
                 value={filters.areaMin}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMin: e.target.value }))}
-                className="text-base input-golden-glow"
+                className="text-base input-standard"
               />
               <Input
                 key={`areaMax-${currentLang}`}
@@ -1454,14 +1454,14 @@ function App() {
                 type="number"
                 value={filters.areaMax}
                 onChange={(e) => setFilters(prev => ({ ...prev, areaMax: e.target.value }))}
-                className="text-base input-golden-glow"
+                className="text-base input-standard"
               />
             </div>
             
             {/* Status */}
             <div>
               <Select key={`status-${currentLang}`} value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
-                <SelectTrigger className="text-base btn-golden-glow">
+                <SelectTrigger className="text-base btn-standard">
                   <SelectValue placeholder={t('filter.status')} />
                 </SelectTrigger>
                 <SelectContent>
@@ -1476,7 +1476,7 @@ function App() {
             {/* Sort */}
             <div>
               <Select key={`sort-${currentLang}`} value={filters.sort} onValueChange={(value) => setFilters(prev => ({ ...prev, sort: value }))}>
-                <SelectTrigger className="text-base btn-golden-glow">
+                <SelectTrigger className="text-base btn-standard">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -1504,7 +1504,7 @@ function App() {
               })}
               variant="outline"
               size="sm"
-              className="text-base btn-golden-glow ripple-golden-glow"
+              className="text-base btn-standard"
             >
               {t('filter.clear')}
             </Button>
@@ -1517,9 +1517,9 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* About NextPlot */}
-            <Card className="p-6 flex flex-col h-full card-gold-border">
+            <Card className="p-6 flex flex-col h-full card-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
+                <CardTitle className="text-2xl text-accent">{currentLang === 'th' ? 'เกี่ยวกับ NextPlot' : currentLang === 'en' ? 'About NextPlot' : '关于 NextPlot'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
                 <p className="text-muted-foreground mb-4 text-lg">
@@ -1532,15 +1532,15 @@ function App() {
                 </p>
                 <ul className="space-y-2 text-lg text-muted-foreground">
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
+                    <div className="w-2 h-2 bg-accent rounded-full" />
                     {currentLang === 'th' ? 'ระบบค้นหาขั้นสูง' : currentLang === 'en' ? 'Advanced Search System' : '高级搜索系统'}
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
+                    <div className="w-2 h-2 bg-accent rounded-full" />
                     {currentLang === 'th' ? 'แชร์ได้หลายช่องทาง' : currentLang === 'en' ? 'Multi-channel Sharing' : '多渠道分享'}
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full pulse-golden-glow" />
+                    <div className="w-2 h-2 bg-accent rounded-full" />
                     {currentLang === 'th' ? 'ระบบ PDPA ครบถ้วน' : currentLang === 'en' ? 'Complete PDPA System' : '完整的PDPA系统'}
                   </li>
                 </ul>
@@ -1548,22 +1548,22 @@ function App() {
             </Card>
 
             {/* Land Area Guide */}
-            <Card className="p-6 flex flex-col h-full card-gold-border">
+            <Card className="p-6 flex flex-col h-full card-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
+                <CardTitle className="text-2xl text-accent">{currentLang === 'th' ? 'คู่มือหน่วยพื้นที่' : currentLang === 'en' ? 'Area Unit Guide' : '面积单位指南'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0 flex-1">
                 <div className="space-y-3 text-base">
-                  <div className="bg-card p-3 rounded-lg golden-glow">
-                    <div className="font-medium mb-2 text-lg text-golden-glow">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
+                  <div className="bg-card p-3 rounded-lg">
+                    <div className="font-medium mb-2 text-lg text-accent">{currentLang === 'th' ? 'หน่วยวัดที่ดินไทย' : currentLang === 'en' ? 'Thai Land Units' : '泰国土地单位'}</div>
                     <div className="space-y-1 text-muted-foreground">
                       <div>1 {t('area.rai')} = 4 {t('area.ngan')} = 400 {t('area.wah')}</div>
                       <div>1 {t('area.ngan')} = 100 {t('area.wah')}</div>
                       <div>1 {t('area.wah')} = 4 {t('area.sqm')}</div>
                     </div>
                   </div>
-                  <div className="bg-card p-3 rounded-lg golden-glow">
-                    <div className="font-medium mb-2 text-lg text-golden-glow">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
+                  <div className="bg-card p-3 rounded-lg">
+                    <div className="font-medium mb-2 text-lg text-accent">{currentLang === 'th' ? 'การแปลงหน่วย' : currentLang === 'en' ? 'Unit Conversion' : '单位转换'}</div>
                     <div className="space-y-1 text-muted-foreground">
                       <div>1 {t('area.rai')} = 1,600 {t('area.sqm')}</div>
                       <div>1 {t('area.ngan')} = 400 {t('area.sqm')}</div>
@@ -1575,14 +1575,14 @@ function App() {
             </Card>
 
             {/* Zoning Colors */}
-            <Card className="p-6 card-gold-border">
+            <Card className="p-6 card-border">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-2xl text-golden-glow">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
+                <CardTitle className="text-2xl text-accent">{currentLang === 'th' ? 'สีผังเมือง' : currentLang === 'en' ? 'Zoning Colors' : '城市规划颜色'}</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="space-y-2 text-base max-h-80 overflow-y-auto">
                   <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 bg-yellow-400 border border-border flex-shrink-0 badge-golden-glow" />
+                    <div className="w-4 h-4 bg-yellow-400 border border-border flex-shrink-0" />
                     <div>
                       <div className="font-medium">{currentLang === 'th' ? 'ที่อยู่อาศัยหนาแน่นน้อย' : currentLang === 'en' ? 'Low-density residential' : '低密度住宅'}</div>
                     </div>
@@ -1726,7 +1726,7 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProperties.map((property) => (
-              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full property-card-gold">
+              <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full property-card">
                 <div className="relative aspect-[4/3] bg-muted flex-shrink-0">
                   {property.media[0] ? (
                     <img
@@ -1742,14 +1742,14 @@ function App() {
                     />
                   ) : (
                     <div className="w-full h-full bg-muted flex items-center justify-center">
-                      <MapPin size={48} className="text-muted-foreground icon-golden-glow" />
+                      <MapPin size={48} className="text-muted-foreground icon-standard" />
                     </div>
                   )}
                   
                   {/* Status Badge */}
                   <Badge 
                     variant={getStatusVariant(property.status)}
-                    className="absolute top-2 left-2 badge-golden-glow"
+                    className="absolute top-2 left-2 badge-standard"
                   >
                     {t(`status.${property.status}`)}
                   </Badge>
@@ -1758,7 +1758,7 @@ function App() {
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="absolute top-2 right-2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow ripple-golden-glow"
+                    className="absolute top-2 right-2 w-8 h-8 p-0 bg-background/80 hover:bg-background btn-standard"
                     onClick={(e) => {
                       e.stopPropagation()
                       toggleFavorite(property.id)
@@ -1768,7 +1768,7 @@ function App() {
                     <Heart 
                       size={16} 
                       weight={(favorites || []).includes(property.id) ? 'fill' : 'regular'}
-                      className={(favorites || []).includes(property.id) ? 'text-red-500' : 'text-foreground icon-golden-glow'}
+                      className={(favorites || []).includes(property.id) ? 'text-red-500' : 'text-foreground icon-standard'}
                     />
                   </Button>
                 </div>
@@ -1779,7 +1779,7 @@ function App() {
                   </div>
                   
                   <div className="flex items-center gap-1 text-sm text-foreground mb-2 property-card-text">
-                    <MapPin size={14} className="icon-golden-glow" />
+                    <MapPin size={14} className="icon-standard" />
                     <span className="text-foreground font-medium">{t(property.location)}</span>
                   </div>
                   
@@ -1800,7 +1800,7 @@ function App() {
                     {property.zoning && (
                       <div className="flex items-center gap-2">
                         <div 
-                          className="w-4 h-4 border border-border flex-shrink-0 badge-golden-glow"
+                          className="w-4 h-4 border border-border flex-shrink-0"
                           style={{ backgroundColor: property.zoning.colorHex }}
                           aria-label={`${t('property.zoning')}: ${t(property.zoning.name)}`}
                         />
@@ -1823,7 +1823,7 @@ function App() {
                   {property.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-4">
                       {property.tags.slice(0, 3).map((tag, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs badge-golden-glow">
+                        <Badge key={index} variant="secondary" className="text-xs badge-standard">
                           {t(tag)}
                         </Badge>
                       ))}
@@ -1834,7 +1834,7 @@ function App() {
                   <div className="flex gap-2 mt-auto">
                     <Button 
                       size="sm" 
-                      className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
+                      className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90 btn-standard"
                       onClick={() => openPropertyModal(property)}
                     >
                       {t('property.viewDetails')}
@@ -1866,9 +1866,9 @@ function App() {
                         setShowShareModal(true)
                       }}
                       aria-label={t('property.share')}
-                      className="golden-glow ripple-golden-glow"
+                      className="btn-standard"
                     >
-                      <Share size={16} className="icon-golden-glow" />
+                      <Share size={16} className="icon-standard" />
                     </Button>
                   </div>
                 </CardContent>
@@ -1906,18 +1906,18 @@ function App() {
       </main>
       {/* Property Detail Modal */}
       <Dialog open={showPropertyModal} onOpenChange={setShowPropertyModal}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto modal-golden-glow">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto modal-standard">
           {selectedProperty && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl text-golden-glow">{t(selectedProperty.title)}</DialogTitle>
+                <DialogTitle className="text-2xl text-accent">{t(selectedProperty.title)}</DialogTitle>
               </DialogHeader>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Image Gallery */}
                 <div className="space-y-4">
                   {selectedProperty.media.length > 0 && (
-                    <div className="relative aspect-video bg-muted rounded-lg overflow-hidden golden-glow">
+                    <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
                       <img
                         src={selectedProperty.media[currentImageIndex]?.src}
                         alt={selectedProperty.media[currentImageIndex]?.alt || t(selectedProperty.title)}
@@ -1929,27 +1929,27 @@ function App() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow"
+                            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background btn-standard"
                             onClick={() => setCurrentImageIndex(prev => 
                               prev === 0 ? selectedProperty.media.length - 1 : prev - 1
                             )}
                             aria-label="Previous image"
                           >
-                            <ChevronLeft size={16} className="icon-golden-glow" />
+                            <ChevronLeft size={16} className="icon-standard" />
                           </Button>
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background golden-glow"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 p-0 bg-background/80 hover:bg-background btn-standard"
                             onClick={() => setCurrentImageIndex(prev => 
                               prev === selectedProperty.media.length - 1 ? 0 : prev + 1
                             )}
                             aria-label="Next image"
                           >
-                            <ChevronRight size={16} className="icon-golden-glow" />
+                            <ChevronRight size={16} className="icon-standard" />
                           </Button>
                           
-                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-sm golden-glow">
+                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-background/80 px-2 py-1 rounded text-sm">
                             {currentImageIndex + 1} / {selectedProperty.media.length}
                           </div>
                         </>
@@ -1963,7 +1963,7 @@ function App() {
                       {selectedProperty.media.map((media, index) => (
                         <button
                           key={index}
-                          className={`flex-shrink-0 w-16 h-16 rounded border-2 overflow-hidden golden-glow ${
+                          className={`flex-shrink-0 w-16 h-16 rounded border-2 overflow-hidden ${
                             index === currentImageIndex ? 'border-accent' : 'border-border'
                           }`}
                           onClick={() => setCurrentImageIndex(index)}
@@ -1985,12 +1985,12 @@ function App() {
                   <div className="space-y-4">
                     <div>
                       <div className="text-sm text-muted-foreground">{t('property.code')}</div>
-                      <div className="font-mono text-lg text-golden-glow">{selectedProperty.code}</div>
+                      <div className="font-mono text-lg text-accent">{selectedProperty.code}</div>
                     </div>
                     
                     <div>
                       <div className="text-sm text-muted-foreground">{t('property.price')}</div>
-                      <div className="text-3xl font-bold text-accent text-golden-glow">
+                      <div className="text-3xl font-bold text-accent">
                         {formatPrice(selectedProperty.price, selectedProperty.currency)}
                       </div>
                     </div>
@@ -2003,12 +2003,12 @@ function App() {
                     </div>
                     
                     <div className="flex items-center gap-1 text-muted-foreground">
-                      <MapPin size={16} className="icon-golden-glow" />
+                      <MapPin size={16} className="icon-standard" />
                       <span>{t(selectedProperty.location)}</span>
                     </div>
                     
                     <div className="flex items-center gap-2">
-                      <Badge variant={getStatusVariant(selectedProperty.status)} className="badge-golden-glow">
+                      <Badge variant={getStatusVariant(selectedProperty.status)} className="badge-standard">
                         {t(`status.${selectedProperty.status}`)}
                       </Badge>
                       <Badge variant="outline" className="property-type-badge">
@@ -2022,7 +2022,7 @@ function App() {
                         <div className="text-sm text-muted-foreground mb-2">{t('property.zoning')}</div>
                         <div className="flex items-center gap-2">
                           <div 
-                            className="w-6 h-6 border border-border flex-shrink-0 badge-golden-glow"
+                            className="w-6 h-6 border border-border flex-shrink-0"
                             style={{ backgroundColor: selectedProperty.zoning.colorHex }}
                             aria-label={`${t('property.zoning')}: ${t(selectedProperty.zoning.name)}`}
                           />
@@ -2041,7 +2041,7 @@ function App() {
                       <div className="text-sm text-muted-foreground mb-2">{t('property.tags')}</div>
                       <div className="flex flex-wrap gap-2">
                         {selectedProperty.tags.map((tag, index) => (
-                          <Badge key={index} variant="secondary" className="badge-golden-glow">
+                          <Badge key={index} variant="secondary" className="badge-standard">
                             {t(tag)}
                           </Badge>
                         ))}
@@ -2053,13 +2053,13 @@ function App() {
                   <div className="flex flex-col gap-3">
                     <Button 
                       size="lg" 
-                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
+                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-standard"
                       onClick={() => {
                         setShowPropertyModal(false)
                         openContactForm(selectedProperty)
                       }}
                     >
-                      <Phone size={20} className="mr-2 icon-golden-glow" />
+                      <Phone size={20} className="mr-2 icon-standard" />
                       {t('property.contact')}
                     </Button>
                     
@@ -2090,13 +2090,13 @@ function App() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex-1 golden-glow ripple-golden-glow"
+                        className="flex-1 btn-standard"
                         onClick={() => {
                           setShareProperty(selectedProperty)
                           setShowShareModal(true)
                         }}
                       >
-                        <Share size={16} className="mr-2 icon-golden-glow" />
+                        <Share size={16} className="mr-2 icon-standard" />
                         {t('property.share')}
                       </Button>
                       
@@ -2104,7 +2104,7 @@ function App() {
                         variant="outline"
                         size="sm"
                         onClick={() => toggleFavorite(selectedProperty.id)}
-                        className={(favorites || []).includes(selectedProperty.id) ? 'bg-red-50 text-red-600 border-red-200 golden-glow' : 'golden-glow ripple-golden-glow'}
+                        className={(favorites || []).includes(selectedProperty.id) ? 'bg-red-50 text-red-600 border-red-200 btn-standard' : 'btn-standard'}
                       >
                         <Heart 
                           size={16} 
@@ -2116,9 +2116,9 @@ function App() {
                         variant="outline"
                         size="sm"
                         onClick={() => window.open('https://landsmaps.dol.go.th/', '_blank', 'noopener')}
-                        className="golden-glow ripple-golden-glow"
+                        className="btn-standard"
                       >
-                        <MapPin size={16} className="icon-golden-glow" />
+                        <MapPin size={16} className="icon-standard" />
                       </Button>
                     </div>
                   </div>
@@ -2130,9 +2130,9 @@ function App() {
       </Dialog>
       {/* Share Modal */}
       <Dialog open={showShareModal} onOpenChange={setShowShareModal}>
-        <DialogContent className="max-w-md modal-golden-glow">
+        <DialogContent className="max-w-md modal-standard">
           <DialogHeader>
-            <DialogTitle className="text-golden-glow">{t('property.share')}</DialogTitle>
+            <DialogTitle className="text-accent">{t('property.share')}</DialogTitle>
           </DialogHeader>
           
           {shareProperty && (
@@ -2147,9 +2147,9 @@ function App() {
                   <Button
                     variant="outline"
                     onClick={() => handleShare(shareProperty, 'native')}
-                    className="flex items-center gap-2 golden-glow ripple-golden-glow"
+                    className="flex items-center gap-2 btn-standard"
                   >
-                    <Share size={16} className="icon-golden-glow" />
+                    <Share size={16} className="icon-standard" />
                     Share
                   </Button>
                 )}
@@ -2157,50 +2157,50 @@ function App() {
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'line')}
-                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
+                  className="flex items-center gap-2 btn-standard"
                   aria-label={t('share.line')}
                 >
-                  <MessageCircle size={16} className="icon-golden-glow" />
+                  <MessageCircle size={16} className="icon-standard" />
                   Line
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'facebook')}
-                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
+                  className="flex items-center gap-2 btn-standard"
                   aria-label={t('share.facebook')}
                 >
-                  <Globe size={16} className="icon-golden-glow" />
+                  <Globe size={16} className="icon-standard" />
                   Facebook
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'email')}
-                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
+                  className="flex items-center gap-2 btn-standard"
                   aria-label={t('share.email')}
                 >
-                  <Mail size={16} className="icon-golden-glow" />
+                  <Mail size={16} className="icon-standard" />
                   Email
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'wechat')}
-                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
+                  className="flex items-center gap-2 btn-standard"
                   aria-label={t('share.wechat')}
                 >
-                  <MessageCircle size={16} className="icon-golden-glow" />
+                  <MessageCircle size={16} className="icon-standard" />
                   WeChat
                 </Button>
                 
                 <Button
                   variant="outline"
                   onClick={() => handleShare(shareProperty, 'copy')}
-                  className="flex items-center gap-2 golden-glow ripple-golden-glow"
+                  className="flex items-center gap-2 btn-standard"
                   aria-label={t('share.copy')}
                 >
-                  <Copy size={16} className="icon-golden-glow" />
+                  <Copy size={16} className="icon-standard" />
                   {t('share.copy')}
                 </Button>
               </div>
@@ -2210,9 +2210,9 @@ function App() {
       </Dialog>
       {/* Contact Form Modal */}
       <Dialog open={showContactForm} onOpenChange={setShowContactForm}>
-        <DialogContent className="max-w-md modal-golden-glow">
+        <DialogContent className="max-w-md modal-standard">
           <DialogHeader>
-            <DialogTitle className="text-golden-glow">{t('nav.contact')}</DialogTitle>
+            <DialogTitle className="text-accent">{t('nav.contact')}</DialogTitle>
           </DialogHeader>
           
           <form onSubmit={submitContactForm} className="space-y-4">
@@ -2243,7 +2243,7 @@ function App() {
                   value={contactForm.name}
                   onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
                   required
-                  className="input-golden-glow"
+                  className="input-standard"
                 />
               </div>
               
@@ -2258,7 +2258,7 @@ function App() {
                   value={contactForm.phone}
                   onChange={(e) => setContactForm(prev => ({ ...prev, phone: e.target.value }))}
                   required
-                  className="input-golden-glow"
+                  className="input-standard"
                 />
               </div>
               
@@ -2271,7 +2271,7 @@ function App() {
                   placeholder={t('form.email.placeholder')}
                   value={contactForm.email}
                   onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
-                  className="input-golden-glow"
+                  className="input-standard"
                 />
               </div>
               
@@ -2282,7 +2282,7 @@ function App() {
                   value={contactForm.preferredChannel} 
                   onValueChange={(value) => setContactForm(prev => ({ ...prev, preferredChannel: value }))}
                 >
-                  <SelectTrigger className="btn-golden-glow">
+                  <SelectTrigger className="btn-standard">
                     <SelectValue placeholder={t('form.preferredChannel')} />
                   </SelectTrigger>
                   <SelectContent>
@@ -2304,7 +2304,7 @@ function App() {
                   value={contactForm.message}
                   onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                   rows={3}
-                  className="input-golden-glow"
+                  className="input-standard"
                 />
               </div>
               
@@ -2314,7 +2314,6 @@ function App() {
                   checked={contactForm.pdpaConsent}
                   onCheckedChange={(checked) => setContactForm(prev => ({ ...prev, pdpaConsent: !!checked }))}
                   required
-                  className="golden-glow"
                 />
                 <Label htmlFor="pdpa" className="text-sm leading-relaxed">
                   {t('form.pdpaConsent')}
@@ -2324,7 +2323,7 @@ function App() {
             
             <Button 
               type="submit" 
-              className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-golden-glow ripple-golden-glow"
+              className="w-full bg-accent text-accent-foreground hover:bg-accent/90 btn-standard"
               disabled={isSubmittingContact || !contactForm.pdpaConsent}
             >
               {isSubmittingContact ? t('form.submitting') : t('form.submit')}
@@ -2334,9 +2333,9 @@ function App() {
       </Dialog>
       {/* Auth Modal (Login/Register/Forgot) */}
       <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
-        <DialogContent className="max-w-md modal-golden-glow">
+        <DialogContent className="max-w-md modal-standard">
           <DialogHeader>
-            <DialogTitle className="text-golden-glow">
+            <DialogTitle className="text-accent">
               {authMode === 'login' ? 
                 (currentLang === 'th' ? 'เข้าสู่ระบบ' : 
                  currentLang === 'en' ? 'Sign In to NextPlot' : '登录 NextPlot') :
@@ -2365,7 +2364,7 @@ function App() {
                     value={loginForm.email}
                     onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
                     required
-                    className="h-12 input-golden-glow"
+                    className="h-12 input-standard"
                     autoComplete="email"
                   />
                 </div>
@@ -2428,7 +2427,7 @@ function App() {
               <div className="space-y-3 pt-2">
                 <Button 
                   type="submit" 
-                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium btn-golden-glow ripple-golden-glow"
+                  className="w-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium btn-standard"
                   disabled={isSubmittingAuth}
                 >
                   {isSubmittingAuth ? 
@@ -3015,7 +3014,7 @@ function App() {
                 </div>
                 <div className="text-center">
                   <div className="text-xl font-bold text-accent">NextPlot</div>
-                  <div className="text-sm text-accent font-semibold logo-glow">PLOT FOR SALE</div>
+                  <div className="text-sm text-accent font-semibold">PLOT FOR SALE</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">

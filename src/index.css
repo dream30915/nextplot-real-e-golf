@@ -10,31 +10,31 @@
 :root {
   --radius: 0.5rem;
   
-  /* Base colors that define the core visual identity - Lighter dark theme */
-  --background: oklch(0.25 0 0); /* Lighter background - #404040 */
+  /* Base colors that define the core visual identity - Standard dark theme */
+  --background: oklch(0.13 0 0); /* Dark background - #212121 */
   --foreground: oklch(0.95 0 0); /* Bright white text - #F2F2F2 */
   
-  --card: oklch(0.3 0 0); /* Lighter cards - #4D4D4D */
+  --card: oklch(0.18 0 0); /* Card background - #2E2E2E */
   --card-foreground: oklch(0.95 0 0); /* Bright white text */
-  --popover: oklch(0.3 0 0);
+  --popover: oklch(0.18 0 0);
   --popover-foreground: oklch(0.95 0 0);
   
   /* Action colors that represent interactive elements */
-  --primary: oklch(0.25 0 0); /* #404040 */
+  --primary: oklch(0.18 0 0); /* Card color */
   --primary-foreground: oklch(0.95 0 0); /* Bright white */
-  --secondary: oklch(0.3 0 0); /* #4D4D4D */
+  --secondary: oklch(0.23 0 0); /* Slightly lighter */
   --secondary-foreground: oklch(0.95 0 0);
-  --accent: oklch(0.7 0.1 85); /* #C9A14A - Luxury Gold */
-  --accent-foreground: oklch(0.07 0 0); /* #111111 */
+  --accent: oklch(0.65 0.12 85); /* Toned down gold */
+  --accent-foreground: oklch(0.95 0 0); /* White text on gold */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
   
   /* Supporting UI colors for various states and elements */
-  --muted: oklch(0.85 0 0); /* Lighter muted - #D9D9D9 */
-  --muted-foreground: oklch(0.4 0 0); /* Darker text for contrast - #666666 */
-  --border: oklch(0.45 0 0); /* Lighter borders - #737373 */
-  --input: oklch(0.45 0 0); /* Lighter input borders */
-  --ring: oklch(0.7 0.1 85); /* Gold focus ring */
+  --muted: oklch(0.25 0 0); /* Muted background */
+  --muted-foreground: oklch(0.6 0 0); /* Muted text for better readability */
+  --border: oklch(0.3 0 0); /* Subtle borders */
+  --input: oklch(0.3 0 0); /* Input borders */
+  --ring: oklch(0.65 0.12 85); /* Focus ring */
   
   /* Chart colors */
   --chart-1: oklch(0.646 0.222 41.116);
@@ -68,7 +68,7 @@
   --primary-foreground: oklch(0.98 0 0); /* #FAFAFA */
   --secondary: oklch(0.96 0 0); /* #F5F5F5 */
   --secondary-foreground: oklch(0.15 0 0);
-  --accent: oklch(0.65 0.12 85); /* Darker gold for light theme */
+  --accent: oklch(0.6 0.12 85); /* Toned down gold for light theme */
   --accent-foreground: oklch(0.98 0 0); /* White text on gold */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0 0);
@@ -77,7 +77,7 @@
   --muted-foreground: oklch(0.45 0 0); /* #737373 */
   --border: oklch(0.89 0 0); /* #E4E4E4 */
   --input: oklch(0.89 0 0);
-  --ring: oklch(0.65 0.12 85);
+  --ring: oklch(0.6 0.12 85);
   
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.15 0 0);
@@ -147,13 +147,14 @@
   }
 }
 
-/* Consistent hover effects for all interactive elements */
+/* Standard hover effects for interactive elements */
 [role="button"]:hover,
 button:hover,
 select:hover,
 .ui-button:hover {
   background-color: var(--accent) !important;
   color: var(--accent-foreground) !important;
+  transition: all 0.2s ease;
 }
 
 /* Select item hover */
@@ -169,264 +170,76 @@ select:hover,
   cursor: not-allowed !important;
 }
 
-/* Logo glow effects */
-.logo-glow {
-  text-shadow: 0 0 10px var(--accent);
+/* Standard button effects */
+.btn-standard {
+  transition: all 0.2s ease;
 }
 
-.logo-glow-enhanced {
-  filter: drop-shadow(0 0 8px var(--accent));
+.btn-standard:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Golden glow effects for user interactions */
-.golden-glow {
-  box-shadow: 0 0 15px rgba(201, 161, 74, 0.3);
+/* Input field standard effects */
+.input-standard {
+  transition: all 0.2s ease;
+}
+
+.input-standard:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px oklch(0.65 0.12 85 / 0.2);
+}
+
+/* Card standard effects */
+.card-standard {
   transition: all 0.3s ease;
+  border: 1px solid var(--border);
 }
 
-.golden-glow:hover {
-  box-shadow: 0 0 25px rgba(201, 161, 74, 0.6), 0 0 40px rgba(201, 161, 74, 0.3);
+.card-standard:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent);
   transform: translateY(-2px);
 }
 
-.golden-glow:active {
-  box-shadow: 0 0 20px rgba(201, 161, 74, 0.8);
-  transform: translateY(0);
-}
-
-/* Button golden glow effects */
-.btn-golden-glow {
-  position: relative;
-  overflow: hidden;
+/* Property card standard */
+.property-card-standard {
   transition: all 0.3s ease;
+  border: 1px solid var(--border);
 }
 
-.btn-golden-glow::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(201, 161, 74, 0.4), transparent);
-  transition: left 0.6s ease;
+.property-card-standard:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
 }
 
-.btn-golden-glow:hover::before {
-  left: 100%;
+/* Standard icon effects */
+.icon-standard {
+  transition: all 0.2s ease;
 }
 
-.btn-golden-glow:hover {
-  box-shadow: 0 0 20px rgba(201, 161, 74, 0.5), inset 0 0 20px rgba(201, 161, 74, 0.1);
-  border-color: var(--accent);
+.icon-standard:hover {
+  color: var(--accent);
 }
 
-/* Input field golden glow effects */
-.input-golden-glow {
-  transition: all 0.3s ease;
+/* Standard modal styles */
+.modal-standard {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
 }
 
-.input-golden-glow:focus {
-  box-shadow: 0 0 15px rgba(201, 161, 74, 0.4), 0 0 0 2px rgba(201, 161, 74, 0.2);
-  border-color: var(--accent);
+/* Standard badge */
+.badge-standard {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  transition: all 0.2s ease;
 }
 
-/* Card golden glow effects */
-.card-golden-glow {
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
-}
-
-.card-golden-glow:hover {
-  box-shadow: 0 0 25px rgba(201, 161, 74, 0.3), 0 10px 30px rgba(0, 0, 0, 0.2);
-  border-color: rgba(201, 161, 74, 0.5);
-  transform: translateY(-5px);
-}
-
-/* Property card special glow */
-.property-card-glow {
-  transition: all 0.4s ease;
-  position: relative;
-}
-
-.property-card-glow::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(45deg, transparent, rgba(201, 161, 74, 0.3), transparent);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.property-card-glow:hover::after {
-  opacity: 1;
-}
-
-.property-card-glow:hover {
-  box-shadow: 0 0 30px rgba(201, 161, 74, 0.4), 0 15px 35px rgba(0, 0, 0, 0.3);
-  transform: translateY(-8px) scale(1.02);
-}
-
-/* Pulse golden glow animation */
-.pulse-golden-glow {
-  animation: pulseGolden 2s infinite;
-}
-
-@keyframes pulseGolden {
-  0% {
-    box-shadow: 0 0 10px rgba(201, 161, 74, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(201, 161, 74, 0.6), 0 0 40px rgba(201, 161, 74, 0.3);
-  }
-  100% {
-    box-shadow: 0 0 10px rgba(201, 161, 74, 0.3);
-  }
-}
-
-/* Navigation golden glow */
-.nav-golden-glow {
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.nav-golden-glow::before {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  width: 0;
-  height: 2px;
+.badge-standard:hover {
   background: var(--accent);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-  box-shadow: 0 0 8px var(--accent);
-}
-
-.nav-golden-glow:hover::before {
-  width: 100%;
-}
-
-.nav-golden-glow:hover {
-  text-shadow: 0 0 8px rgba(201, 161, 74, 0.6);
-}
-
-/* Icon golden glow */
-.icon-golden-glow {
-  transition: all 0.3s ease;
-}
-
-.icon-golden-glow:hover {
-  filter: drop-shadow(0 0 8px var(--accent));
-  color: var(--accent);
-}
-
-/* Modal golden glow */
-.modal-golden-glow {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 50px rgba(201, 161, 74, 0.2);
-  border: 1px solid rgba(201, 161, 74, 0.3);
-}
-
-/* Search bar golden glow */
-.search-golden-glow {
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.search-golden-glow:focus-within {
-  box-shadow: 0 0 20px rgba(201, 161, 74, 0.4);
-}
-
-.search-golden-glow:focus-within::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, var(--accent), transparent, var(--accent));
-  border-radius: inherit;
-  z-index: -1;
-  opacity: 0.3;
-}
-
-/* Badge golden glow */
-.badge-golden-glow {
-  box-shadow: 0 0 10px rgba(201, 161, 74, 0.3);
-  transition: all 0.3s ease;
-}
-
-.badge-golden-glow:hover {
-  box-shadow: 0 0 15px rgba(201, 161, 74, 0.5);
-  transform: scale(1.05);
-}
-
-/* Loading golden glow */
-.loading-golden-glow {
-  background: linear-gradient(90deg, transparent, rgba(201, 161, 74, 0.6), transparent);
-  animation: loadingGolden 1.5s infinite;
-}
-
-@keyframes loadingGolden {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-/* Text golden glow with transparency */
-.text-golden-glow {
-  color: var(--accent);
-  text-shadow: 0 0 8px rgba(201, 161, 74, 0.5);
-  transition: all 0.3s ease;
-  opacity: 0.8; /* Add transparency to text */
-}
-
-.text-golden-glow:hover {
-  text-shadow: 0 0 12px rgba(201, 161, 74, 0.8);
-  opacity: 1; /* Full opacity on hover */
-}
-
-/* Golden lines with transparency */
-.golden-lines {
-  border-color: rgba(201, 161, 74, 0.6) !important; /* Transparent golden lines */
-}
-
-.golden-lines:hover {
-  border-color: var(--accent) !important; /* Full opacity on hover */
-}
-
-/* Ripple effect for clicks */
-.ripple-golden-glow {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple-golden-glow::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(201, 161, 74, 0.5);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s ease, height 0.6s ease;
-}
-
-.ripple-golden-glow:active::after {
-  width: 300px;
-  height: 300px;
+  color: var(--accent-foreground);
 }
 
 .password-strength-medium {
@@ -444,30 +257,26 @@ select:hover,
   width: 100%;
 }
 
-/* Gold border for cards with content */
-.card-gold-border {
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 15px oklch(0.65 0.12 85 / 0.1), 
-              0 0 30px oklch(0.65 0.12 85 / 0.05);
+/* Standard border for content cards */
+.card-border {
+  border: 1px solid var(--border);
   transition: all 0.3s ease;
 }
 
-.card-gold-border:hover {
-  box-shadow: 0 0 20px oklch(0.65 0.12 85 / 0.15), 
-              0 0 40px oklch(0.65 0.12 85 / 0.08);
+.card-border:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Property card gold border */
-.property-card-gold {
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 12px oklch(0.65 0.12 85 / 0.08), 
-              0 0 25px oklch(0.65 0.12 85 / 0.04);
+/* Property card standard styling */
+.property-card {
+  border: 1px solid var(--border);
   transition: all 0.3s ease;
 }
 
-.property-card-gold:hover {
-  box-shadow: 0 0 18px oklch(0.65 0.12 85 / 0.12), 
-              0 0 35px oklch(0.65 0.12 85 / 0.06);
+.property-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }
 
@@ -480,6 +289,50 @@ select:hover,
 .dialog-content {
   border: 1px solid var(--border);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Password strength indicator */
+.password-strength {
+  height: 4px;
+  background: var(--muted);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.password-strength-weak .password-strength-bar {
+  width: 25%;
+  background-color: #ef4444;
+}
+
+.password-strength-medium .password-strength-bar {
+  width: 50%;
+  background-color: #f59e0b;
+}
+
+.password-strength-strong .password-strength-bar {
+  width: 75%;
+  background-color: #10b981;
+}
+
+.password-strength-very-strong .password-strength-bar {
+  width: 100%;
+  background-color: var(--accent);
+}
+
+/* Property type badge */
+.property-type-badge {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  padding: 0.25rem 0.5rem;
+  border-radius: calc(var(--radius) * 0.5);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 /* Animation keyframes */
@@ -498,26 +351,6 @@ select:hover,
   }
   to {
     height: 0;
-  }
-}
-
-@keyframes overlay-show {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes content-show {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -570,58 +403,9 @@ select:hover,
   transform: scale(1.1);
 }
 
-/* Property type badge */
-.property-type-badge {
-  background: var(--muted);
-  color: var(--muted-foreground);
-  padding: 0.25rem 0.5rem;
-  border-radius: calc(var(--radius) * 0.5);
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-/* Enhanced loading button */
-.loading-button {
-  position: relative;
-  overflow: hidden;
-}
-
-.password-strength {
-  height: 4px;
-  background: var(--muted);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.password-strength-bar {
-  height: 100%;
-  width: 0%;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.password-strength-weak .password-strength-bar {
-  width: 25%;
-  background-color: #ef4444;
-}
-
-.password-strength-medium .password-strength-bar {
-  width: 50%;
-  background-color: #f59e0b;
-}
-
-.password-strength-strong .password-strength-bar {
-  width: 75%;
-  background-color: #10b981;
-}
-
-.password-strength-very-strong .password-strength-bar {
-  width: 100%;
-  background-color: var(--accent);
-}
-
-/* Enhanced contrast for better readability */
+/* Standard text contrast */
 .text-muted-foreground {
-  color: oklch(0.6 0 0) !important; /* Lighter gray for better readability */
+  color: var(--muted-foreground) !important;
 }
 
 /* Ensure proper contrast for all text elements */
@@ -639,7 +423,7 @@ select:hover,
 
 /* Light theme text adjustments */
 [data-theme="light"] .text-muted-foreground {
-  color: oklch(0.5 0 0) !important;
+  color: var(--muted-foreground) !important;
 }
 
 [data-theme="light"] .card-content p,
