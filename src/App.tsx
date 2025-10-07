@@ -1091,7 +1091,7 @@ function App() {
           <div className="flex items-center justify-between mb-3">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+              <div className="w-12 h-12 rounded-lg bg-card border border-border flex items-center justify-center relative overflow-hidden">
                 <img 
                   src={nextplotLogo} 
                   alt="NextPlot Logo" 
@@ -2681,7 +2681,7 @@ function App() {
             {/* Logo & Description */}
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/20 flex items-center justify-center relative overflow-hidden">
+                <div className="w-12 h-12 rounded-lg bg-card border border-border flex items-center justify-center relative overflow-hidden">
                   <img 
                     src={nextplotLogo} 
                     alt="NextPlot Logo" 
