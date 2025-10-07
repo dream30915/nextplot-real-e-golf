@@ -1163,7 +1163,7 @@ function App() {
               
               {/* Language Selector */}
               <Select value={currentLang} onValueChange={changeLanguage}>
-                <SelectTrigger className="w-16 [&>svg]:hidden">
+                <SelectTrigger className="w-12 [&>svg]:hidden">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
