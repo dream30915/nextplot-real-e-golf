@@ -1,96 +1,97 @@
-# NextPlot - Real Estate Platform PRD
+# NextPlot - Real Estate Platform
 
-NextPlot is a comprehensive real estate platform that presents properties as products with card listings, detail pages, search/filtering system, multi-platform sharing (Line/Facebook/Email/WeChat), customer forms (with PDPA consent), and mock admin UI for user rights management (RBAC) and publishing controls.
+NextPlot is a comprehensive Thai real estate platform designed to facilitate property buying, selling, renting, and consignment services across Thailand.
 
 **Experience Qualities**:
-1. **Professional** - Clean, trustworthy interface that instills confidence in high-value real estate transactions
-2. **Accessible** - Multi-language support (TH/EN/ZH) with WCAG 2.2 AA compliance for all users
-3. **Secure** - PDPA-compliant data handling with sensitive document protection and proper consent flows
+1. **Professional** - Clean, trustworthy interface that inspires confidence in property transactions
+2. **Accessible** - Multi-language support (Thai, English, Chinese) with proper Thai typography
+3. **Efficient** - Advanced search and filtering capabilities for quick property discovery
 
 **Complexity Level**: Light Application (multiple features with basic state)
-- Handles property listings, filtering, sharing, and lead forms while maintaining simplicity and performance
+- Multi-language property listings with advanced search
+- User authentication and favorites system
+- Contact forms with PDPA compliance
+- Theme switching and responsive design
 
 ## Essential Features
 
-### Property Listing & Display
-- **Functionality**: Display properties in card format with cover images, pricing, area, status, and zoning information
-- **Purpose**: Allow users to quickly browse and evaluate available properties
-- **Trigger**: Landing on homepage or applying search filters
-- **Progression**: View grid → Apply filters → Browse cards → Click for details → View full property
-- **Success criteria**: Properties load within 2s, filters work correctly, images display properly
+### Property Listings
+- **Functionality**: Display comprehensive property information with images, pricing, and details
+- **Purpose**: Allow users to browse available properties effectively
+- **Trigger**: User visits homepage or searches for properties
+- **Progression**: Browse listings → Filter/search → View details → Contact inquiry
+- **Success criteria**: Users can easily find and view property information
 
-### Multi-Platform Sharing
-- **Functionality**: Share property listings to Line, Facebook, Email, WeChat with UTM tracking
-- **Purpose**: Enable viral marketing and track conversion sources
-- **Trigger**: Clicking share button on property details
-- **Progression**: Click share → Choose platform → Generate UTM link → Share externally → Track engagement
-- **Success criteria**: All platforms work, UTM parameters attached, WeChat shows QR code
+### Advanced Search & Filtering
+- **Functionality**: Filter by location, price range, area, property type, and status
+- **Purpose**: Help users narrow down properties to their specific needs
+- **Trigger**: User enters search criteria or applies filters
+- **Progression**: Enter criteria → Apply filters → View filtered results → Refine search
+- **Success criteria**: Search returns relevant, accurate results quickly
 
-### Lead Generation Form
-- **Functionality**: Capture customer information with PDPA consent and anti-spam protection
-- **Purpose**: Convert interested visitors into qualified leads
-- **Trigger**: Clicking contact button or requesting sensitive documents
-- **Progression**: Click contact → Fill form → Accept PDPA → Submit → Receive confirmation
-- **Success criteria**: Form validates properly, PDPA consent required, honeypot prevents spam
+### Multi-language Support
+- **Functionality**: Full interface translation between Thai, English, and Chinese
+- **Purpose**: Serve diverse customer base in Thailand's property market
+- **Trigger**: User selects language from dropdown
+- **Progression**: Select language → Interface updates → Content translates
+- **Success criteria**: All content displays correctly in selected language
 
-### Document Security (Soft Gate)
-- **Functionality**: Protect sensitive documents behind consent forms with watermarked previews
-- **Purpose**: Comply with PDPA while providing necessary property information
-- **Trigger**: Attempting to access sensitive property documents
-- **Progression**: Request document → Complete form → Accept terms → Receive time-limited access
-- **Success criteria**: Sensitive docs hidden, previews watermarked, access logged
+### Contact & Lead Generation
+- **Functionality**: PDPA-compliant contact forms for property inquiries
+- **Purpose**: Generate qualified leads for property agents
+- **Trigger**: User clicks contact button on property
+- **Progression**: Click contact → Fill form → Submit → Confirmation
+- **Success criteria**: Form submissions are captured and validated
 
-### Multilingual Support
-- **Functionality**: Full Thai, English, and Chinese language support with locale persistence
-- **Purpose**: Serve diverse customer base and international investors
-- **Trigger**: Selecting language from dropdown menu
-- **Progression**: Select language → Interface updates → Preference saved → Consistent experience
-- **Success criteria**: All text translates, locale saves to localStorage, HTML lang updates
+### User Authentication
+- **Functionality**: Login/register system with password strength validation
+- **Purpose**: Enable personalized features like favorites
+- **Trigger**: User clicks login/register button
+- **Progression**: Click auth → Fill form → Validate → Login/register → Access features
+- **Success criteria**: Users can create accounts and sign in reliably
 
 ## Edge Case Handling
-- **Network Failures**: Retry mechanisms and offline-friendly cached content
-- **Large Images**: Progressive loading with WebP/AVIF fallbacks and skeleton placeholders
-- **Mobile Sharing**: Web Share API with platform-specific fallbacks for unsupported devices
-- **Form Validation**: Real-time validation with clear error messages and accessibility announcements
-- **Document Access**: Graceful degradation when signed URLs expire with re-request options
+- **Empty search results**: Display helpful message with option to clear filters
+- **Image loading failures**: Show fallback placeholder with property icon
+- **Form validation errors**: Clear, contextual error messages in user's language
+- **Network connectivity issues**: Graceful degradation with cached data
+- **Invalid property data**: Skip corrupted entries, log errors
 
 ## Design Direction
-The design should feel luxurious and trustworthy like premium real estate marketing materials, with a sophisticated gray-gold color scheme that conveys stability and value. Minimal interface better serves the core purpose by focusing attention on property content rather than UI chrome.
+The design should feel professional and trustworthy while remaining approachable - balancing the seriousness of real estate transactions with the accessibility needed for diverse users. Clean, minimal interface that focuses attention on property content.
 
 ## Color Selection
-Custom palette with luxury gray-gold theme for high-end real estate market positioning.
+Complementary (opposite colors) - Using warm gold/amber (#C9A14A) as the primary accent against neutral grays, creating a premium feel that suggests value and trust.
 
-- **Primary Color**: Deep Charcoal (#2E2E2E) - conveys sophistication and stability for real estate
-- **Secondary Colors**: Medium Gray (#3A3A3A) for content blocks, Light Gray (#E5E5E5) for secondary text
-- **Accent Color**: Luxury Gold (#C9A14A) for CTAs, highlights, and brand elements that demand attention
-- **Foreground/Background Pairings**:
-  - Background (#2E2E2E): White text (#FFFFFF) - Ratio 12.6:1 ✓
-  - Card (#3A3A3A): White text (#FFFFFF) - Ratio 9.8:1 ✓  
-  - Primary (#2E2E2E): White text (#FFFFFF) - Ratio 12.6:1 ✓
-  - Gold (#C9A14A): Black text (#111111) - Ratio 7.2:1 ✓
-  - Muted (#E5E5E5): Dark text (#2E2E2E) - Ratio 12.6:1 ✓
+- **Primary Color**: Warm gold (#C9A14A) - communicates value, premium service, and prosperity
+- **Secondary Colors**: Neutral grays for backgrounds and supporting elements
+- **Accent Color**: Warm gold for CTAs, highlights, and important interactive elements
+- **Foreground/Background Pairings**: 
+  - Background (Light gray #F8F8F8): Dark text (#262626) - Ratio 15.8:1 ✓
+  - Card (Off-white #F5F5F5): Dark text (#262626) - Ratio 14.2:1 ✓
+  - Primary (Dark gray #262626): White text (#FFFFFF) - Ratio 15.8:1 ✓
+  - Accent (Warm gold #C9A14A): White text (#FFFFFF) - Ratio 4.8:1 ✓
 
 ## Font Selection
-System font stack prioritizing Thai language support and cross-platform consistency without external dependencies.
+System fonts with Thai language support to ensure proper rendering of Thai text while maintaining performance and readability across all supported languages.
 
-- **Typographic Hierarchy**:
-  - H1 (Hero Title): System-ui Bold/32px/tight letter spacing
-  - H2 (Section Headers): System-ui Bold/24px/normal spacing  
-  - H3 (Property Titles): System-ui Semibold/20px/normal spacing
-  - Body Text: System-ui Regular/16px/relaxed line-height
-  - Property Price: System-ui Bold/18px/tight spacing
-  - Form Labels: System-ui Medium/14px/normal spacing
+- **Typographic Hierarchy**: 
+  - H1 (Hero Title): System font Bold/48px/tight letter spacing
+  - H2 (Section Headers): System font Semibold/32px/normal spacing  
+  - H3 (Property Titles): System font Semibold/24px/normal spacing
+  - Body Text: System font Regular/16px/relaxed line height
+  - Small Text: System font Regular/14px/normal spacing
 
 ## Animations
-Subtle and purposeful animations that enhance usability without feeling flashy, appropriate for professional real estate context.
+Subtle, functional animations that enhance usability without drawing attention away from content - focusing on smooth transitions and hover states that provide feedback.
 
-- **Purposeful Meaning**: Smooth transitions communicate state changes and guide user attention to important actions like form submission or property sharing
-- **Hierarchy of Movement**: Property cards get hover animations, modals slide in smoothly, form validation shows gentle feedback, loading states use skeleton placeholders
+- **Purposeful Meaning**: Gentle hover effects communicate interactivity, smooth page transitions maintain context
+- **Hierarchy of Movement**: Primary buttons get subtle lift effects, cards have gentle hover transforms, navigation uses smooth slides
 
 ## Component Selection
-- **Components**: Card components for properties, Modal for details, Form components with validation, Button variants (primary gold, secondary gray), Badge for property status, Tooltip for area calculations
-- **Customizations**: Property status badges with color coding, zoning color swatches with accessibility labels, multi-platform share button groups
-- **States**: Buttons have hover/focus/disabled states, form inputs show validation states, property cards indicate favorite status
-- **Icon Selection**: Phosphor icons for sharing (share, heart, map), form icons (user, phone, email), navigation (chevron, close)
-- **Spacing**: Consistent 8px grid system using Tailwind spacing scale (gap-2, p-4, m-6)
-- **Mobile**: Property cards stack vertically, modal becomes full-screen, form fields expand to full width, touch targets minimum 44px
+- **Components**: Cards for property listings, Dialogs for details/forms, Select dropdowns for filters, Buttons with consistent styling, Input fields with validation states
+- **Customizations**: Property cards with image galleries, multi-language select component, PDPA-compliant contact forms
+- **States**: Clear hover/focus states on all interactive elements, loading states for forms, error states with helpful messaging
+- **Icon Selection**: Phosphor icons for consistency - house/map pins for properties, search/filter icons, social sharing icons
+- **Spacing**: Consistent 4px base unit using Tailwind's spacing scale (4, 8, 12, 16, 24, 32px)
+- **Mobile**: Mobile-first responsive design - stacked filters on mobile, collapsible navigation, touch-friendly 44px minimum touch targets

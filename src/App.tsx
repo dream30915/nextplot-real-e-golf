@@ -34,7 +34,8 @@ import {
   MonitorPlay,
   Drone
 } from '@phosphor-icons/react'
-import nextplotLogo from '@/assets/images/nextplot.png128.png'
+// Logo will be rendered as a simple div with text for now
+// import nextplotLogo from '@/assets/images/nextplot.png128.png'
 
 // Translations
 const translations = {
@@ -698,44 +699,16 @@ function App() {
   // Language state
   const [currentLang, setCurrentLang] = useKV('language', 'th')
   
-  // Theme state - make sure it defaults properly and applies immediately
+  // Theme state - simplified
   const [theme, setTheme] = useKV('theme', 'light')
   
-  // Apply theme immediately on load
+  // Apply theme on changes
   useEffect(() => {
-    const applyTheme = (themeValue: string) => {
-      if (themeValue === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light')
-        document.body.style.backgroundColor = 'oklch(0.98 0 0)'
-        document.body.style.color = 'oklch(0.15 0 0)'
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        document.body.style.backgroundColor = 'oklch(0.15 0 0)'
-        document.body.style.color = 'oklch(0.85 0 0)'
-      }
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark')
+    } else {
+      document.documentElement.removeAttribute('data-theme')
     }
-    
-    // Apply theme immediately - handle undefined case
-    const currentTheme = theme || 'light'
-    applyTheme(currentTheme)
-    
-    // Also listen for theme changes from localStorage
-    const handleStorageChange = () => {
-      const storedTheme = localStorage.getItem('theme')
-      if (storedTheme) {
-        try {
-          const parsedTheme = JSON.parse(storedTheme)
-          if (typeof parsedTheme === 'string') {
-            applyTheme(parsedTheme)
-          }
-        } catch (e) {
-          // Ignore parsing errors
-        }
-      }
-    }
-    
-    window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
   }, [theme])
   
   // Property state - Initialize with sample data if empty
@@ -861,69 +834,22 @@ function App() {
     }
   }
   
-  // Set initial language and theme on mount
+  // Set initial language on mount
   useEffect(() => {
     if (currentLang) {
       document.documentElement.lang = currentLang
     }
-    
-    // Apply theme to root element - ensure proper initialization
-    // Default to light theme
-    const currentTheme = theme || 'light'
-    if (currentTheme === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light')
-      document.body.style.backgroundColor = 'oklch(0.98 0 0)'
-      document.body.style.color = 'oklch(0.15 0 0)'
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark')
-      document.body.style.backgroundColor = 'oklch(0.15 0 0)'
-      document.body.style.color = 'oklch(0.85 0 0)'
-    }
-  }, [currentLang, theme])
+  }, [currentLang])
   
-  // Initialize theme on component mount
-  useEffect(() => {
-    // Force light theme application on first load
-    const initialTheme = theme || 'light'
-    if (initialTheme === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light')
-      document.body.style.backgroundColor = 'oklch(0.98 0 0)'
-      document.body.style.color = 'oklch(0.15 0 0)'
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark')
-      document.body.style.backgroundColor = 'oklch(0.15 0 0)'
-      document.body.style.color = 'oklch(0.85 0 0)'
-    }
-  }, [])
-  
-  // Change theme and ensure immediate application
+  // Toggle theme
   const toggleTheme = () => {
-    const currentTheme = theme || 'light'
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
-    setTheme(newTheme)
-    
-    // Force immediate theme application
-    setTimeout(() => {
-      if (newTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light')
-        document.body.style.backgroundColor = 'oklch(0.98 0 0)'
-        document.body.style.color = 'oklch(0.15 0 0)'
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        document.body.style.backgroundColor = 'oklch(0.15 0 0)'
-        document.body.style.color = 'oklch(0.85 0 0)'
-      }
-    }, 0)
+    setTheme(current => current === 'dark' ? 'light' : 'dark')
   }
   
-  // Change language and update HTML lang attribute
+  // Change language
   const changeLanguage = (lang: string) => {
     setCurrentLang(lang)
     document.documentElement.lang = lang
-    // Force re-render by updating filters which triggers property re-filtering
-    setFilters(prev => ({ ...prev, keyword: prev.keyword }))
-    // Also force re-render of filtered properties
-    setFilteredProperties(prev => [...prev])
   }
   
   // Format area display
@@ -1284,12 +1210,8 @@ function App() {
           <div className="flex items-center justify-between mb-3">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-lg bg-card border border-border flex items-center justify-center relative overflow-hidden">
-                <img 
-                  src={nextplotLogo} 
-                  alt="NextPlot Logo" 
-                  className="w-full h-full object-contain p-1"
-                />
+              <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center relative overflow-hidden">
+                <span className="text-white font-bold text-xs">NP</span>
               </div>
               <div>
                 <div className="text-2xl font-bold text-accent">NextPlot</div>
@@ -1349,9 +1271,9 @@ function App() {
                 size="sm"
                 onClick={toggleTheme}
                 className="w-9 h-9 p-0 hover:bg-muted"
-                aria-label={(theme || 'light') === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {(theme || 'light') === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </Button>
               
               {/* Language Selector */}
@@ -2897,7 +2819,7 @@ function App() {
                   {isSubmittingAuth ? 
                     (currentLang === 'th' ? 'กำลังส่ง...' : 
                      currentLang === 'en' ? 'Sending...' : '发送中...') :
-                    (currentLang === 'th' ? 'ส่งลิงก์รีเซ็ต' : 
+                    (currentLang === 'th' ? 'ส่งลิงก���รีเซ็ต' : 
                      currentLang === 'en' ? 'Send Reset Link' : '发送重置链接')
                   }
                 </Button>
@@ -3071,12 +2993,8 @@ function App() {
             {/* Logo & Description */}
             <div>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-card border border-border flex items-center justify-center relative overflow-hidden">
-                  <img 
-                    src={nextplotLogo} 
-                    alt="NextPlot Logo" 
-                    className="w-full h-full object-contain p-1"
-                  />
+                <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center relative overflow-hidden">
+                  <span className="text-white font-bold text-xs">NP</span>
                 </div>
                 <div className="text-center">
                   <div className="text-xl font-bold text-accent">NextPlot</div>
